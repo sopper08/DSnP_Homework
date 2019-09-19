@@ -1,0 +1,5 @@
+*.pdf
+**/.vscode/
+*.docx
+*.tgz
+**/ref/
