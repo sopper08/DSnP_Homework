@@ -27,8 +27,15 @@ int main()
    }
 
    // TODO read and execute commands
-   // cout << "Enter command: ";
+   cout << "Enter command: ";
    while (true) {
-      // cout << "Enter command: ";
+      string command;
+
+      cout << "Enter command: ";
+      cin >> command;
+
+      if(!command.compare("PRINT")) json.print();
+      else cout << command << endl;
+
    }
 }

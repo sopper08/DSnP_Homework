@@ -7,6 +7,7 @@
 ****************************************************************************/
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <string>
 #include <algorithm>
 #include "p2Json.h"
@@ -44,6 +45,12 @@ Json::add(const string& keyAndValue)
 bool
 Json::print()
 {
+   cout << "{" << endl;
+   for(vector<JsonElem>::iterator it = _obj.begin();
+       it != _obj.end();
+       it++)
+       cout << "  " << *it << endl;
+   cout << "}" << endl;
    return true;
 }
 
@@ -51,23 +58,55 @@ vector<JsonElem>
 Json::_preProcessJsonFile(char *buffer)
 {
    string data(buffer);
-   int begIndex, endIndex;
-   
-   /* Remove space & "\t" charactor. */
-   data.erase(remove(data.begin(), data.end(), ' '), data.end());
-   cout << sizeof data << endl;
-   data.erase(remove(data.begin(), data.end(), '\t'), data.end());
-   cout << sizeof data << endl;
-   data.erase(remove(data.begin(), data.end(), '\n'), data.end());
-   begIndex = data.find_first_of("{");
-   endIndex = data.find_first_of("}");
-   // remove(data.begin(), str.end(), ' ');
-
-   cout << begIndex << " " << endIndex << endl;
-   cout << data << endl;
-   cout << sizeof data << endl;
+   string keyAndValue;
+   vector<string> keyAndValue_array;
+   int begIndex, length;
+   size_t foundComma, prefoundComma;
    vector <JsonElem> result;
    
+   /* Remove space & "\t" & "\n" charactor. */
+   data.erase(remove(data.begin(), data.end(), ' '), data.end());
+   data.erase(remove(data.begin(), data.end(), '\t'), data.end());
+   data.erase(remove(data.begin(), data.end(), '\n'), data.end());
+   
+   /* Remove "{" & "}" charactor */
+   begIndex = data.find_first_of("{");
+   length = data.find_first_of("}") - begIndex - 1;
+   keyAndValue = data.substr(begIndex+1, length);
+   keyAndValue.insert(0, ",");
+
+   /* Create vector of JsonElem */
+   foundComma = keyAndValue.find(",", 1);
+
+   if(foundComma==string::npos) return result;
+
+   prefoundComma = 0;
+   while(prefoundComma!=string::npos){
+      int beg, end;
+
+      beg = prefoundComma + 1;
+      if(foundComma!=string::npos) end = foundComma - 1;
+      else end = length;
+
+      result.push_back(_stringToJsonElem(keyAndValue.substr(beg, end-beg+1)));
+      prefoundComma = foundComma;
+      foundComma = keyAndValue.find(",", foundComma+1);
+   }
+   
+   return result;
+}
+
+JsonElem
+Json::_stringToJsonElem(const string& keyAndValue)
+{
+   size_t foundColon;
+   int value;
+
+   foundColon = keyAndValue.find(":");
+   istringstream iss(keyAndValue.substr(foundColon+1, sizeof(keyAndValue)-foundColon));
+   iss >> value;
+
+   JsonElem result(keyAndValue.substr(1, foundColon-2), value);
    return result;
 }
 

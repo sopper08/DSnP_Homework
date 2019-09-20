@@ -40,6 +40,7 @@ private:
    vector<JsonElem>       _obj;  // DO NOT change this definition.
                                  // Use it to store JSON elements.
    vector<JsonElem> _preProcessJsonFile(char*);
+   JsonElem _stringToJsonElem(const string&);
 };
 
 #endif // P2_TABLE_H
