@@ -33,10 +33,13 @@ class Json
 public:
    // TODO: define constructor & member functions on your own
    bool read(const string&);
+   bool add(const string&);
+   bool print();
 
 private:
    vector<JsonElem>       _obj;  // DO NOT change this definition.
                                  // Use it to store JSON elements.
+   vector<JsonElem> _preProcessJsonFile(char*);
 };
 
 #endif // P2_TABLE_H
