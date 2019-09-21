@@ -63,7 +63,7 @@ Json::sum()
 {
    if(_obj.size()==0)
    {
-      cout << "Error: No element found!!" << endl;
+      cerr << "Error: No element found!!" << endl;
       return true;
    }
    cout << "The summation of the values is: " << _sum << "." << endl;
@@ -76,7 +76,7 @@ Json::avg()
 {
    if(_obj.size()==0)
    {
-      cout << "Error: No element found!!" << endl;
+      cerr << "Error: No element found!!" << endl;
       return true;
    }
    cout << "The average of the values is: " 
@@ -89,7 +89,7 @@ Json::max()
 {
    if(_obj.size()==0)
    {
-      cout << "Error: No element found!!" << endl;
+      cerr << "Error: No element found!!" << endl;
       return true;
    }
    cout << "The maximum element is: { " << _obj[_max_idx] << " }." << endl;
@@ -101,7 +101,7 @@ Json::min()
 {
    if(_obj.size()==0)
    {
-      cout << "Error: No element found!!" << endl;
+      cerr << "Error: No element found!!" << endl;
       return true;
    }
    cout << "The minimum element is: { " << _obj[_min_idx] << " }." << endl;
@@ -114,8 +114,18 @@ Json::print()
    cout << "{" << endl;
    for(vector<JsonElem>::iterator it = _obj.begin();
        it != _obj.end();
-       it++)
-       cout << "  " << *it << endl;
+       ++it)
+   {
+      cout << "  " << *it;
+
+      vector<JsonElem>::iterator next_it = it + 1;
+      if(next_it==_obj.end())
+      {
+         cout << endl;
+         break;
+      }
+      cout << "," << endl;
+   }
    cout << "}" << endl;
 
    return true;
