@@ -32,8 +32,14 @@ class Json
 {
 public:
    // TODO: define constructor & member functions on your own
+   Json()
+      :_size(0), _sum(0){}
    bool read(const string&);
    bool add(const string&);
+   bool sum();
+   bool avg();
+   bool max();
+   bool min();
    bool print();
 
 private:
@@ -41,6 +47,14 @@ private:
                                  // Use it to store JSON elements.
    vector<JsonElem> _preProcessJsonFile(char*);
    JsonElem _stringToJsonElem(const string&);
+   void _renewStatisticalData(int);
+   int _size;
+   int _sum;
+   float _avg;
+   int _max;
+   int _min;
+   int _max_idx;
+   int _min_idx;
 };
 
 #endif // P2_TABLE_H

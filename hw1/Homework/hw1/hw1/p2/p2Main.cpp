@@ -31,11 +31,17 @@ int main()
    while (true) {
       string command;
 
-      cout << "Enter command: ";
-      cin >> command;
+      getline(cin, command);
 
       if(!command.compare("PRINT")) json.print();
-      else cout << command << endl;
+      else if(!command.compare(0, 3, "ADD")) json.add(command);
+      else if(!command.compare("SUM")) json.sum();
+      else if(!command.compare("AVG")) json.avg();
+      else if(!command.compare("MAX")) json.max();
+      else if(!command.compare("MIN")) json.min();
+      else if(!command.compare("EXIT")) break;
+      else continue;
 
+      cout << "Enter command: ";
    }
 }

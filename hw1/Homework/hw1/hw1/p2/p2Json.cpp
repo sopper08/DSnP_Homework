@@ -10,6 +10,7 @@
 #include <sstream>
 #include <string>
 #include <algorithm>
+#include <iomanip>
 #include "p2Json.h"
 
 using namespace std;
@@ -37,8 +38,73 @@ Json::read(const string& jsonFile)
 }
 
 bool
-Json::add(const string& keyAndValue)
+Json::add(const string& command)
 {
+   // cout << command << endl;
+   int secondSpaceIndex, commandLength;
+   string key, value;
+   
+   commandLength = command.size();
+   secondSpaceIndex = command.find_last_of(" ");
+   key = command.substr(4, secondSpaceIndex-4);
+   value = command.substr(secondSpaceIndex+1, commandLength-1);
+
+   string keyAndValue("\"\":");
+   keyAndValue.insert(3, value);
+   keyAndValue.insert(1, key);
+
+   _obj.push_back(_stringToJsonElem(keyAndValue));
+
+   return true;
+}
+
+bool
+Json::sum()
+{
+   if(_obj.size()==0)
+   {
+      cout << "Error: No element found!!" << endl;
+      return true;
+   }
+   cout << "The summation of the values is: " << _sum << "." << endl;
+   return true;
+}
+
+
+bool
+Json::avg()
+{
+   if(_obj.size()==0)
+   {
+      cout << "Error: No element found!!" << endl;
+      return true;
+   }
+   cout << "The average of the values is: " 
+        << fixed << setprecision(1) << _avg << "." << endl;
+   return true;
+}
+
+bool
+Json::max()
+{
+   if(_obj.size()==0)
+   {
+      cout << "Error: No element found!!" << endl;
+      return true;
+   }
+   cout << "The maximum element is: { " << _obj[_max_idx] << " }." << endl;
+   return true;
+}
+
+bool
+Json::min()
+{
+   if(_obj.size()==0)
+   {
+      cout << "Error: No element found!!" << endl;
+      return true;
+   }
+   cout << "The minimum element is: { " << _obj[_min_idx] << " }." << endl;
    return true;
 }
 
@@ -51,6 +117,7 @@ Json::print()
        it++)
        cout << "  " << *it << endl;
    cout << "}" << endl;
+
    return true;
 }
 
@@ -88,7 +155,8 @@ Json::_preProcessJsonFile(char *buffer)
       if(foundComma!=string::npos) end = foundComma - 1;
       else end = length;
 
-      result.push_back(_stringToJsonElem(keyAndValue.substr(beg, end-beg+1)));
+      JsonElem elem = _stringToJsonElem(keyAndValue.substr(beg, end-beg+1));
+      result.push_back(elem);
       prefoundComma = foundComma;
       foundComma = keyAndValue.find(",", foundComma+1);
    }
@@ -105,9 +173,41 @@ Json::_stringToJsonElem(const string& keyAndValue)
    foundColon = keyAndValue.find(":");
    istringstream iss(keyAndValue.substr(foundColon+1, sizeof(keyAndValue)-foundColon));
    iss >> value;
+   _renewStatisticalData(value);
 
    JsonElem result(keyAndValue.substr(1, foundColon-2), value);
+
    return result;
+
+}
+
+void
+Json::_renewStatisticalData(int value)
+{
+   _size ++;
+   _sum += value;
+   _avg = (float)_sum/(float)_size;
+   if(_size!=1)
+   {
+      if(value > _max)
+      {
+         _max = value;
+         _max_idx = _size-1;
+      }
+      if(value < _min)
+      {
+         _min = value;
+         _min_idx = _size-1;
+      } 
+   }
+   else
+   {
+      _max = value;
+      _min = value;
+      _max_idx = 0;
+      _min_idx = 0;
+   }
+
 }
 
 ostream&
