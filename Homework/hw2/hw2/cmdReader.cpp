@@ -46,15 +46,15 @@ CmdParser::readCmdInt(istream& istr)
          case HOME_KEY       : moveBufPtr(_readBuf); break;
          case LINE_END_KEY   :
          case END_KEY        : moveBufPtr(_readBufEnd); break;
-         case BACK_SPACE_KEY : /* TODO */ break;
+         case BACK_SPACE_KEY : moveBufPtr(_readBufPtr-1); deleteChar(); break;
          case DELETE_KEY     : deleteChar(); break;
          case NEWLINE_KEY    : addHistory();
                                cout << char(NEWLINE_KEY);
                                resetBufAndPrintPrompt(); break;
          case ARROW_UP_KEY   : moveToHistory(_historyIdx - 1); break;
          case ARROW_DOWN_KEY : moveToHistory(_historyIdx + 1); break;
-         case ARROW_RIGHT_KEY: /* TODO */ break;
-         case ARROW_LEFT_KEY : /* TODO */ break;
+         case ARROW_RIGHT_KEY: moveBufPtr(_readBufPtr+1); break;
+         case ARROW_LEFT_KEY : moveBufPtr(_readBufPtr-1); break;
          case PG_UP_KEY      : moveToHistory(_historyIdx - PG_OFFSET); break;
          case PG_DOWN_KEY    : moveToHistory(_historyIdx + PG_OFFSET); break;
          case TAB_KEY        : /* TODO */ break;
@@ -86,6 +86,29 @@ bool
 CmdParser::moveBufPtr(char* const ptr)
 {
    // TODO...
+   int step;
+
+   if (ptr < _readBuf || ptr > _readBufEnd) {
+      mybeep();
+      return false;
+   }
+   step = _readBufPtr - ptr;
+   // cout << step << endl;
+   
+   if (step >= 0) {
+      for (int i=0; i<step; ++i) {
+         cout << "\b";
+         _readBufPtr--;
+      }
+   }
+   else {
+      step = -step;
+      for (int i=0; i<step; ++i) {
+         cout << *_readBufPtr;
+         _readBufPtr++;
+      }
+   }
+
    return true;
 }
 
@@ -113,6 +136,27 @@ bool
 CmdParser::deleteChar()
 {
    // TODO...
+   if (_readBufPtr == _readBufEnd) {
+      mybeep();
+      return false;
+   }
+   else {
+      int length;
+
+      length = _readBufEnd - _readBufPtr - 1;
+      char buffer[length];
+
+      for (int i=0; i<length; i++) { buffer[i] = *(_readBufPtr+i+1); }
+      cout << " " << "\b";
+      _readBufEnd--;
+      for(int i=0; i<length; i++) {
+         cout << buffer[i];
+         *_readBufPtr = buffer[i];
+         _readBufPtr++;
+      }
+      cout << " " << "\b";
+      moveBufPtr(_readBufPtr-length);
+   }
    return true;
 }
 
@@ -135,6 +179,30 @@ void
 CmdParser::insertChar(char ch, int repeat)
 {
    // TODO...
+   if (_readBufPtr!=_readBufEnd) {
+      int length;
+
+      length = _readBufEnd - _readBufPtr;
+      char buffer[length];
+      for (int i=0; i<length; ++i) { buffer[i] = *(_readBufPtr+i); }
+      cout << ch;
+      *_readBufPtr = ch;
+      _readBufPtr ++;
+      _readBufEnd ++;
+      for (int i=0; i<length; ++i) { 
+         cout << buffer[i];
+         *_readBufPtr = buffer[i];
+         _readBufPtr++;
+      }
+      moveBufPtr(_readBufPtr-length);
+   }
+   else {
+      cout << ch;
+
+      *_readBufPtr = ch;
+      _readBufPtr ++;
+      _readBufEnd ++;
+   }
    assert(repeat >= 1);
 }
 
