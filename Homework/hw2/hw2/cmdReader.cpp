@@ -230,6 +230,9 @@ void
 CmdParser::deleteLine()
 {
    // TODO...
+   int step = _readBufEnd - _readBuf;
+   moveBufPtr(_readBuf);
+   for (int i=0; i<step; i++) { deleteChar(); }
 }
 
 
@@ -255,6 +258,27 @@ void
 CmdParser::moveToHistory(int index)
 {
    // TODO...
+   // cout << "index: " << index << "///" << _history.size() << "///";
+   if (index < _historyIdx) {
+      if (_historyIdx == 0) { mybeep(); return; }
+      if (_historyIdx == int(_history.size())) {
+         _tempCmdStored=true;
+         _history.push_back(string(_readBuf));
+      }
+      if (index < 0) { index = 0; }
+   }
+   else if (index > _historyIdx) {
+      if (_historyIdx == int(_history.size())) { mybeep(); return; }
+      if (index >= int(_history.size())) { 
+         index = _history.size() - 1;
+      }
+   }
+   _historyIdx = index;
+   retrieveHistory();
+   if (index == int(_history.size()-1) && _tempCmdStored) {
+      _tempCmdStored = false;
+      _history.pop_back();
+   }
 }
 
 
@@ -274,9 +298,17 @@ void
 CmdParser::addHistory()
 {
    // TODO...
-   
-}
+   if (_tempCmdStored) { _tempCmdStored=false; _history.pop_back(); }
+   string tempRecorded_str(_readBuf, _readBufEnd-_readBuf);
+   const auto strBegin  = tempRecorded_str.find_first_not_of(' ');
+   if (strBegin != string::npos) {
+      const auto strEnd    = tempRecorded_str.find_last_not_of(' ');
+      const auto strLength = strEnd - strBegin + 1;
+      _history.push_back(tempRecorded_str.substr(strBegin, strLength));
+   }
+   _historyIdx = _history.size();
 
+}
 
 // 1. Replace current line with _history[_historyIdx] on the screen
 // 2. Set _readBufPtr and _readBufEnd to end of line
@@ -288,6 +320,7 @@ CmdParser::retrieveHistory()
 {
    deleteLine();
    strcpy(_readBuf, _history[_historyIdx].c_str());
+
    cout << _readBuf;
    _readBufPtr = _readBufEnd = _readBuf + _history[_historyIdx].size();
 }
