@@ -233,6 +233,7 @@ CmdParser::deleteLine()
    int step = _readBufEnd - _readBuf;
    moveBufPtr(_readBuf);
    for (int i=0; i<step; i++) { deleteChar(); }
+   _readBufPtr = _readBufEnd = _readBuf;
 }
 
 
@@ -258,7 +259,6 @@ void
 CmdParser::moveToHistory(int index)
 {
    // TODO...
-   // cout << "index: " << index << "///" << _history.size() << "///";
    if (index < _historyIdx) {
       if (_historyIdx == 0) { mybeep(); return; }
       if (_historyIdx == int(_history.size())) {
@@ -275,7 +275,7 @@ CmdParser::moveToHistory(int index)
    }
    _historyIdx = index;
    retrieveHistory();
-   if (index == int(_history.size()-1) && _tempCmdStored) {
+   if ((index == int(_history.size()-1)) && (_tempCmdStored)) {
       _tempCmdStored = false;
       _history.pop_back();
    }
