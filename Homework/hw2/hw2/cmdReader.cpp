@@ -46,7 +46,12 @@ CmdParser::readCmdInt(istream& istr)
          case HOME_KEY       : moveBufPtr(_readBuf); break;
          case LINE_END_KEY   :
          case END_KEY        : moveBufPtr(_readBufEnd); break;
-         case BACK_SPACE_KEY : moveBufPtr(_readBufPtr-1); deleteChar(); break;
+         case BACK_SPACE_KEY : { 
+            moveBufPtr(_readBufPtr-1);
+            if(_readBufEnd == _readBuf) { break; }
+            deleteChar(); 
+            break;
+         }
          case DELETE_KEY     : deleteChar(); break;
          case NEWLINE_KEY    : addHistory();
                                cout << char(NEWLINE_KEY);
@@ -263,7 +268,7 @@ CmdParser::moveToHistory(int index)
       if (_historyIdx == 0) { mybeep(); return; }
       if (_historyIdx == int(_history.size())) {
          _tempCmdStored=true;
-         _history.push_back(string(_readBuf));
+         _history.push_back(string(_readBuf, _readBufEnd-_readBuf));
       }
       if (index < 0) { index = 0; }
    }
