@@ -98,6 +98,9 @@ void
 CmdParser::printHelps() const
 {
    // TODO...
+   for(auto it = _cmdMap.begin();
+      it != _cmdMap.end();
+      it++) { it->second->help(); }
 }
 
 void
@@ -137,10 +140,17 @@ CmdParser::parseCmd(string& option)
    assert(_tempCmdStored == false);
    assert(!_history.empty());
    string str = _history.back();
+   size_t ptr;
 
    // TODO...
+   string cmd;
+   ptr = myStrGetTok(str, cmd, 0, ' ');
+   CmdExec *exec = getCmd(cmd);
+   if(!exec) { cerr << "Illegal command!! \"" << cmd << "\"" << endl; }
+   myStrGetTok(str, option, ptr, '\n');
+
    assert(str[0] != 0 && str[0] != ' ');
-   return NULL;
+   return exec;
 }
 
 // Remove this function for TODO...
@@ -294,6 +304,7 @@ void
 CmdParser::listCmd(const string& str)
 {
    // TODO...
+   
 }
 
 // cmd is a copy of the original input
@@ -312,6 +323,20 @@ CmdParser::getCmd(string cmd)
 {
    CmdExec* e = 0;
    // TODO...
+   if(_cmdMap.size()==0) { return e; }
+   for(auto it = _cmdMap.begin();
+      it != _cmdMap.end();
+      it++)
+   {
+      string fullCmd = it->first + it->second->getOptCmd();
+      if(myStrNCmp(fullCmd, cmd, it->first.size())==0)
+      {
+         e = it->second;
+      }
+   }
+
+   // auto iter = _cmdMap.find(cmd);
+   
    return e;
 }
 

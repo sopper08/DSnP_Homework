@@ -20,6 +20,19 @@ bool
 initDbCmd()
 {
    // TODO...
+   if (!(cmdMgr->regCmd("DBAPpend" , 4, new DBAppendCmd) &&
+         cmdMgr->regCmd("DBAVerage", 4, new DBAveCmd   ) &&
+         cmdMgr->regCmd("DBCount"  , 3, new DBCountCmd ) &&
+         cmdMgr->regCmd("DBMAx"    , 4, new DBMaxCmd   ) &&
+         cmdMgr->regCmd("DBMIn"    , 4, new DBMinCmd   ) &&
+         cmdMgr->regCmd("DBPrint"  , 3, new DBPrintCmd ) &&
+         cmdMgr->regCmd("DBRead"   , 3, new DBReadCmd  ) &&  
+         cmdMgr->regCmd("DBSOrt"   , 4, new DBSortCmd  ) &&  
+         cmdMgr->regCmd("DBSUm"    , 4, new DBSumCmd   )
+      )) {
+      cerr << "Registering \"init\" commands fails... exiting" << endl;
+      return false;
+   }
    return true;
 }
 
@@ -31,6 +44,23 @@ DBAppendCmd::exec(const string& option)
 {
    // TODO...
    // check option
+   vector<string> options;
+   int value;
+
+   if (!CmdExec::lexOptions(option, options))
+      return CMD_EXEC_ERROR;
+
+   if (options.size() < 2)
+      return CmdExec::errorOption(CMD_OPT_MISSING, "");
+   
+   if (options.size() > 2)
+      return CmdExec::errorOption(CMD_OPT_EXTRA, "");
+
+   if (!isValidVarName(options[0]))   { return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[0]); }
+   if (!myStr2Int(options[1], value)) { return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[1]); }
+   
+   DBJsonElem elem(options[0], value);
+   dbjson.add(elem);
 
    return CMD_EXEC_DONE;
 }
@@ -198,6 +228,21 @@ CmdExecStatus
 DBPrintCmd::exec(const string& option)
 {  
    // TODO...
+   string token;
+   if (!CmdExec::lexSingleOption(option, token))
+      return CMD_EXEC_ERROR;
+   
+   if (token.size()) {
+      int size = dbjson.size();
+      int idx = -1;
+      for(int i=0; i<size; i++)
+      {
+         if(!token.compare(dbjson[i].key())) { idx = i; break; }
+      }
+      if(idx==-1) { cerr << "Error: No JSON element with key \"" << token << "\" is found."; }
+      else { cout << "{ " << dbjson[idx] <<  " }"; }
+   }
+   else { cout << dbjson << endl; cout << "Total JSON elements:" << dbjson.size(); }
 
    return CMD_EXEC_DONE;
 }

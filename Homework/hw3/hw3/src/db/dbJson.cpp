@@ -63,13 +63,15 @@ istream& operator >> (istream& is, DBJson& j)
 
       if(buffer=="}") { break; }
    }
+   j.setFileDoneReadIn();
+   
    return is;
 }
 
 ostream& operator << (ostream& os, const DBJson& j)
 {
    // TODO
-   if(j.size()==0)
+   if(!(j))
    {
       cerr << "Error: DB is not created yet!!" << endl;
    }
@@ -122,7 +124,7 @@ DBJson::ave() const
    // TODO
    float sum = 0;
 
-   if(this->size()==0) { cerr << "Error: The average of the DB is nan." << endl;}
+   // if(this->size()==0) { cerr << "Error: The average of the DB is nan." << endl;}
    for(auto it = _obj.begin();
        it != _obj.end();
        it ++)

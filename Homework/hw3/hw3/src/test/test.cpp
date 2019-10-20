@@ -95,5 +95,7 @@ main(int argc, char** argv)
    cout << dbjson.sum() << endl;
    cout << dbjson << endl;
 
+   cout << myStrNCmp("DBAPpend", "DBAPp", 4) << endl;
+
    return 0;
 }
