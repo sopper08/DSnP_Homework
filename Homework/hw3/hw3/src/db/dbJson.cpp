@@ -71,18 +71,17 @@ istream& operator >> (istream& is, DBJson& j)
 ostream& operator << (ostream& os, const DBJson& j)
 {
    // TODO
-   if(!(j))
-   {
-      cerr << "Error: DB is not created yet!!" << endl;
-   }
    cout << "{" << endl;
    for(auto it = j._obj.begin();
-       it != j._obj.end();
-       it++)
+      it != j._obj.end();
+      it++)
    {
-      cout << "  " << *it << endl;
+      cout << "  "    << *it;
+      if((it+1)!=j._obj.end()) { cout << "," << endl; }
+      else { cout << endl; }
    }
-   cout << "}" << endl;
+   cout << "}";
+   
    return os;
 }
 
@@ -124,7 +123,8 @@ DBJson::ave() const
    // TODO
    float sum = 0;
 
-   // if(this->size()==0) { cerr << "Error: The average of the DB is nan." << endl;}
+   if(this->size()==0) { return NAN;}
+
    for(auto it = _obj.begin();
        it != _obj.end();
        it ++)
@@ -148,6 +148,7 @@ DBJson::max(size_t& idx) const
    }
    else
    {
+      idx = 0;
       for(auto it = _obj.begin();
           it != _obj.end();
           it ++)
@@ -172,6 +173,7 @@ DBJson::min(size_t& idx) const
    }
    else
    {
+      idx = 0;
       for(auto it = _obj.begin();
           it != _obj.end();
           it ++)

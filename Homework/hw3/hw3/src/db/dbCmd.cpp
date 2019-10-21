@@ -43,6 +43,7 @@ CmdExecStatus
 DBAppendCmd::exec(const string& option)
 {
    // TODO...
+   if(!dbjson) { cerr << "Error: DB is not created yet!!" << endl; return CMD_EXEC_ERROR; }
    // check option
    vector<string> options;
    int value;
@@ -228,6 +229,7 @@ CmdExecStatus
 DBPrintCmd::exec(const string& option)
 {  
    // TODO...
+   if(!dbjson) { cerr << "Error: DB is not created yet!!" << endl; return CMD_EXEC_ERROR; }
    string token;
    if (!CmdExec::lexSingleOption(option, token))
       return CMD_EXEC_ERROR;
@@ -240,9 +242,9 @@ DBPrintCmd::exec(const string& option)
          if(!token.compare(dbjson[i].key())) { idx = i; break; }
       }
       if(idx==-1) { cerr << "Error: No JSON element with key \"" << token << "\" is found."; }
-      else { cout << "{ " << dbjson[idx] <<  " }"; }
+      else { cout << "{ " << dbjson[idx] <<  " }" << endl; }
    }
-   else { cout << dbjson << endl; cout << "Total JSON elements:" << dbjson.size(); }
+   else { cout << dbjson << endl; cout << "Total JSON elements: " << dbjson.size() << endl; }
 
    return CMD_EXEC_DONE;
 }
