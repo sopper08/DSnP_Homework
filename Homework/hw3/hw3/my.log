@@ -1,2 +1,1 @@
-Error: cannot open file "dofiles/do1_21"!!
-Usage: modCalc [ -File < doFile > ]
+zsh: no such file or directory: ../mydb

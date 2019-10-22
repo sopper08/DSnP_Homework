@@ -29,8 +29,14 @@ bool
 CmdParser::openDofile(const string& dof)
 {
    // TODO...
+   if(_dofile != 0) { _dofileStack.push(_dofile); }
    _dofile = new ifstream(dof.c_str());
-   if(!_dofile->is_open()) { return false; }
+   if(!_dofile->is_open())
+   { 
+      if(_dofileStack.size()==0) { _dofile = 0; }
+      else { _dofile = _dofileStack.top(); _dofileStack.pop(); }
+      return false;
+   }
    return true;
 }
 
@@ -40,8 +46,9 @@ CmdParser::closeDofile()
 {
    assert(_dofile != 0);
    // TODO...
-   if(_dofileStack.size()==0) { _dofile = 0; }
    delete _dofile;
+   if(_dofileStack.size()==0) { _dofile = 0; }
+   else { _dofile = _dofileStack.top(); _dofileStack.pop(); }
 }
 
 // Return false if registration fails
