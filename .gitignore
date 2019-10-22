@@ -4,3 +4,4 @@
 *.tgz
 **/ref/
 hw_commit/
+**/selfCheck/
