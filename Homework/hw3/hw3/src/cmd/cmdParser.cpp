@@ -30,6 +30,7 @@ CmdParser::openDofile(const string& dof)
 {
    // TODO...
    _dofile = new ifstream(dof.c_str());
+   if(!_dofile->is_open()) { return false; }
    return true;
 }
 
@@ -39,6 +40,7 @@ CmdParser::closeDofile()
 {
    assert(_dofile != 0);
    // TODO...
+   if(_dofileStack.size()==0) { _dofile = 0; }
    delete _dofile;
 }
 
@@ -101,6 +103,7 @@ CmdParser::printHelps() const
    for(auto it = _cmdMap.begin();
       it != _cmdMap.end();
       it++) { it->second->help(); }
+   cout << endl;
 }
 
 void
@@ -146,7 +149,7 @@ CmdParser::parseCmd(string& option)
    string cmd;
    ptr = myStrGetTok(str, cmd, 0, ' ');
    CmdExec *exec = getCmd(cmd);
-   if(!exec) { cerr << "Illegal command!! \"" << cmd << "\"" << endl; }
+   if(!exec) { cerr << "Illegal command!! (" << cmd << ")" << endl; }
    myStrGetTok(str, option, ptr, '\n');
 
    assert(str[0] != 0 && str[0] != ' ');

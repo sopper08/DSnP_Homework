@@ -55,7 +55,7 @@ DBAppendCmd::exec(const string& option)
       return CmdExec::errorOption(CMD_OPT_MISSING, "");
    
    if (options.size() > 2)
-      return CmdExec::errorOption(CMD_OPT_EXTRA, "");
+      return CmdExec::errorOption(CMD_OPT_EXTRA, options[2]);
 
    if (!isValidVarName(options[0]))   { return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[0]); }
    if (!myStr2Int(options[1], value)) { return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[1]); }
@@ -241,7 +241,7 @@ DBPrintCmd::exec(const string& option)
       {
          if(!token.compare(dbjson[i].key())) { idx = i; break; }
       }
-      if(idx==-1) { cerr << "Error: No JSON element with key \"" << token << "\" is found."; }
+      if(idx==-1) { cerr << "Error: No JSON element with key \"" << token << "\" is found." << endl; }
       else { cout << "{ " << dbjson[idx] <<  " }" << endl; }
    }
    else { cout << dbjson << endl; cout << "Total JSON elements: " << dbjson.size() << endl; }
