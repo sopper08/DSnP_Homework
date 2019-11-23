@@ -29,13 +29,17 @@ class BSTreeNode
 
    BSTreeNode(const T& d, BSTreeNode<T>* p = 0,
                           BSTreeNode<T>* l = 0,
-                          BSTreeNode<T>* r = 0):
-      _data(d), _parent(p), _left(l), _right(r) {}
+                          BSTreeNode<T>* r = 0,
+                          BSTreeNode<T>* n = 0,
+                          BSTreeNode<T>* v = 0):
+      _data(d), _parent(p), _left(l), _right(r), _next(n), _prev(v) {}
 
    T              _data;
    BSTreeNode<T>* _parent;
    BSTreeNode<T>* _left;
    BSTreeNode<T>* _right;
+   BSTreeNode<T>* _next;
+   BSTreeNode<T>* _prev;
 };
 
 
@@ -58,29 +62,29 @@ public:
       friend class BSTree;
 
    public:
-      iterator(BSTreeNode<T>* n= 0): _node(n) {}
+      iterator(BSTreeNode<T>* n= 0, BSTreeNode<T>* nn= 0): _node(n) {}
       iterator(const iterator& i) : _node(i._node) {}
       ~iterator() {} // Should NOT delete _node
 
       // TODO: implement these overloaded operators
       const T& operator * () const { return _node->_data; }
       T& operator * () { return _node->_data; }
-      iterator& operator ++ () { return *(this); }
-      iterator operator ++ (int) { return *(this); }
-      iterator& operator -- () { return *(this); }
-      iterator operator -- (int) { return *(this); }
+      iterator& operator ++ () { _node = _node->_next; return *(this); }
+      iterator operator ++ (int) { iterator tmp = *(this); _node = _node->_next; return tmp; }
+      iterator& operator -- () { _node = _node->_prev; return *(this); }
+      iterator operator -- (int) { iterator tmp = *(this); _node = _node->_prev; return tmp; }
 
-      iterator& operator = (const iterator& i) { return *(this); }
+      iterator& operator = (const iterator& i) { *(this)->_node = i->_node; return *(this); }
 
-      bool operator != (const iterator& i) const { return false; }
-      bool operator == (const iterator& i) const { return false; }
+      bool operator != (const iterator& i) const { return _node != i._node; }
+      bool operator == (const iterator& i) const { return _node == i._node; }
    
    private:
       BSTreeNode<T>* _node;
    };
 
-   iterator begin() const { return _root; }
-   iterator end() const { return _root; }
+   iterator begin() const { return iterator(_begin); }
+   iterator end() const { return iterator(_end->_right); }
    bool empty() const { return (_size == 0); }
    size_t size() const { return _size; }
 
@@ -88,13 +92,28 @@ public:
    { 
       if ((_root->_left == _root) && (_root->_right == _root))
       {
-         _root->_left = _root->_right = 0;
+         _root->_left = _root->_right = _root->_prev = _root->_next = 0;
          _root->_data = x;
          _begin = _end = _root;
          return;
       }
-      _insert(x, _root, _root); 
+      BSTreeNode<T>* nN = _insert(x, _root, _root); 
+      nN->_prev = _findPrevN(nN);
+      nN->_next = _findNextN(nN);
+      _begin = _min(_root);
+      _end = _max(_root);
+
+      
       _size++;
+
+
+      for (iterator it = begin();
+           it != end();
+           it++)
+      {
+         T t = *it;
+         cout << (*it) << endl;
+      }
    }
    void pop_front() { }
    void pop_back() { }
@@ -119,23 +138,61 @@ private:
    
    BSTreeNode<T>* _insert(const T& x, BSTreeNode<T>* n, BSTreeNode<T>* pre_n)
    {
-      if (n == NULL) return new BSTreeNode<T>(x, pre_n);
+      if (n == NULL)
+      {
+         BSTreeNode<T>* result = new BSTreeNode<T>(x, pre_n);
+
+         return result;
+      }
       if (x == n->_data) return n;
       if (x < n->_data) 
       {
          n->_left = _insert(x, n->_left, n);
-         if (n == _begin) _begin = n->_left;
       }
       else 
       {
          n->_right = _insert(x, n->_right, n);
-         if (n == _end) _end = n->_right;
       }
+
       return n;
    }
 
    void _search(const T& x) { }
-   iterator _min(BSTreeNode<T>* n) { }
+
+   BSTreeNode<T>* _min(BSTreeNode<T>* n) const
+   { 
+      if (n->_left == NULL) return n;
+      else return _min(n->_left);
+   }
+
+   BSTreeNode<T>* _max(BSTreeNode<T>* n) const
+   {
+      if (n->_right == NULL) return n;
+      else return _max(n->_right);
+   }
+
+   BSTreeNode<T>* _findNextN(BSTreeNode<T>* n) const
+   {
+      BSTreeNode<T>* nn;
+      if (n->_right != NULL) nn = _min(n->_right);
+      else nn = n->_parent;
+      
+      return nn;
+   }
+
+   BSTreeNode<T>* _findPrevN(BSTreeNode<T>* n) const
+   {
+      if (n->_left != NULL) { return _max(n->_left); }
+
+      BSTreeNode<T>* prevN = n->_parent;
+      while (prevN != NULL && n == prevN->_left)
+      {
+         n = prevN;
+         prevN = n->_parent;
+      }
+      return prevN;
+   }
+   
    void _successor(BSTreeNode<T>* n) { }
    bool _delete(iterator pos) { return false; }
 };

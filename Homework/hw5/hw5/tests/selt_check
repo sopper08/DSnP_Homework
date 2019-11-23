@@ -1,0 +1,7 @@
+adta -s a12
+adtp
+adta -s c13
+adtp
+adta -s b12
+adtp
+q -f

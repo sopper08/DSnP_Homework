@@ -1,0 +1,12 @@
+timeout 15s ./ref/adtTest.dlist -f tests/for_report/n10000
+timeout 15s ./ref/adtTest.dlist -f tests/for_report/n100000
+timeout 15s ./ref/adtTest.dlist -f tests/for_report/n1000000
+timeout 15s ./ref/adtTest.dlist -f tests/for_report/n10000000
+timeout 15s ./ref/adtTest.array -f tests/for_report/n10000
+timeout 15s ./ref/adtTest.array -f tests/for_report/n100000
+timeout 15s ./ref/adtTest.array -f tests/for_report/n1000000
+timeout 15s ./ref/adtTest.array -f tests/for_report/n10000000
+timeout 15s ./ref/adtTest.bst -f tests/for_report/n10000
+timeout 15s ./ref/adtTest.bst -f tests/for_report/n100000
+timeout 15s ./ref/adtTest.bst -f tests/for_report/n1000000
+timeout 15s ./ref/adtTest.bst -f tests/for_report/n10000000
