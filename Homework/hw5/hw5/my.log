@@ -1,0 +1,132 @@
+adt> adta -s a1
+
+adt> adta -s a2
+
+adt> adta -s a3
+
+adt> adta -s a4
+
+adt> adta -s a5
+
+adt> adta -s a6
+
+adt> adta -s a7
+
+adt> adta -s a8
+
+adt> adta -s a9
+
+adt> adta -s a10
+
+adt> adta -s a11
+
+adt> adta -s a12
+
+adt> adta -s a13
+
+adt> adtp
+=== ADT (dlist) ===
+[  0] =  a1   [  1] =  a2   [  2] =  a3   [  3] =  a4   
+[  4] =  a5   [  5] =  a6   [  6] =  a7   [  7] =  a8   
+[  8] =  a9   [  9] = a10   [ 10] = a11   [ 11] = a12   
+[ 12] = a13   
+
+adt> adtp -r
+=== ADT (dlist) ===
+[ 12] = a13   [ 11] = a12   [ 10] = a11   [  9] = a10   
+[  8] =  a9   [  7] =  a8   [  6] =  a7   [  5] =  a6   
+[  4] =  a5   [  3] =  a4   [  2] =  a3   [  1] =  a2   
+[  0] =  a1   
+
+adt> adtp 9
+[  9] = a10   
+
+adt> adtp 11
+[ 11] = a12   
+
+adt> adtd -a
+
+adt> adtp
+=== ADT (dlist) ===
+
+
+adt> adta -s a1
+
+adt> adta -s a2
+
+adt> adta -s a3
+
+adt> adta -s a4
+
+adt> adta -s a5
+
+adt> adta -s a6
+
+adt> adta -s a7
+
+adt> adta -s a8
+
+adt> adta -s a9
+
+adt> adta -s a10
+
+adt> adta -s a11
+
+adt> adta -s a12
+
+adt> adta -s a13
+
+adt> adtp
+=== ADT (dlist) ===
+[  0] =  a1   [  1] =  a2   [  2] =  a3   [  3] =  a4   
+[  4] =  a5   [  5] =  a6   [  6] =  a7   [  7] =  a8   
+[  8] =  a9   [  9] = a10   [ 10] = a11   [ 11] = a12   
+[ 12] = a13   
+
+adt> adtd -f 1
+
+adt> adtp
+=== ADT (dlist) ===
+[  0] =  a2   [  1] =  a3   [  2] =  a4   [  3] =  a5   
+[  4] =  a6   [  5] =  a7   [  6] =  a8   [  7] =  a9   
+[  8] = a10   [  9] = a11   [ 10] = a12   [ 11] = a13   
+
+
+adt> adtd -f 2
+
+adt> adtp
+=== ADT (dlist) ===
+[  0] =  a4   [  1] =  a5   [  2] =  a6   [  3] =  a7   
+[  4] =  a8   [  5] =  a9   [  6] = a10   [  7] = a11   
+[  8] = a12   [  9] = a13   
+
+adt> adtd -b 1
+
+adt> adtp
+=== ADT (dlist) ===
+[  0] =  a4   [  1] =  a5   [  2] =  a6   [  3] =  a7   
+[  4] =  a8   [  5] =  a9   [  6] = a10   [  7] = a11   
+[  8] = a12   
+
+adt> adtd -b 2
+
+adt> adtp
+=== ADT (dlist) ===
+[  0] =  a4   [  1] =  a5   [  2] =  a6   [  3] =  a7   
+[  4] =  a8   [  5] =  a9   [  6] = a10   
+
+adt> adtq a12
+"a12" is not found!!
+
+adt> adtq b1a
+"b1a" is not found!!
+
+adt> adts 
+
+adt> adtp
+=== ADT (dlist) ===
+[  0] = a10   [  1] =  a4   [  2] =  a5   [  3] =  a6   
+[  4] =  a7   [  5] =  a8   [  6] =  a9   
+
+adt> q -f
+

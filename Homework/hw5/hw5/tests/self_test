@@ -1,0 +1,46 @@
+adta -s a1
+adta -s a2
+adta -s a3
+adta -s a4
+adta -s a5
+adta -s a6
+adta -s a7
+adta -s a8
+adta -s a9
+adta -s a10
+adta -s a11
+adta -s a12
+adta -s a13
+adtp
+adtp -r
+adtp 9
+adtp 11
+adtd -a
+adtp
+adta -s a1
+adta -s a2
+adta -s a3
+adta -s a4
+adta -s a5
+adta -s a6
+adta -s a7
+adta -s a8
+adta -s a9
+adta -s a10
+adta -s a11
+adta -s a12
+adta -s a13
+adtp
+adtd -f 1
+adtp
+adtd -f 2
+adtp
+adtd -b 1
+adtp
+adtd -b 2
+adtp
+adtq a12
+adtq b1a
+adts 
+adtp
+q -f
