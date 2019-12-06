@@ -1,0 +1,3407 @@
+cir> cirr tests.fraig/cirp-n.aag
+
+cir> cirp -s
+
+Circuit Statistics
+==================
+  PI           4
+  PO           2
+  AIG          6
+------------------
+  Total       12
+
+cir> cirp -n
+
+[0] PI  1 
+[1] CONST 0 
+[2] AIG 10 1 0 
+[3] PI  2 
+[4] PI  6 
+[5] AIG 11 !1 6 
+[6] AIG 16 2 !11 
+[7] AIG 22 !10 !16 
+[8] PO  24 !22 
+[9] PI  7 
+[10] AIG 19 *!15 7 
+[11] AIG 23 !16 !19 
+[12] PO  25 !23 
+
+cir> cirp -pi
+PIs of the circuit: 1 2 6 7 
+
+cir> cirp -po
+POs of the circuit: 24 25 
+
+cir> cirp -fl
+Gates with floating fanin(s): 19 
+
+cir> cirg 0
+==================================================
+= CONST(0), line 0                               =
+==================================================
+
+cir> cirg 0 -fanin 0
+CONST 0
+
+cir> cirg 0 -fanout 0
+CONST 0
+
+cir> cirg 0 -fanin 1
+CONST 0
+
+cir> cirg 0 -fanout 1
+CONST 0
+  AIG 10
+
+cir> cirg 0 -fanin 2
+CONST 0
+
+cir> cirg 0 -fanout 2
+CONST 0
+  AIG 10
+    !AIG 22
+
+cir> cirg 0 -fanin 3
+CONST 0
+
+cir> cirg 0 -fanout 3
+CONST 0
+  AIG 10
+    !AIG 22
+      !PO 24
+
+cir> cirg 0 -fanin 4
+CONST 0
+
+cir> cirg 0 -fanout 4
+CONST 0
+  AIG 10
+    !AIG 22
+      !PO 24
+
+cir> cirg 0 -fanin 5
+CONST 0
+
+cir> cirg 0 -fanout 5
+CONST 0
+  AIG 10
+    !AIG 22
+      !PO 24
+
+cir> cirg 0 -fanin 6
+CONST 0
+
+cir> cirg 0 -fanout 6
+CONST 0
+  AIG 10
+    !AIG 22
+      !PO 24
+
+cir> cirg 1
+==================================================
+= PI(1), line 2                                  =
+==================================================
+
+cir> cirg 1 -fanin 0
+PI 1
+
+cir> cirg 1 -fanout 0
+PI 1
+
+cir> cirg 1 -fanin 1
+PI 1
+
+cir> cirg 1 -fanout 1
+PI 1
+  !AIG 11
+
+cir> cirg 1 -fanin 2
+PI 1
+
+cir> cirg 1 -fanout 2
+PI 1
+  !AIG 11
+    !AIG 16
+
+cir> cirg 1 -fanin 3
+PI 1
+
+cir> cirg 1 -fanout 3
+PI 1
+  !AIG 11
+    !AIG 16
+      !AIG 23
+
+cir> cirg 1 -fanin 4
+PI 1
+
+cir> cirg 1 -fanout 4
+PI 1
+  !AIG 11
+    !AIG 16
+      !AIG 23
+        !PO 25
+
+cir> cirg 1 -fanin 5
+PI 1
+
+cir> cirg 1 -fanout 5
+PI 1
+  !AIG 11
+    !AIG 16
+      !AIG 23
+        !PO 25
+
+cir> cirg 1 -fanin 6
+PI 1
+
+cir> cirg 1 -fanout 6
+PI 1
+  !AIG 11
+    !AIG 16
+      !AIG 23
+        !PO 25
+
+cir> cirg 2
+==================================================
+= PI(2), line 3                                  =
+==================================================
+
+cir> cirg 2 -fanin 0
+PI 2
+
+cir> cirg 2 -fanout 0
+PI 2
+
+cir> cirg 2 -fanin 1
+PI 2
+
+cir> cirg 2 -fanout 1
+PI 2
+  AIG 16
+
+cir> cirg 2 -fanin 2
+PI 2
+
+cir> cirg 2 -fanout 2
+PI 2
+  AIG 16
+    !AIG 23
+
+cir> cirg 2 -fanin 3
+PI 2
+
+cir> cirg 2 -fanout 3
+PI 2
+  AIG 16
+    !AIG 23
+      !PO 25
+
+cir> cirg 2 -fanin 4
+PI 2
+
+cir> cirg 2 -fanout 4
+PI 2
+  AIG 16
+    !AIG 23
+      !PO 25
+
+cir> cirg 2 -fanin 5
+PI 2
+
+cir> cirg 2 -fanout 5
+PI 2
+  AIG 16
+    !AIG 23
+      !PO 25
+
+cir> cirg 2 -fanin 6
+PI 2
+
+cir> cirg 2 -fanout 6
+PI 2
+  AIG 16
+    !AIG 23
+      !PO 25
+
+cir> cirg 3
+Error: Gate(3) not found!!
+Error: Illegal option!! (3)
+
+cir> cirg 3 -fanin 0
+Error: Gate(3) not found!!
+Error: Illegal option!! (3)
+
+cir> cirg 3 -fanout 0
+Error: Gate(3) not found!!
+Error: Illegal option!! (3)
+
+cir> cirg 3 -fanin 1
+Error: Gate(3) not found!!
+Error: Illegal option!! (3)
+
+cir> cirg 3 -fanout 1
+Error: Gate(3) not found!!
+Error: Illegal option!! (3)
+
+cir> cirg 3 -fanin 2
+Error: Gate(3) not found!!
+Error: Illegal option!! (3)
+
+cir> cirg 3 -fanout 2
+Error: Gate(3) not found!!
+Error: Illegal option!! (3)
+
+cir> cirg 3 -fanin 3
+Error: Gate(3) not found!!
+Error: Illegal option!! (3)
+
+cir> cirg 3 -fanout 3
+Error: Gate(3) not found!!
+Error: Illegal option!! (3)
+
+cir> cirg 3 -fanin 4
+Error: Gate(3) not found!!
+Error: Illegal option!! (3)
+
+cir> cirg 3 -fanout 4
+Error: Gate(3) not found!!
+Error: Illegal option!! (3)
+
+cir> cirg 3 -fanin 5
+Error: Gate(3) not found!!
+Error: Illegal option!! (3)
+
+cir> cirg 3 -fanout 5
+Error: Gate(3) not found!!
+Error: Illegal option!! (3)
+
+cir> cirg 3 -fanin 6
+Error: Gate(3) not found!!
+Error: Illegal option!! (3)
+
+cir> cirg 3 -fanout 6
+Error: Gate(3) not found!!
+Error: Illegal option!! (3)
+
+cir> cirg 4
+Error: Gate(4) not found!!
+Error: Illegal option!! (4)
+
+cir> cirg 4 -fanin 0
+Error: Gate(4) not found!!
+Error: Illegal option!! (4)
+
+cir> cirg 4 -fanout 0
+Error: Gate(4) not found!!
+Error: Illegal option!! (4)
+
+cir> cirg 4 -fanin 1
+Error: Gate(4) not found!!
+Error: Illegal option!! (4)
+
+cir> cirg 4 -fanout 1
+Error: Gate(4) not found!!
+Error: Illegal option!! (4)
+
+cir> cirg 4 -fanin 2
+Error: Gate(4) not found!!
+Error: Illegal option!! (4)
+
+cir> cirg 4 -fanout 2
+Error: Gate(4) not found!!
+Error: Illegal option!! (4)
+
+cir> cirg 4 -fanin 3
+Error: Gate(4) not found!!
+Error: Illegal option!! (4)
+
+cir> cirg 4 -fanout 3
+Error: Gate(4) not found!!
+Error: Illegal option!! (4)
+
+cir> cirg 4 -fanin 4
+Error: Gate(4) not found!!
+Error: Illegal option!! (4)
+
+cir> cirg 4 -fanout 4
+Error: Gate(4) not found!!
+Error: Illegal option!! (4)
+
+cir> cirg 4 -fanin 5
+Error: Gate(4) not found!!
+Error: Illegal option!! (4)
+
+cir> cirg 4 -fanout 5
+Error: Gate(4) not found!!
+Error: Illegal option!! (4)
+
+cir> cirg 4 -fanin 6
+Error: Gate(4) not found!!
+Error: Illegal option!! (4)
+
+cir> cirg 4 -fanout 6
+Error: Gate(4) not found!!
+Error: Illegal option!! (4)
+
+cir> cirg 5
+Error: Gate(5) not found!!
+Error: Illegal option!! (5)
+
+cir> cirg 5 -fanin 0
+Error: Gate(5) not found!!
+Error: Illegal option!! (5)
+
+cir> cirg 5 -fanout 0
+Error: Gate(5) not found!!
+Error: Illegal option!! (5)
+
+cir> cirg 5 -fanin 1
+Error: Gate(5) not found!!
+Error: Illegal option!! (5)
+
+cir> cirg 5 -fanout 1
+Error: Gate(5) not found!!
+Error: Illegal option!! (5)
+
+cir> cirg 5 -fanin 2
+Error: Gate(5) not found!!
+Error: Illegal option!! (5)
+
+cir> cirg 5 -fanout 2
+Error: Gate(5) not found!!
+Error: Illegal option!! (5)
+
+cir> cirg 5 -fanin 3
+Error: Gate(5) not found!!
+Error: Illegal option!! (5)
+
+cir> cirg 5 -fanout 3
+Error: Gate(5) not found!!
+Error: Illegal option!! (5)
+
+cir> cirg 5 -fanin 4
+Error: Gate(5) not found!!
+Error: Illegal option!! (5)
+
+cir> cirg 5 -fanout 4
+Error: Gate(5) not found!!
+Error: Illegal option!! (5)
+
+cir> cirg 5 -fanin 5
+Error: Gate(5) not found!!
+Error: Illegal option!! (5)
+
+cir> cirg 5 -fanout 5
+Error: Gate(5) not found!!
+Error: Illegal option!! (5)
+
+cir> cirg 5 -fanin 6
+Error: Gate(5) not found!!
+Error: Illegal option!! (5)
+
+cir> cirg 5 -fanout 6
+Error: Gate(5) not found!!
+Error: Illegal option!! (5)
+
+cir> cirg 6
+==================================================
+= PI(6), line 4                                  =
+==================================================
+
+cir> cirg 6 -fanin 0
+PI 6
+
+cir> cirg 6 -fanout 0
+PI 6
+
+cir> cirg 6 -fanin 1
+PI 6
+
+cir> cirg 6 -fanout 1
+PI 6
+  AIG 11
+
+cir> cirg 6 -fanin 2
+PI 6
+
+cir> cirg 6 -fanout 2
+PI 6
+  AIG 11
+    !AIG 16
+
+cir> cirg 6 -fanin 3
+PI 6
+
+cir> cirg 6 -fanout 3
+PI 6
+  AIG 11
+    !AIG 16
+      !AIG 23
+
+cir> cirg 6 -fanin 4
+PI 6
+
+cir> cirg 6 -fanout 4
+PI 6
+  AIG 11
+    !AIG 16
+      !AIG 23
+        !PO 25
+
+cir> cirg 6 -fanin 5
+PI 6
+
+cir> cirg 6 -fanout 5
+PI 6
+  AIG 11
+    !AIG 16
+      !AIG 23
+        !PO 25
+
+cir> cirg 6 -fanin 6
+PI 6
+
+cir> cirg 6 -fanout 6
+PI 6
+  AIG 11
+    !AIG 16
+      !AIG 23
+        !PO 25
+
+cir> cirg 7
+==================================================
+= PI(7), line 5                                  =
+==================================================
+
+cir> cirg 7 -fanin 0
+PI 7
+
+cir> cirg 7 -fanout 0
+PI 7
+
+cir> cirg 7 -fanin 1
+PI 7
+
+cir> cirg 7 -fanout 1
+PI 7
+  AIG 19
+
+cir> cirg 7 -fanin 2
+PI 7
+
+cir> cirg 7 -fanout 2
+PI 7
+  AIG 19
+    !AIG 23
+
+cir> cirg 7 -fanin 3
+PI 7
+
+cir> cirg 7 -fanout 3
+PI 7
+  AIG 19
+    !AIG 23
+      !PO 25
+
+cir> cirg 7 -fanin 4
+PI 7
+
+cir> cirg 7 -fanout 4
+PI 7
+  AIG 19
+    !AIG 23
+      !PO 25
+
+cir> cirg 7 -fanin 5
+PI 7
+
+cir> cirg 7 -fanout 5
+PI 7
+  AIG 19
+    !AIG 23
+      !PO 25
+
+cir> cirg 7 -fanin 6
+PI 7
+
+cir> cirg 7 -fanout 6
+PI 7
+  AIG 19
+    !AIG 23
+      !PO 25
+
+cir> cirg 8
+Error: Gate(8) not found!!
+Error: Illegal option!! (8)
+
+cir> cirg 8 -fanin 0
+Error: Gate(8) not found!!
+Error: Illegal option!! (8)
+
+cir> cirg 8 -fanout 0
+Error: Gate(8) not found!!
+Error: Illegal option!! (8)
+
+cir> cirg 8 -fanin 1
+Error: Gate(8) not found!!
+Error: Illegal option!! (8)
+
+cir> cirg 8 -fanout 1
+Error: Gate(8) not found!!
+Error: Illegal option!! (8)
+
+cir> cirg 8 -fanin 2
+Error: Gate(8) not found!!
+Error: Illegal option!! (8)
+
+cir> cirg 8 -fanout 2
+Error: Gate(8) not found!!
+Error: Illegal option!! (8)
+
+cir> cirg 8 -fanin 3
+Error: Gate(8) not found!!
+Error: Illegal option!! (8)
+
+cir> cirg 8 -fanout 3
+Error: Gate(8) not found!!
+Error: Illegal option!! (8)
+
+cir> cirg 8 -fanin 4
+Error: Gate(8) not found!!
+Error: Illegal option!! (8)
+
+cir> cirg 8 -fanout 4
+Error: Gate(8) not found!!
+Error: Illegal option!! (8)
+
+cir> cirg 8 -fanin 5
+Error: Gate(8) not found!!
+Error: Illegal option!! (8)
+
+cir> cirg 8 -fanout 5
+Error: Gate(8) not found!!
+Error: Illegal option!! (8)
+
+cir> cirg 8 -fanin 6
+Error: Gate(8) not found!!
+Error: Illegal option!! (8)
+
+cir> cirg 8 -fanout 6
+Error: Gate(8) not found!!
+Error: Illegal option!! (8)
+
+cir> cirg 9
+Error: Gate(9) not found!!
+Error: Illegal option!! (9)
+
+cir> cirg 9 -fanin 0
+Error: Gate(9) not found!!
+Error: Illegal option!! (9)
+
+cir> cirg 9 -fanout 0
+Error: Gate(9) not found!!
+Error: Illegal option!! (9)
+
+cir> cirg 9 -fanin 1
+Error: Gate(9) not found!!
+Error: Illegal option!! (9)
+
+cir> cirg 9 -fanout 1
+Error: Gate(9) not found!!
+Error: Illegal option!! (9)
+
+cir> cirg 9 -fanin 2
+Error: Gate(9) not found!!
+Error: Illegal option!! (9)
+
+cir> cirg 9 -fanout 2
+Error: Gate(9) not found!!
+Error: Illegal option!! (9)
+
+cir> cirg 9 -fanin 3
+Error: Gate(9) not found!!
+Error: Illegal option!! (9)
+
+cir> cirg 9 -fanout 3
+Error: Gate(9) not found!!
+Error: Illegal option!! (9)
+
+cir> cirg 9 -fanin 4
+Error: Gate(9) not found!!
+Error: Illegal option!! (9)
+
+cir> cirg 9 -fanout 4
+Error: Gate(9) not found!!
+Error: Illegal option!! (9)
+
+cir> cirg 9 -fanin 5
+Error: Gate(9) not found!!
+Error: Illegal option!! (9)
+
+cir> cirg 9 -fanout 5
+Error: Gate(9) not found!!
+Error: Illegal option!! (9)
+
+cir> cirg 9 -fanin 6
+Error: Gate(9) not found!!
+Error: Illegal option!! (9)
+
+cir> cirg 9 -fanout 6
+Error: Gate(9) not found!!
+Error: Illegal option!! (9)
+
+cir> cirg 10
+==================================================
+= AIG(10), line 8                                =
+==================================================
+
+cir> cirg 10 -fanin 0
+AIG 10
+
+cir> cirg 10 -fanout 0
+AIG 10
+
+cir> cirg 10 -fanin 1
+AIG 10
+  PI 1
+  CONST 0
+
+cir> cirg 10 -fanout 1
+AIG 10
+  !AIG 22
+
+cir> cirg 10 -fanin 2
+AIG 10
+  PI 1
+  CONST 0
+
+cir> cirg 10 -fanout 2
+AIG 10
+  !AIG 22
+    !PO 24
+
+cir> cirg 10 -fanin 3
+AIG 10
+  PI 1
+  CONST 0
+
+cir> cirg 10 -fanout 3
+AIG 10
+  !AIG 22
+    !PO 24
+
+cir> cirg 10 -fanin 4
+AIG 10
+  PI 1
+  CONST 0
+
+cir> cirg 10 -fanout 4
+AIG 10
+  !AIG 22
+    !PO 24
+
+cir> cirg 10 -fanin 5
+AIG 10
+  PI 1
+  CONST 0
+
+cir> cirg 10 -fanout 5
+AIG 10
+  !AIG 22
+    !PO 24
+
+cir> cirg 10 -fanin 6
+AIG 10
+  PI 1
+  CONST 0
+
+cir> cirg 10 -fanout 6
+AIG 10
+  !AIG 22
+    !PO 24
+
+cir> cirg 11
+==================================================
+= AIG(11), line 9                                =
+==================================================
+
+cir> cirg 11 -fanin 0
+AIG 11
+
+cir> cirg 11 -fanout 0
+AIG 11
+
+cir> cirg 11 -fanin 1
+AIG 11
+  !PI 1
+  PI 6
+
+cir> cirg 11 -fanout 1
+AIG 11
+  !AIG 16
+
+cir> cirg 11 -fanin 2
+AIG 11
+  !PI 1
+  PI 6
+
+cir> cirg 11 -fanout 2
+AIG 11
+  !AIG 16
+    !AIG 23
+
+cir> cirg 11 -fanin 3
+AIG 11
+  !PI 1
+  PI 6
+
+cir> cirg 11 -fanout 3
+AIG 11
+  !AIG 16
+    !AIG 23
+      !PO 25
+
+cir> cirg 11 -fanin 4
+AIG 11
+  !PI 1
+  PI 6
+
+cir> cirg 11 -fanout 4
+AIG 11
+  !AIG 16
+    !AIG 23
+      !PO 25
+
+cir> cirg 11 -fanin 5
+AIG 11
+  !PI 1
+  PI 6
+
+cir> cirg 11 -fanout 5
+AIG 11
+  !AIG 16
+    !AIG 23
+      !PO 25
+
+cir> cirg 11 -fanin 6
+AIG 11
+  !PI 1
+  PI 6
+
+cir> cirg 11 -fanout 6
+AIG 11
+  !AIG 16
+    !AIG 23
+      !PO 25
+
+cir> cirg 12
+Error: Gate(12) not found!!
+Error: Illegal option!! (12)
+
+cir> cirg 12 -fanin 0
+Error: Gate(12) not found!!
+Error: Illegal option!! (12)
+
+cir> cirg 12 -fanout 0
+Error: Gate(12) not found!!
+Error: Illegal option!! (12)
+
+cir> cirg 12 -fanin 1
+Error: Gate(12) not found!!
+Error: Illegal option!! (12)
+
+cir> cirg 12 -fanout 1
+Error: Gate(12) not found!!
+Error: Illegal option!! (12)
+
+cir> cirg 12 -fanin 2
+Error: Gate(12) not found!!
+Error: Illegal option!! (12)
+
+cir> cirg 12 -fanout 2
+Error: Gate(12) not found!!
+Error: Illegal option!! (12)
+
+cir> cirg 12 -fanin 3
+Error: Gate(12) not found!!
+Error: Illegal option!! (12)
+
+cir> cirg 12 -fanout 3
+Error: Gate(12) not found!!
+Error: Illegal option!! (12)
+
+cir> cirg 12 -fanin 4
+Error: Gate(12) not found!!
+Error: Illegal option!! (12)
+
+cir> cirg 12 -fanout 4
+Error: Gate(12) not found!!
+Error: Illegal option!! (12)
+
+cir> cirg 12 -fanin 5
+Error: Gate(12) not found!!
+Error: Illegal option!! (12)
+
+cir> cirg 12 -fanout 5
+Error: Gate(12) not found!!
+Error: Illegal option!! (12)
+
+cir> cirg 12 -fanin 6
+Error: Gate(12) not found!!
+Error: Illegal option!! (12)
+
+cir> cirg 12 -fanout 6
+Error: Gate(12) not found!!
+Error: Illegal option!! (12)
+
+cir> cirg 13
+Error: Gate(13) not found!!
+Error: Illegal option!! (13)
+
+cir> cirg 13 -fanin 0
+Error: Gate(13) not found!!
+Error: Illegal option!! (13)
+
+cir> cirg 13 -fanout 0
+Error: Gate(13) not found!!
+Error: Illegal option!! (13)
+
+cir> cirg 13 -fanin 1
+Error: Gate(13) not found!!
+Error: Illegal option!! (13)
+
+cir> cirg 13 -fanout 1
+Error: Gate(13) not found!!
+Error: Illegal option!! (13)
+
+cir> cirg 13 -fanin 2
+Error: Gate(13) not found!!
+Error: Illegal option!! (13)
+
+cir> cirg 13 -fanout 2
+Error: Gate(13) not found!!
+Error: Illegal option!! (13)
+
+cir> cirg 13 -fanin 3
+Error: Gate(13) not found!!
+Error: Illegal option!! (13)
+
+cir> cirg 13 -fanout 3
+Error: Gate(13) not found!!
+Error: Illegal option!! (13)
+
+cir> cirg 13 -fanin 4
+Error: Gate(13) not found!!
+Error: Illegal option!! (13)
+
+cir> cirg 13 -fanout 4
+Error: Gate(13) not found!!
+Error: Illegal option!! (13)
+
+cir> cirg 13 -fanin 5
+Error: Gate(13) not found!!
+Error: Illegal option!! (13)
+
+cir> cirg 13 -fanout 5
+Error: Gate(13) not found!!
+Error: Illegal option!! (13)
+
+cir> cirg 13 -fanin 6
+Error: Gate(13) not found!!
+Error: Illegal option!! (13)
+
+cir> cirg 13 -fanout 6
+Error: Gate(13) not found!!
+Error: Illegal option!! (13)
+
+cir> cirg 14
+Error: Gate(14) not found!!
+Error: Illegal option!! (14)
+
+cir> cirg 14 -fanin 0
+Error: Gate(14) not found!!
+Error: Illegal option!! (14)
+
+cir> cirg 14 -fanout 0
+Error: Gate(14) not found!!
+Error: Illegal option!! (14)
+
+cir> cirg 14 -fanin 1
+Error: Gate(14) not found!!
+Error: Illegal option!! (14)
+
+cir> cirg 14 -fanout 1
+Error: Gate(14) not found!!
+Error: Illegal option!! (14)
+
+cir> cirg 14 -fanin 2
+Error: Gate(14) not found!!
+Error: Illegal option!! (14)
+
+cir> cirg 14 -fanout 2
+Error: Gate(14) not found!!
+Error: Illegal option!! (14)
+
+cir> cirg 14 -fanin 3
+Error: Gate(14) not found!!
+Error: Illegal option!! (14)
+
+cir> cirg 14 -fanout 3
+Error: Gate(14) not found!!
+Error: Illegal option!! (14)
+
+cir> cirg 14 -fanin 4
+Error: Gate(14) not found!!
+Error: Illegal option!! (14)
+
+cir> cirg 14 -fanout 4
+Error: Gate(14) not found!!
+Error: Illegal option!! (14)
+
+cir> cirg 14 -fanin 5
+Error: Gate(14) not found!!
+Error: Illegal option!! (14)
+
+cir> cirg 14 -fanout 5
+Error: Gate(14) not found!!
+Error: Illegal option!! (14)
+
+cir> cirg 14 -fanin 6
+Error: Gate(14) not found!!
+Error: Illegal option!! (14)
+
+cir> cirg 14 -fanout 6
+Error: Gate(14) not found!!
+Error: Illegal option!! (14)
+
+cir> cirg 15
+==================================================
+= UNDEF(15), line 1                              =
+==================================================
+
+cir> cirg 15 -fanin 0
+UNDEF 15
+
+cir> cirg 15 -fanout 0
+UNDEF 15
+
+cir> cirg 15 -fanin 1
+UNDEF 15
+
+cir> cirg 15 -fanout 1
+UNDEF 15
+  !AIG 19
+
+cir> cirg 15 -fanin 2
+UNDEF 15
+
+cir> cirg 15 -fanout 2
+UNDEF 15
+  !AIG 19
+    !AIG 23
+
+cir> cirg 15 -fanin 3
+UNDEF 15
+
+cir> cirg 15 -fanout 3
+UNDEF 15
+  !AIG 19
+    !AIG 23
+      !PO 25
+
+cir> cirg 15 -fanin 4
+UNDEF 15
+
+cir> cirg 15 -fanout 4
+UNDEF 15
+  !AIG 19
+    !AIG 23
+      !PO 25
+
+cir> cirg 15 -fanin 5
+UNDEF 15
+
+cir> cirg 15 -fanout 5
+UNDEF 15
+  !AIG 19
+    !AIG 23
+      !PO 25
+
+cir> cirg 15 -fanin 6
+UNDEF 15
+
+cir> cirg 15 -fanout 6
+UNDEF 15
+  !AIG 19
+    !AIG 23
+      !PO 25
+
+cir> cirg 16
+==================================================
+= AIG(16), line 10                               =
+==================================================
+
+cir> cirg 16 -fanin 0
+AIG 16
+
+cir> cirg 16 -fanout 0
+AIG 16
+
+cir> cirg 16 -fanin 1
+AIG 16
+  PI 2
+  !AIG 11
+
+cir> cirg 16 -fanout 1
+AIG 16
+  !AIG 23
+
+cir> cirg 16 -fanin 2
+AIG 16
+  PI 2
+  !AIG 11
+    !PI 1
+    PI 6
+
+cir> cirg 16 -fanout 2
+AIG 16
+  !AIG 23
+    !PO 25
+
+cir> cirg 16 -fanin 3
+AIG 16
+  PI 2
+  !AIG 11
+    !PI 1
+    PI 6
+
+cir> cirg 16 -fanout 3
+AIG 16
+  !AIG 23
+    !PO 25
+
+cir> cirg 16 -fanin 4
+AIG 16
+  PI 2
+  !AIG 11
+    !PI 1
+    PI 6
+
+cir> cirg 16 -fanout 4
+AIG 16
+  !AIG 23
+    !PO 25
+
+cir> cirg 16 -fanin 5
+AIG 16
+  PI 2
+  !AIG 11
+    !PI 1
+    PI 6
+
+cir> cirg 16 -fanout 5
+AIG 16
+  !AIG 23
+    !PO 25
+
+cir> cirg 16 -fanin 6
+AIG 16
+  PI 2
+  !AIG 11
+    !PI 1
+    PI 6
+
+cir> cirg 16 -fanout 6
+AIG 16
+  !AIG 23
+    !PO 25
+
+cir> cirg 17
+Error: Gate(17) not found!!
+Error: Illegal option!! (17)
+
+cir> cirg 17 -fanin 0
+Error: Gate(17) not found!!
+Error: Illegal option!! (17)
+
+cir> cirg 17 -fanout 0
+Error: Gate(17) not found!!
+Error: Illegal option!! (17)
+
+cir> cirg 17 -fanin 1
+Error: Gate(17) not found!!
+Error: Illegal option!! (17)
+
+cir> cirg 17 -fanout 1
+Error: Gate(17) not found!!
+Error: Illegal option!! (17)
+
+cir> cirg 17 -fanin 2
+Error: Gate(17) not found!!
+Error: Illegal option!! (17)
+
+cir> cirg 17 -fanout 2
+Error: Gate(17) not found!!
+Error: Illegal option!! (17)
+
+cir> cirg 17 -fanin 3
+Error: Gate(17) not found!!
+Error: Illegal option!! (17)
+
+cir> cirg 17 -fanout 3
+Error: Gate(17) not found!!
+Error: Illegal option!! (17)
+
+cir> cirg 17 -fanin 4
+Error: Gate(17) not found!!
+Error: Illegal option!! (17)
+
+cir> cirg 17 -fanout 4
+Error: Gate(17) not found!!
+Error: Illegal option!! (17)
+
+cir> cirg 17 -fanin 5
+Error: Gate(17) not found!!
+Error: Illegal option!! (17)
+
+cir> cirg 17 -fanout 5
+Error: Gate(17) not found!!
+Error: Illegal option!! (17)
+
+cir> cirg 17 -fanin 6
+Error: Gate(17) not found!!
+Error: Illegal option!! (17)
+
+cir> cirg 17 -fanout 6
+Error: Gate(17) not found!!
+Error: Illegal option!! (17)
+
+cir> cirg 18
+Error: Gate(18) not found!!
+Error: Illegal option!! (18)
+
+cir> cirg 18 -fanin 0
+Error: Gate(18) not found!!
+Error: Illegal option!! (18)
+
+cir> cirg 18 -fanout 0
+Error: Gate(18) not found!!
+Error: Illegal option!! (18)
+
+cir> cirg 18 -fanin 1
+Error: Gate(18) not found!!
+Error: Illegal option!! (18)
+
+cir> cirg 18 -fanout 1
+Error: Gate(18) not found!!
+Error: Illegal option!! (18)
+
+cir> cirg 18 -fanin 2
+Error: Gate(18) not found!!
+Error: Illegal option!! (18)
+
+cir> cirg 18 -fanout 2
+Error: Gate(18) not found!!
+Error: Illegal option!! (18)
+
+cir> cirg 18 -fanin 3
+Error: Gate(18) not found!!
+Error: Illegal option!! (18)
+
+cir> cirg 18 -fanout 3
+Error: Gate(18) not found!!
+Error: Illegal option!! (18)
+
+cir> cirg 18 -fanin 4
+Error: Gate(18) not found!!
+Error: Illegal option!! (18)
+
+cir> cirg 18 -fanout 4
+Error: Gate(18) not found!!
+Error: Illegal option!! (18)
+
+cir> cirg 18 -fanin 5
+Error: Gate(18) not found!!
+Error: Illegal option!! (18)
+
+cir> cirg 18 -fanout 5
+Error: Gate(18) not found!!
+Error: Illegal option!! (18)
+
+cir> cirg 18 -fanin 6
+Error: Gate(18) not found!!
+Error: Illegal option!! (18)
+
+cir> cirg 18 -fanout 6
+Error: Gate(18) not found!!
+Error: Illegal option!! (18)
+
+cir> cirg 19
+==================================================
+= AIG(19), line 12                               =
+==================================================
+
+cir> cirg 19 -fanin 0
+AIG 19
+
+cir> cirg 19 -fanout 0
+AIG 19
+
+cir> cirg 19 -fanin 1
+AIG 19
+  !UNDEF 15
+  PI 7
+
+cir> cirg 19 -fanout 1
+AIG 19
+  !AIG 23
+
+cir> cirg 19 -fanin 2
+AIG 19
+  !UNDEF 15
+  PI 7
+
+cir> cirg 19 -fanout 2
+AIG 19
+  !AIG 23
+    !PO 25
+
+cir> cirg 19 -fanin 3
+AIG 19
+  !UNDEF 15
+  PI 7
+
+cir> cirg 19 -fanout 3
+AIG 19
+  !AIG 23
+    !PO 25
+
+cir> cirg 19 -fanin 4
+AIG 19
+  !UNDEF 15
+  PI 7
+
+cir> cirg 19 -fanout 4
+AIG 19
+  !AIG 23
+    !PO 25
+
+cir> cirg 19 -fanin 5
+AIG 19
+  !UNDEF 15
+  PI 7
+
+cir> cirg 19 -fanout 5
+AIG 19
+  !AIG 23
+    !PO 25
+
+cir> cirg 19 -fanin 6
+AIG 19
+  !UNDEF 15
+  PI 7
+
+cir> cirg 19 -fanout 6
+AIG 19
+  !AIG 23
+    !PO 25
+
+cir> cirg 20
+Error: Gate(20) not found!!
+Error: Illegal option!! (20)
+
+cir> cirg 20 -fanin 0
+Error: Gate(20) not found!!
+Error: Illegal option!! (20)
+
+cir> cirg 20 -fanout 0
+Error: Gate(20) not found!!
+Error: Illegal option!! (20)
+
+cir> cirg 20 -fanin 1
+Error: Gate(20) not found!!
+Error: Illegal option!! (20)
+
+cir> cirg 20 -fanout 1
+Error: Gate(20) not found!!
+Error: Illegal option!! (20)
+
+cir> cirg 20 -fanin 2
+Error: Gate(20) not found!!
+Error: Illegal option!! (20)
+
+cir> cirg 20 -fanout 2
+Error: Gate(20) not found!!
+Error: Illegal option!! (20)
+
+cir> cirg 20 -fanin 3
+Error: Gate(20) not found!!
+Error: Illegal option!! (20)
+
+cir> cirg 20 -fanout 3
+Error: Gate(20) not found!!
+Error: Illegal option!! (20)
+
+cir> cirg 20 -fanin 4
+Error: Gate(20) not found!!
+Error: Illegal option!! (20)
+
+cir> cirg 20 -fanout 4
+Error: Gate(20) not found!!
+Error: Illegal option!! (20)
+
+cir> cirg 20 -fanin 5
+Error: Gate(20) not found!!
+Error: Illegal option!! (20)
+
+cir> cirg 20 -fanout 5
+Error: Gate(20) not found!!
+Error: Illegal option!! (20)
+
+cir> cirg 20 -fanin 6
+Error: Gate(20) not found!!
+Error: Illegal option!! (20)
+
+cir> cirg 20 -fanout 6
+Error: Gate(20) not found!!
+Error: Illegal option!! (20)
+
+cir> cirg 21
+Error: Gate(21) not found!!
+Error: Illegal option!! (21)
+
+cir> cirg 21 -fanin 0
+Error: Gate(21) not found!!
+Error: Illegal option!! (21)
+
+cir> cirg 21 -fanout 0
+Error: Gate(21) not found!!
+Error: Illegal option!! (21)
+
+cir> cirg 21 -fanin 1
+Error: Gate(21) not found!!
+Error: Illegal option!! (21)
+
+cir> cirg 21 -fanout 1
+Error: Gate(21) not found!!
+Error: Illegal option!! (21)
+
+cir> cirg 21 -fanin 2
+Error: Gate(21) not found!!
+Error: Illegal option!! (21)
+
+cir> cirg 21 -fanout 2
+Error: Gate(21) not found!!
+Error: Illegal option!! (21)
+
+cir> cirg 21 -fanin 3
+Error: Gate(21) not found!!
+Error: Illegal option!! (21)
+
+cir> cirg 21 -fanout 3
+Error: Gate(21) not found!!
+Error: Illegal option!! (21)
+
+cir> cirg 21 -fanin 4
+Error: Gate(21) not found!!
+Error: Illegal option!! (21)
+
+cir> cirg 21 -fanout 4
+Error: Gate(21) not found!!
+Error: Illegal option!! (21)
+
+cir> cirg 21 -fanin 5
+Error: Gate(21) not found!!
+Error: Illegal option!! (21)
+
+cir> cirg 21 -fanout 5
+Error: Gate(21) not found!!
+Error: Illegal option!! (21)
+
+cir> cirg 21 -fanin 6
+Error: Gate(21) not found!!
+Error: Illegal option!! (21)
+
+cir> cirg 21 -fanout 6
+Error: Gate(21) not found!!
+Error: Illegal option!! (21)
+
+cir> cirg 22
+==================================================
+= AIG(22), line 11                               =
+==================================================
+
+cir> cirg 22 -fanin 0
+AIG 22
+
+cir> cirg 22 -fanout 0
+AIG 22
+
+cir> cirg 22 -fanin 1
+AIG 22
+  !AIG 10
+  !AIG 16
+
+cir> cirg 22 -fanout 1
+AIG 22
+  !PO 24
+
+cir> cirg 22 -fanin 2
+AIG 22
+  !AIG 10
+    PI 1
+    CONST 0
+  !AIG 16
+    PI 2
+    !AIG 11
+
+cir> cirg 22 -fanout 2
+AIG 22
+  !PO 24
+
+cir> cirg 22 -fanin 3
+AIG 22
+  !AIG 10
+    PI 1
+    CONST 0
+  !AIG 16
+    PI 2
+    !AIG 11
+      !PI 1
+      PI 6
+
+cir> cirg 22 -fanout 3
+AIG 22
+  !PO 24
+
+cir> cirg 22 -fanin 4
+AIG 22
+  !AIG 10
+    PI 1
+    CONST 0
+  !AIG 16
+    PI 2
+    !AIG 11
+      !PI 1
+      PI 6
+
+cir> cirg 22 -fanout 4
+AIG 22
+  !PO 24
+
+cir> cirg 22 -fanin 5
+AIG 22
+  !AIG 10
+    PI 1
+    CONST 0
+  !AIG 16
+    PI 2
+    !AIG 11
+      !PI 1
+      PI 6
+
+cir> cirg 22 -fanout 5
+AIG 22
+  !PO 24
+
+cir> cirg 22 -fanin 6
+AIG 22
+  !AIG 10
+    PI 1
+    CONST 0
+  !AIG 16
+    PI 2
+    !AIG 11
+      !PI 1
+      PI 6
+
+cir> cirg 22 -fanout 6
+AIG 22
+  !PO 24
+
+cir> cirg 23
+==================================================
+= AIG(23), line 13                               =
+==================================================
+
+cir> cirg 23 -fanin 0
+AIG 23
+
+cir> cirg 23 -fanout 0
+AIG 23
+
+cir> cirg 23 -fanin 1
+AIG 23
+  !AIG 16
+  !AIG 19
+
+cir> cirg 23 -fanout 1
+AIG 23
+  !PO 25
+
+cir> cirg 23 -fanin 2
+AIG 23
+  !AIG 16
+    PI 2
+    !AIG 11
+  !AIG 19
+    !UNDEF 15
+    PI 7
+
+cir> cirg 23 -fanout 2
+AIG 23
+  !PO 25
+
+cir> cirg 23 -fanin 3
+AIG 23
+  !AIG 16
+    PI 2
+    !AIG 11
+      !PI 1
+      PI 6
+  !AIG 19
+    !UNDEF 15
+    PI 7
+
+cir> cirg 23 -fanout 3
+AIG 23
+  !PO 25
+
+cir> cirg 23 -fanin 4
+AIG 23
+  !AIG 16
+    PI 2
+    !AIG 11
+      !PI 1
+      PI 6
+  !AIG 19
+    !UNDEF 15
+    PI 7
+
+cir> cirg 23 -fanout 4
+AIG 23
+  !PO 25
+
+cir> cirg 23 -fanin 5
+AIG 23
+  !AIG 16
+    PI 2
+    !AIG 11
+      !PI 1
+      PI 6
+  !AIG 19
+    !UNDEF 15
+    PI 7
+
+cir> cirg 23 -fanout 5
+AIG 23
+  !PO 25
+
+cir> cirg 23 -fanin 6
+AIG 23
+  !AIG 16
+    PI 2
+    !AIG 11
+      !PI 1
+      PI 6
+  !AIG 19
+    !UNDEF 15
+    PI 7
+
+cir> cirg 23 -fanout 6
+AIG 23
+  !PO 25
+
+cir> cirg 24
+==================================================
+= PO(24), line 6                                 =
+==================================================
+
+cir> cirg 24 -fanin 0
+PO 24
+
+cir> cirg 24 -fanout 0
+PO 24
+
+cir> cirg 24 -fanin 1
+PO 24
+  !AIG 22
+
+cir> cirg 24 -fanout 1
+PO 24
+
+cir> cirg 24 -fanin 2
+PO 24
+  !AIG 22
+    !AIG 10
+    !AIG 16
+
+cir> cirg 24 -fanout 2
+PO 24
+
+cir> cirg 24 -fanin 3
+PO 24
+  !AIG 22
+    !AIG 10
+      PI 1
+      CONST 0
+    !AIG 16
+      PI 2
+      !AIG 11
+
+cir> cirg 24 -fanout 3
+PO 24
+
+cir> cirg 24 -fanin 4
+PO 24
+  !AIG 22
+    !AIG 10
+      PI 1
+      CONST 0
+    !AIG 16
+      PI 2
+      !AIG 11
+        !PI 1
+        PI 6
+
+cir> cirg 24 -fanout 4
+PO 24
+
+cir> cirg 24 -fanin 5
+PO 24
+  !AIG 22
+    !AIG 10
+      PI 1
+      CONST 0
+    !AIG 16
+      PI 2
+      !AIG 11
+        !PI 1
+        PI 6
+
+cir> cirg 24 -fanout 5
+PO 24
+
+cir> cirg 24 -fanin 6
+PO 24
+  !AIG 22
+    !AIG 10
+      PI 1
+      CONST 0
+    !AIG 16
+      PI 2
+      !AIG 11
+        !PI 1
+        PI 6
+
+cir> cirg 24 -fanout 6
+PO 24
+
+cir> cirg 25
+==================================================
+= PO(25), line 7                                 =
+==================================================
+
+cir> cirg 25 -fanin 0
+PO 25
+
+cir> cirg 25 -fanout 0
+PO 25
+
+cir> cirg 25 -fanin 1
+PO 25
+  !AIG 23
+
+cir> cirg 25 -fanout 1
+PO 25
+
+cir> cirg 25 -fanin 2
+PO 25
+  !AIG 23
+    !AIG 16
+    !AIG 19
+
+cir> cirg 25 -fanout 2
+PO 25
+
+cir> cirg 25 -fanin 3
+PO 25
+  !AIG 23
+    !AIG 16
+      PI 2
+      !AIG 11
+    !AIG 19
+      !UNDEF 15
+      PI 7
+
+cir> cirg 25 -fanout 3
+PO 25
+
+cir> cirg 25 -fanin 4
+PO 25
+  !AIG 23
+    !AIG 16
+      PI 2
+      !AIG 11
+        !PI 1
+        PI 6
+    !AIG 19
+      !UNDEF 15
+      PI 7
+
+cir> cirg 25 -fanout 4
+PO 25
+
+cir> cirg 25 -fanin 5
+PO 25
+  !AIG 23
+    !AIG 16
+      PI 2
+      !AIG 11
+        !PI 1
+        PI 6
+    !AIG 19
+      !UNDEF 15
+      PI 7
+
+cir> cirg 25 -fanout 5
+PO 25
+
+cir> cirg 25 -fanin 6
+PO 25
+  !AIG 23
+    !AIG 16
+      PI 2
+      !AIG 11
+        !PI 1
+        PI 6
+    !AIG 19
+      !UNDEF 15
+      PI 7
+
+cir> cirg 25 -fanout 6
+PO 25
+
+cir> cirg 26
+Error: Gate(26) not found!!
+Error: Illegal option!! (26)
+
+cir> cirg 26 -fanin 0
+Error: Gate(26) not found!!
+Error: Illegal option!! (26)
+
+cir> cirg 26 -fanout 0
+Error: Gate(26) not found!!
+Error: Illegal option!! (26)
+
+cir> cirg 26 -fanin 1
+Error: Gate(26) not found!!
+Error: Illegal option!! (26)
+
+cir> cirg 26 -fanout 1
+Error: Gate(26) not found!!
+Error: Illegal option!! (26)
+
+cir> cirg 26 -fanin 2
+Error: Gate(26) not found!!
+Error: Illegal option!! (26)
+
+cir> cirg 26 -fanout 2
+Error: Gate(26) not found!!
+Error: Illegal option!! (26)
+
+cir> cirg 26 -fanin 3
+Error: Gate(26) not found!!
+Error: Illegal option!! (26)
+
+cir> cirg 26 -fanout 3
+Error: Gate(26) not found!!
+Error: Illegal option!! (26)
+
+cir> cirg 26 -fanin 4
+Error: Gate(26) not found!!
+Error: Illegal option!! (26)
+
+cir> cirg 26 -fanout 4
+Error: Gate(26) not found!!
+Error: Illegal option!! (26)
+
+cir> cirg 26 -fanin 5
+Error: Gate(26) not found!!
+Error: Illegal option!! (26)
+
+cir> cirg 26 -fanout 5
+Error: Gate(26) not found!!
+Error: Illegal option!! (26)
+
+cir> cirg 26 -fanin 6
+Error: Gate(26) not found!!
+Error: Illegal option!! (26)
+
+cir> cirg 26 -fanout 6
+Error: Gate(26) not found!!
+Error: Illegal option!! (26)
+
+cir> cirg 27
+Error: Gate(27) not found!!
+Error: Illegal option!! (27)
+
+cir> cirg 27 -fanin 0
+Error: Gate(27) not found!!
+Error: Illegal option!! (27)
+
+cir> cirg 27 -fanout 0
+Error: Gate(27) not found!!
+Error: Illegal option!! (27)
+
+cir> cirg 27 -fanin 1
+Error: Gate(27) not found!!
+Error: Illegal option!! (27)
+
+cir> cirg 27 -fanout 1
+Error: Gate(27) not found!!
+Error: Illegal option!! (27)
+
+cir> cirg 27 -fanin 2
+Error: Gate(27) not found!!
+Error: Illegal option!! (27)
+
+cir> cirg 27 -fanout 2
+Error: Gate(27) not found!!
+Error: Illegal option!! (27)
+
+cir> cirg 27 -fanin 3
+Error: Gate(27) not found!!
+Error: Illegal option!! (27)
+
+cir> cirg 27 -fanout 3
+Error: Gate(27) not found!!
+Error: Illegal option!! (27)
+
+cir> cirg 27 -fanin 4
+Error: Gate(27) not found!!
+Error: Illegal option!! (27)
+
+cir> cirg 27 -fanout 4
+Error: Gate(27) not found!!
+Error: Illegal option!! (27)
+
+cir> cirg 27 -fanin 5
+Error: Gate(27) not found!!
+Error: Illegal option!! (27)
+
+cir> cirg 27 -fanout 5
+Error: Gate(27) not found!!
+Error: Illegal option!! (27)
+
+cir> cirg 27 -fanin 6
+Error: Gate(27) not found!!
+Error: Illegal option!! (27)
+
+cir> cirg 27 -fanout 6
+Error: Gate(27) not found!!
+Error: Illegal option!! (27)
+
+cir> cirg 28
+Error: Gate(28) not found!!
+Error: Illegal option!! (28)
+
+cir> cirg 28 -fanin 0
+Error: Gate(28) not found!!
+Error: Illegal option!! (28)
+
+cir> cirg 28 -fanout 0
+Error: Gate(28) not found!!
+Error: Illegal option!! (28)
+
+cir> cirg 28 -fanin 1
+Error: Gate(28) not found!!
+Error: Illegal option!! (28)
+
+cir> cirg 28 -fanout 1
+Error: Gate(28) not found!!
+Error: Illegal option!! (28)
+
+cir> cirg 28 -fanin 2
+Error: Gate(28) not found!!
+Error: Illegal option!! (28)
+
+cir> cirg 28 -fanout 2
+Error: Gate(28) not found!!
+Error: Illegal option!! (28)
+
+cir> cirg 28 -fanin 3
+Error: Gate(28) not found!!
+Error: Illegal option!! (28)
+
+cir> cirg 28 -fanout 3
+Error: Gate(28) not found!!
+Error: Illegal option!! (28)
+
+cir> cirg 28 -fanin 4
+Error: Gate(28) not found!!
+Error: Illegal option!! (28)
+
+cir> cirg 28 -fanout 4
+Error: Gate(28) not found!!
+Error: Illegal option!! (28)
+
+cir> cirg 28 -fanin 5
+Error: Gate(28) not found!!
+Error: Illegal option!! (28)
+
+cir> cirg 28 -fanout 5
+Error: Gate(28) not found!!
+Error: Illegal option!! (28)
+
+cir> cirg 28 -fanin 6
+Error: Gate(28) not found!!
+Error: Illegal option!! (28)
+
+cir> cirg 28 -fanout 6
+Error: Gate(28) not found!!
+Error: Illegal option!! (28)
+
+cir> cirg 29
+Error: Gate(29) not found!!
+Error: Illegal option!! (29)
+
+cir> cirg 29 -fanin 0
+Error: Gate(29) not found!!
+Error: Illegal option!! (29)
+
+cir> cirg 29 -fanout 0
+Error: Gate(29) not found!!
+Error: Illegal option!! (29)
+
+cir> cirg 29 -fanin 1
+Error: Gate(29) not found!!
+Error: Illegal option!! (29)
+
+cir> cirg 29 -fanout 1
+Error: Gate(29) not found!!
+Error: Illegal option!! (29)
+
+cir> cirg 29 -fanin 2
+Error: Gate(29) not found!!
+Error: Illegal option!! (29)
+
+cir> cirg 29 -fanout 2
+Error: Gate(29) not found!!
+Error: Illegal option!! (29)
+
+cir> cirg 29 -fanin 3
+Error: Gate(29) not found!!
+Error: Illegal option!! (29)
+
+cir> cirg 29 -fanout 3
+Error: Gate(29) not found!!
+Error: Illegal option!! (29)
+
+cir> cirg 29 -fanin 4
+Error: Gate(29) not found!!
+Error: Illegal option!! (29)
+
+cir> cirg 29 -fanout 4
+Error: Gate(29) not found!!
+Error: Illegal option!! (29)
+
+cir> cirg 29 -fanin 5
+Error: Gate(29) not found!!
+Error: Illegal option!! (29)
+
+cir> cirg 29 -fanout 5
+Error: Gate(29) not found!!
+Error: Illegal option!! (29)
+
+cir> cirg 29 -fanin 6
+Error: Gate(29) not found!!
+Error: Illegal option!! (29)
+
+cir> cirg 29 -fanout 6
+Error: Gate(29) not found!!
+Error: Illegal option!! (29)
+
+cir> cirg 30
+Error: Gate(30) not found!!
+Error: Illegal option!! (30)
+
+cir> cirg 30 -fanin 0
+Error: Gate(30) not found!!
+Error: Illegal option!! (30)
+
+cir> cirg 30 -fanout 0
+Error: Gate(30) not found!!
+Error: Illegal option!! (30)
+
+cir> cirg 30 -fanin 1
+Error: Gate(30) not found!!
+Error: Illegal option!! (30)
+
+cir> cirg 30 -fanout 1
+Error: Gate(30) not found!!
+Error: Illegal option!! (30)
+
+cir> cirg 30 -fanin 2
+Error: Gate(30) not found!!
+Error: Illegal option!! (30)
+
+cir> cirg 30 -fanout 2
+Error: Gate(30) not found!!
+Error: Illegal option!! (30)
+
+cir> cirg 30 -fanin 3
+Error: Gate(30) not found!!
+Error: Illegal option!! (30)
+
+cir> cirg 30 -fanout 3
+Error: Gate(30) not found!!
+Error: Illegal option!! (30)
+
+cir> cirg 30 -fanin 4
+Error: Gate(30) not found!!
+Error: Illegal option!! (30)
+
+cir> cirg 30 -fanout 4
+Error: Gate(30) not found!!
+Error: Illegal option!! (30)
+
+cir> cirg 30 -fanin 5
+Error: Gate(30) not found!!
+Error: Illegal option!! (30)
+
+cir> cirg 30 -fanout 5
+Error: Gate(30) not found!!
+Error: Illegal option!! (30)
+
+cir> cirg 30 -fanin 6
+Error: Gate(30) not found!!
+Error: Illegal option!! (30)
+
+cir> cirg 30 -fanout 6
+Error: Gate(30) not found!!
+Error: Illegal option!! (30)
+
+cir> cirg 31
+Error: Gate(31) not found!!
+Error: Illegal option!! (31)
+
+cir> cirg 31 -fanin 0
+Error: Gate(31) not found!!
+Error: Illegal option!! (31)
+
+cir> cirg 31 -fanout 0
+Error: Gate(31) not found!!
+Error: Illegal option!! (31)
+
+cir> cirg 31 -fanin 1
+Error: Gate(31) not found!!
+Error: Illegal option!! (31)
+
+cir> cirg 31 -fanout 1
+Error: Gate(31) not found!!
+Error: Illegal option!! (31)
+
+cir> cirg 31 -fanin 2
+Error: Gate(31) not found!!
+Error: Illegal option!! (31)
+
+cir> cirg 31 -fanout 2
+Error: Gate(31) not found!!
+Error: Illegal option!! (31)
+
+cir> cirg 31 -fanin 3
+Error: Gate(31) not found!!
+Error: Illegal option!! (31)
+
+cir> cirg 31 -fanout 3
+Error: Gate(31) not found!!
+Error: Illegal option!! (31)
+
+cir> cirg 31 -fanin 4
+Error: Gate(31) not found!!
+Error: Illegal option!! (31)
+
+cir> cirg 31 -fanout 4
+Error: Gate(31) not found!!
+Error: Illegal option!! (31)
+
+cir> cirg 31 -fanin 5
+Error: Gate(31) not found!!
+Error: Illegal option!! (31)
+
+cir> cirg 31 -fanout 5
+Error: Gate(31) not found!!
+Error: Illegal option!! (31)
+
+cir> cirg 31 -fanin 6
+Error: Gate(31) not found!!
+Error: Illegal option!! (31)
+
+cir> cirg 31 -fanout 6
+Error: Gate(31) not found!!
+Error: Illegal option!! (31)
+
+cir> cirg 32
+Error: Gate(32) not found!!
+Error: Illegal option!! (32)
+
+cir> cirg 32 -fanin 0
+Error: Gate(32) not found!!
+Error: Illegal option!! (32)
+
+cir> cirg 32 -fanout 0
+Error: Gate(32) not found!!
+Error: Illegal option!! (32)
+
+cir> cirg 32 -fanin 1
+Error: Gate(32) not found!!
+Error: Illegal option!! (32)
+
+cir> cirg 32 -fanout 1
+Error: Gate(32) not found!!
+Error: Illegal option!! (32)
+
+cir> cirg 32 -fanin 2
+Error: Gate(32) not found!!
+Error: Illegal option!! (32)
+
+cir> cirg 32 -fanout 2
+Error: Gate(32) not found!!
+Error: Illegal option!! (32)
+
+cir> cirg 32 -fanin 3
+Error: Gate(32) not found!!
+Error: Illegal option!! (32)
+
+cir> cirg 32 -fanout 3
+Error: Gate(32) not found!!
+Error: Illegal option!! (32)
+
+cir> cirg 32 -fanin 4
+Error: Gate(32) not found!!
+Error: Illegal option!! (32)
+
+cir> cirg 32 -fanout 4
+Error: Gate(32) not found!!
+Error: Illegal option!! (32)
+
+cir> cirg 32 -fanin 5
+Error: Gate(32) not found!!
+Error: Illegal option!! (32)
+
+cir> cirg 32 -fanout 5
+Error: Gate(32) not found!!
+Error: Illegal option!! (32)
+
+cir> cirg 32 -fanin 6
+Error: Gate(32) not found!!
+Error: Illegal option!! (32)
+
+cir> cirg 32 -fanout 6
+Error: Gate(32) not found!!
+Error: Illegal option!! (32)
+
+cir> cirg 33
+Error: Gate(33) not found!!
+Error: Illegal option!! (33)
+
+cir> cirg 33 -fanin 0
+Error: Gate(33) not found!!
+Error: Illegal option!! (33)
+
+cir> cirg 33 -fanout 0
+Error: Gate(33) not found!!
+Error: Illegal option!! (33)
+
+cir> cirg 33 -fanin 1
+Error: Gate(33) not found!!
+Error: Illegal option!! (33)
+
+cir> cirg 33 -fanout 1
+Error: Gate(33) not found!!
+Error: Illegal option!! (33)
+
+cir> cirg 33 -fanin 2
+Error: Gate(33) not found!!
+Error: Illegal option!! (33)
+
+cir> cirg 33 -fanout 2
+Error: Gate(33) not found!!
+Error: Illegal option!! (33)
+
+cir> cirg 33 -fanin 3
+Error: Gate(33) not found!!
+Error: Illegal option!! (33)
+
+cir> cirg 33 -fanout 3
+Error: Gate(33) not found!!
+Error: Illegal option!! (33)
+
+cir> cirg 33 -fanin 4
+Error: Gate(33) not found!!
+Error: Illegal option!! (33)
+
+cir> cirg 33 -fanout 4
+Error: Gate(33) not found!!
+Error: Illegal option!! (33)
+
+cir> cirg 33 -fanin 5
+Error: Gate(33) not found!!
+Error: Illegal option!! (33)
+
+cir> cirg 33 -fanout 5
+Error: Gate(33) not found!!
+Error: Illegal option!! (33)
+
+cir> cirg 33 -fanin 6
+Error: Gate(33) not found!!
+Error: Illegal option!! (33)
+
+cir> cirg 33 -fanout 6
+Error: Gate(33) not found!!
+Error: Illegal option!! (33)
+
+cir> cirg 34
+Error: Gate(34) not found!!
+Error: Illegal option!! (34)
+
+cir> cirg 34 -fanin 0
+Error: Gate(34) not found!!
+Error: Illegal option!! (34)
+
+cir> cirg 34 -fanout 0
+Error: Gate(34) not found!!
+Error: Illegal option!! (34)
+
+cir> cirg 34 -fanin 1
+Error: Gate(34) not found!!
+Error: Illegal option!! (34)
+
+cir> cirg 34 -fanout 1
+Error: Gate(34) not found!!
+Error: Illegal option!! (34)
+
+cir> cirg 34 -fanin 2
+Error: Gate(34) not found!!
+Error: Illegal option!! (34)
+
+cir> cirg 34 -fanout 2
+Error: Gate(34) not found!!
+Error: Illegal option!! (34)
+
+cir> cirg 34 -fanin 3
+Error: Gate(34) not found!!
+Error: Illegal option!! (34)
+
+cir> cirg 34 -fanout 3
+Error: Gate(34) not found!!
+Error: Illegal option!! (34)
+
+cir> cirg 34 -fanin 4
+Error: Gate(34) not found!!
+Error: Illegal option!! (34)
+
+cir> cirg 34 -fanout 4
+Error: Gate(34) not found!!
+Error: Illegal option!! (34)
+
+cir> cirg 34 -fanin 5
+Error: Gate(34) not found!!
+Error: Illegal option!! (34)
+
+cir> cirg 34 -fanout 5
+Error: Gate(34) not found!!
+Error: Illegal option!! (34)
+
+cir> cirg 34 -fanin 6
+Error: Gate(34) not found!!
+Error: Illegal option!! (34)
+
+cir> cirg 34 -fanout 6
+Error: Gate(34) not found!!
+Error: Illegal option!! (34)
+
+cir> cirg 35
+Error: Gate(35) not found!!
+Error: Illegal option!! (35)
+
+cir> cirg 35 -fanin 0
+Error: Gate(35) not found!!
+Error: Illegal option!! (35)
+
+cir> cirg 35 -fanout 0
+Error: Gate(35) not found!!
+Error: Illegal option!! (35)
+
+cir> cirg 35 -fanin 1
+Error: Gate(35) not found!!
+Error: Illegal option!! (35)
+
+cir> cirg 35 -fanout 1
+Error: Gate(35) not found!!
+Error: Illegal option!! (35)
+
+cir> cirg 35 -fanin 2
+Error: Gate(35) not found!!
+Error: Illegal option!! (35)
+
+cir> cirg 35 -fanout 2
+Error: Gate(35) not found!!
+Error: Illegal option!! (35)
+
+cir> cirg 35 -fanin 3
+Error: Gate(35) not found!!
+Error: Illegal option!! (35)
+
+cir> cirg 35 -fanout 3
+Error: Gate(35) not found!!
+Error: Illegal option!! (35)
+
+cir> cirg 35 -fanin 4
+Error: Gate(35) not found!!
+Error: Illegal option!! (35)
+
+cir> cirg 35 -fanout 4
+Error: Gate(35) not found!!
+Error: Illegal option!! (35)
+
+cir> cirg 35 -fanin 5
+Error: Gate(35) not found!!
+Error: Illegal option!! (35)
+
+cir> cirg 35 -fanout 5
+Error: Gate(35) not found!!
+Error: Illegal option!! (35)
+
+cir> cirg 35 -fanin 6
+Error: Gate(35) not found!!
+Error: Illegal option!! (35)
+
+cir> cirg 35 -fanout 6
+Error: Gate(35) not found!!
+Error: Illegal option!! (35)
+
+cir> cirg 36
+Error: Gate(36) not found!!
+Error: Illegal option!! (36)
+
+cir> cirg 36 -fanin 0
+Error: Gate(36) not found!!
+Error: Illegal option!! (36)
+
+cir> cirg 36 -fanout 0
+Error: Gate(36) not found!!
+Error: Illegal option!! (36)
+
+cir> cirg 36 -fanin 1
+Error: Gate(36) not found!!
+Error: Illegal option!! (36)
+
+cir> cirg 36 -fanout 1
+Error: Gate(36) not found!!
+Error: Illegal option!! (36)
+
+cir> cirg 36 -fanin 2
+Error: Gate(36) not found!!
+Error: Illegal option!! (36)
+
+cir> cirg 36 -fanout 2
+Error: Gate(36) not found!!
+Error: Illegal option!! (36)
+
+cir> cirg 36 -fanin 3
+Error: Gate(36) not found!!
+Error: Illegal option!! (36)
+
+cir> cirg 36 -fanout 3
+Error: Gate(36) not found!!
+Error: Illegal option!! (36)
+
+cir> cirg 36 -fanin 4
+Error: Gate(36) not found!!
+Error: Illegal option!! (36)
+
+cir> cirg 36 -fanout 4
+Error: Gate(36) not found!!
+Error: Illegal option!! (36)
+
+cir> cirg 36 -fanin 5
+Error: Gate(36) not found!!
+Error: Illegal option!! (36)
+
+cir> cirg 36 -fanout 5
+Error: Gate(36) not found!!
+Error: Illegal option!! (36)
+
+cir> cirg 36 -fanin 6
+Error: Gate(36) not found!!
+Error: Illegal option!! (36)
+
+cir> cirg 36 -fanout 6
+Error: Gate(36) not found!!
+Error: Illegal option!! (36)
+
+cir> cirg 37
+Error: Gate(37) not found!!
+Error: Illegal option!! (37)
+
+cir> cirg 37 -fanin 0
+Error: Gate(37) not found!!
+Error: Illegal option!! (37)
+
+cir> cirg 37 -fanout 0
+Error: Gate(37) not found!!
+Error: Illegal option!! (37)
+
+cir> cirg 37 -fanin 1
+Error: Gate(37) not found!!
+Error: Illegal option!! (37)
+
+cir> cirg 37 -fanout 1
+Error: Gate(37) not found!!
+Error: Illegal option!! (37)
+
+cir> cirg 37 -fanin 2
+Error: Gate(37) not found!!
+Error: Illegal option!! (37)
+
+cir> cirg 37 -fanout 2
+Error: Gate(37) not found!!
+Error: Illegal option!! (37)
+
+cir> cirg 37 -fanin 3
+Error: Gate(37) not found!!
+Error: Illegal option!! (37)
+
+cir> cirg 37 -fanout 3
+Error: Gate(37) not found!!
+Error: Illegal option!! (37)
+
+cir> cirg 37 -fanin 4
+Error: Gate(37) not found!!
+Error: Illegal option!! (37)
+
+cir> cirg 37 -fanout 4
+Error: Gate(37) not found!!
+Error: Illegal option!! (37)
+
+cir> cirg 37 -fanin 5
+Error: Gate(37) not found!!
+Error: Illegal option!! (37)
+
+cir> cirg 37 -fanout 5
+Error: Gate(37) not found!!
+Error: Illegal option!! (37)
+
+cir> cirg 37 -fanin 6
+Error: Gate(37) not found!!
+Error: Illegal option!! (37)
+
+cir> cirg 37 -fanout 6
+Error: Gate(37) not found!!
+Error: Illegal option!! (37)
+
+cir> cirg 38
+Error: Gate(38) not found!!
+Error: Illegal option!! (38)
+
+cir> cirg 38 -fanin 0
+Error: Gate(38) not found!!
+Error: Illegal option!! (38)
+
+cir> cirg 38 -fanout 0
+Error: Gate(38) not found!!
+Error: Illegal option!! (38)
+
+cir> cirg 38 -fanin 1
+Error: Gate(38) not found!!
+Error: Illegal option!! (38)
+
+cir> cirg 38 -fanout 1
+Error: Gate(38) not found!!
+Error: Illegal option!! (38)
+
+cir> cirg 38 -fanin 2
+Error: Gate(38) not found!!
+Error: Illegal option!! (38)
+
+cir> cirg 38 -fanout 2
+Error: Gate(38) not found!!
+Error: Illegal option!! (38)
+
+cir> cirg 38 -fanin 3
+Error: Gate(38) not found!!
+Error: Illegal option!! (38)
+
+cir> cirg 38 -fanout 3
+Error: Gate(38) not found!!
+Error: Illegal option!! (38)
+
+cir> cirg 38 -fanin 4
+Error: Gate(38) not found!!
+Error: Illegal option!! (38)
+
+cir> cirg 38 -fanout 4
+Error: Gate(38) not found!!
+Error: Illegal option!! (38)
+
+cir> cirg 38 -fanin 5
+Error: Gate(38) not found!!
+Error: Illegal option!! (38)
+
+cir> cirg 38 -fanout 5
+Error: Gate(38) not found!!
+Error: Illegal option!! (38)
+
+cir> cirg 38 -fanin 6
+Error: Gate(38) not found!!
+Error: Illegal option!! (38)
+
+cir> cirg 38 -fanout 6
+Error: Gate(38) not found!!
+Error: Illegal option!! (38)
+
+cir> cirg 39
+Error: Gate(39) not found!!
+Error: Illegal option!! (39)
+
+cir> cirg 39 -fanin 0
+Error: Gate(39) not found!!
+Error: Illegal option!! (39)
+
+cir> cirg 39 -fanout 0
+Error: Gate(39) not found!!
+Error: Illegal option!! (39)
+
+cir> cirg 39 -fanin 1
+Error: Gate(39) not found!!
+Error: Illegal option!! (39)
+
+cir> cirg 39 -fanout 1
+Error: Gate(39) not found!!
+Error: Illegal option!! (39)
+
+cir> cirg 39 -fanin 2
+Error: Gate(39) not found!!
+Error: Illegal option!! (39)
+
+cir> cirg 39 -fanout 2
+Error: Gate(39) not found!!
+Error: Illegal option!! (39)
+
+cir> cirg 39 -fanin 3
+Error: Gate(39) not found!!
+Error: Illegal option!! (39)
+
+cir> cirg 39 -fanout 3
+Error: Gate(39) not found!!
+Error: Illegal option!! (39)
+
+cir> cirg 39 -fanin 4
+Error: Gate(39) not found!!
+Error: Illegal option!! (39)
+
+cir> cirg 39 -fanout 4
+Error: Gate(39) not found!!
+Error: Illegal option!! (39)
+
+cir> cirg 39 -fanin 5
+Error: Gate(39) not found!!
+Error: Illegal option!! (39)
+
+cir> cirg 39 -fanout 5
+Error: Gate(39) not found!!
+Error: Illegal option!! (39)
+
+cir> cirg 39 -fanin 6
+Error: Gate(39) not found!!
+Error: Illegal option!! (39)
+
+cir> cirg 39 -fanout 6
+Error: Gate(39) not found!!
+Error: Illegal option!! (39)
+
+cir> cirg 40
+Error: Gate(40) not found!!
+Error: Illegal option!! (40)
+
+cir> cirg 40 -fanin 0
+Error: Gate(40) not found!!
+Error: Illegal option!! (40)
+
+cir> cirg 40 -fanout 0
+Error: Gate(40) not found!!
+Error: Illegal option!! (40)
+
+cir> cirg 40 -fanin 1
+Error: Gate(40) not found!!
+Error: Illegal option!! (40)
+
+cir> cirg 40 -fanout 1
+Error: Gate(40) not found!!
+Error: Illegal option!! (40)
+
+cir> cirg 40 -fanin 2
+Error: Gate(40) not found!!
+Error: Illegal option!! (40)
+
+cir> cirg 40 -fanout 2
+Error: Gate(40) not found!!
+Error: Illegal option!! (40)
+
+cir> cirg 40 -fanin 3
+Error: Gate(40) not found!!
+Error: Illegal option!! (40)
+
+cir> cirg 40 -fanout 3
+Error: Gate(40) not found!!
+Error: Illegal option!! (40)
+
+cir> cirg 40 -fanin 4
+Error: Gate(40) not found!!
+Error: Illegal option!! (40)
+
+cir> cirg 40 -fanout 4
+Error: Gate(40) not found!!
+Error: Illegal option!! (40)
+
+cir> cirg 40 -fanin 5
+Error: Gate(40) not found!!
+Error: Illegal option!! (40)
+
+cir> cirg 40 -fanout 5
+Error: Gate(40) not found!!
+Error: Illegal option!! (40)
+
+cir> cirg 40 -fanin 6
+Error: Gate(40) not found!!
+Error: Illegal option!! (40)
+
+cir> cirg 40 -fanout 6
+Error: Gate(40) not found!!
+Error: Illegal option!! (40)
+
+cir> cirg 41
+Error: Gate(41) not found!!
+Error: Illegal option!! (41)
+
+cir> cirg 41 -fanin 0
+Error: Gate(41) not found!!
+Error: Illegal option!! (41)
+
+cir> cirg 41 -fanout 0
+Error: Gate(41) not found!!
+Error: Illegal option!! (41)
+
+cir> cirg 41 -fanin 1
+Error: Gate(41) not found!!
+Error: Illegal option!! (41)
+
+cir> cirg 41 -fanout 1
+Error: Gate(41) not found!!
+Error: Illegal option!! (41)
+
+cir> cirg 41 -fanin 2
+Error: Gate(41) not found!!
+Error: Illegal option!! (41)
+
+cir> cirg 41 -fanout 2
+Error: Gate(41) not found!!
+Error: Illegal option!! (41)
+
+cir> cirg 41 -fanin 3
+Error: Gate(41) not found!!
+Error: Illegal option!! (41)
+
+cir> cirg 41 -fanout 3
+Error: Gate(41) not found!!
+Error: Illegal option!! (41)
+
+cir> cirg 41 -fanin 4
+Error: Gate(41) not found!!
+Error: Illegal option!! (41)
+
+cir> cirg 41 -fanout 4
+Error: Gate(41) not found!!
+Error: Illegal option!! (41)
+
+cir> cirg 41 -fanin 5
+Error: Gate(41) not found!!
+Error: Illegal option!! (41)
+
+cir> cirg 41 -fanout 5
+Error: Gate(41) not found!!
+Error: Illegal option!! (41)
+
+cir> cirg 41 -fanin 6
+Error: Gate(41) not found!!
+Error: Illegal option!! (41)
+
+cir> cirg 41 -fanout 6
+Error: Gate(41) not found!!
+Error: Illegal option!! (41)
+
+cir> cirg 42
+Error: Gate(42) not found!!
+Error: Illegal option!! (42)
+
+cir> cirg 42 -fanin 0
+Error: Gate(42) not found!!
+Error: Illegal option!! (42)
+
+cir> cirg 42 -fanout 0
+Error: Gate(42) not found!!
+Error: Illegal option!! (42)
+
+cir> cirg 42 -fanin 1
+Error: Gate(42) not found!!
+Error: Illegal option!! (42)
+
+cir> cirg 42 -fanout 1
+Error: Gate(42) not found!!
+Error: Illegal option!! (42)
+
+cir> cirg 42 -fanin 2
+Error: Gate(42) not found!!
+Error: Illegal option!! (42)
+
+cir> cirg 42 -fanout 2
+Error: Gate(42) not found!!
+Error: Illegal option!! (42)
+
+cir> cirg 42 -fanin 3
+Error: Gate(42) not found!!
+Error: Illegal option!! (42)
+
+cir> cirg 42 -fanout 3
+Error: Gate(42) not found!!
+Error: Illegal option!! (42)
+
+cir> cirg 42 -fanin 4
+Error: Gate(42) not found!!
+Error: Illegal option!! (42)
+
+cir> cirg 42 -fanout 4
+Error: Gate(42) not found!!
+Error: Illegal option!! (42)
+
+cir> cirg 42 -fanin 5
+Error: Gate(42) not found!!
+Error: Illegal option!! (42)
+
+cir> cirg 42 -fanout 5
+Error: Gate(42) not found!!
+Error: Illegal option!! (42)
+
+cir> cirg 42 -fanin 6
+Error: Gate(42) not found!!
+Error: Illegal option!! (42)
+
+cir> cirg 42 -fanout 6
+Error: Gate(42) not found!!
+Error: Illegal option!! (42)
+
+cir> cirg 43
+Error: Gate(43) not found!!
+Error: Illegal option!! (43)
+
+cir> cirg 43 -fanin 0
+Error: Gate(43) not found!!
+Error: Illegal option!! (43)
+
+cir> cirg 43 -fanout 0
+Error: Gate(43) not found!!
+Error: Illegal option!! (43)
+
+cir> cirg 43 -fanin 1
+Error: Gate(43) not found!!
+Error: Illegal option!! (43)
+
+cir> cirg 43 -fanout 1
+Error: Gate(43) not found!!
+Error: Illegal option!! (43)
+
+cir> cirg 43 -fanin 2
+Error: Gate(43) not found!!
+Error: Illegal option!! (43)
+
+cir> cirg 43 -fanout 2
+Error: Gate(43) not found!!
+Error: Illegal option!! (43)
+
+cir> cirg 43 -fanin 3
+Error: Gate(43) not found!!
+Error: Illegal option!! (43)
+
+cir> cirg 43 -fanout 3
+Error: Gate(43) not found!!
+Error: Illegal option!! (43)
+
+cir> cirg 43 -fanin 4
+Error: Gate(43) not found!!
+Error: Illegal option!! (43)
+
+cir> cirg 43 -fanout 4
+Error: Gate(43) not found!!
+Error: Illegal option!! (43)
+
+cir> cirg 43 -fanin 5
+Error: Gate(43) not found!!
+Error: Illegal option!! (43)
+
+cir> cirg 43 -fanout 5
+Error: Gate(43) not found!!
+Error: Illegal option!! (43)
+
+cir> cirg 43 -fanin 6
+Error: Gate(43) not found!!
+Error: Illegal option!! (43)
+
+cir> cirg 43 -fanout 6
+Error: Gate(43) not found!!
+Error: Illegal option!! (43)
+
+cir> cirg 44
+Error: Gate(44) not found!!
+Error: Illegal option!! (44)
+
+cir> cirg 44 -fanin 0
+Error: Gate(44) not found!!
+Error: Illegal option!! (44)
+
+cir> cirg 44 -fanout 0
+Error: Gate(44) not found!!
+Error: Illegal option!! (44)
+
+cir> cirg 44 -fanin 1
+Error: Gate(44) not found!!
+Error: Illegal option!! (44)
+
+cir> cirg 44 -fanout 1
+Error: Gate(44) not found!!
+Error: Illegal option!! (44)
+
+cir> cirg 44 -fanin 2
+Error: Gate(44) not found!!
+Error: Illegal option!! (44)
+
+cir> cirg 44 -fanout 2
+Error: Gate(44) not found!!
+Error: Illegal option!! (44)
+
+cir> cirg 44 -fanin 3
+Error: Gate(44) not found!!
+Error: Illegal option!! (44)
+
+cir> cirg 44 -fanout 3
+Error: Gate(44) not found!!
+Error: Illegal option!! (44)
+
+cir> cirg 44 -fanin 4
+Error: Gate(44) not found!!
+Error: Illegal option!! (44)
+
+cir> cirg 44 -fanout 4
+Error: Gate(44) not found!!
+Error: Illegal option!! (44)
+
+cir> cirg 44 -fanin 5
+Error: Gate(44) not found!!
+Error: Illegal option!! (44)
+
+cir> cirg 44 -fanout 5
+Error: Gate(44) not found!!
+Error: Illegal option!! (44)
+
+cir> cirg 44 -fanin 6
+Error: Gate(44) not found!!
+Error: Illegal option!! (44)
+
+cir> cirg 44 -fanout 6
+Error: Gate(44) not found!!
+Error: Illegal option!! (44)
+
+cir> cirg 45
+Error: Gate(45) not found!!
+Error: Illegal option!! (45)
+
+cir> cirg 45 -fanin 0
+Error: Gate(45) not found!!
+Error: Illegal option!! (45)
+
+cir> cirg 45 -fanout 0
+Error: Gate(45) not found!!
+Error: Illegal option!! (45)
+
+cir> cirg 45 -fanin 1
+Error: Gate(45) not found!!
+Error: Illegal option!! (45)
+
+cir> cirg 45 -fanout 1
+Error: Gate(45) not found!!
+Error: Illegal option!! (45)
+
+cir> cirg 45 -fanin 2
+Error: Gate(45) not found!!
+Error: Illegal option!! (45)
+
+cir> cirg 45 -fanout 2
+Error: Gate(45) not found!!
+Error: Illegal option!! (45)
+
+cir> cirg 45 -fanin 3
+Error: Gate(45) not found!!
+Error: Illegal option!! (45)
+
+cir> cirg 45 -fanout 3
+Error: Gate(45) not found!!
+Error: Illegal option!! (45)
+
+cir> cirg 45 -fanin 4
+Error: Gate(45) not found!!
+Error: Illegal option!! (45)
+
+cir> cirg 45 -fanout 4
+Error: Gate(45) not found!!
+Error: Illegal option!! (45)
+
+cir> cirg 45 -fanin 5
+Error: Gate(45) not found!!
+Error: Illegal option!! (45)
+
+cir> cirg 45 -fanout 5
+Error: Gate(45) not found!!
+Error: Illegal option!! (45)
+
+cir> cirg 45 -fanin 6
+Error: Gate(45) not found!!
+Error: Illegal option!! (45)
+
+cir> cirg 45 -fanout 6
+Error: Gate(45) not found!!
+Error: Illegal option!! (45)
+
+cir> cirg 46
+Error: Gate(46) not found!!
+Error: Illegal option!! (46)
+
+cir> cirg 46 -fanin 0
+Error: Gate(46) not found!!
+Error: Illegal option!! (46)
+
+cir> cirg 46 -fanout 0
+Error: Gate(46) not found!!
+Error: Illegal option!! (46)
+
+cir> cirg 46 -fanin 1
+Error: Gate(46) not found!!
+Error: Illegal option!! (46)
+
+cir> cirg 46 -fanout 1
+Error: Gate(46) not found!!
+Error: Illegal option!! (46)
+
+cir> cirg 46 -fanin 2
+Error: Gate(46) not found!!
+Error: Illegal option!! (46)
+
+cir> cirg 46 -fanout 2
+Error: Gate(46) not found!!
+Error: Illegal option!! (46)
+
+cir> cirg 46 -fanin 3
+Error: Gate(46) not found!!
+Error: Illegal option!! (46)
+
+cir> cirg 46 -fanout 3
+Error: Gate(46) not found!!
+Error: Illegal option!! (46)
+
+cir> cirg 46 -fanin 4
+Error: Gate(46) not found!!
+Error: Illegal option!! (46)
+
+cir> cirg 46 -fanout 4
+Error: Gate(46) not found!!
+Error: Illegal option!! (46)
+
+cir> cirg 46 -fanin 5
+Error: Gate(46) not found!!
+Error: Illegal option!! (46)
+
+cir> cirg 46 -fanout 5
+Error: Gate(46) not found!!
+Error: Illegal option!! (46)
+
+cir> cirg 46 -fanin 6
+Error: Gate(46) not found!!
+Error: Illegal option!! (46)
+
+cir> cirg 46 -fanout 6
+Error: Gate(46) not found!!
+Error: Illegal option!! (46)
+
+cir> cirg 47
+Error: Gate(47) not found!!
+Error: Illegal option!! (47)
+
+cir> cirg 47 -fanin 0
+Error: Gate(47) not found!!
+Error: Illegal option!! (47)
+
+cir> cirg 47 -fanout 0
+Error: Gate(47) not found!!
+Error: Illegal option!! (47)
+
+cir> cirg 47 -fanin 1
+Error: Gate(47) not found!!
+Error: Illegal option!! (47)
+
+cir> cirg 47 -fanout 1
+Error: Gate(47) not found!!
+Error: Illegal option!! (47)
+
+cir> cirg 47 -fanin 2
+Error: Gate(47) not found!!
+Error: Illegal option!! (47)
+
+cir> cirg 47 -fanout 2
+Error: Gate(47) not found!!
+Error: Illegal option!! (47)
+
+cir> cirg 47 -fanin 3
+Error: Gate(47) not found!!
+Error: Illegal option!! (47)
+
+cir> cirg 47 -fanout 3
+Error: Gate(47) not found!!
+Error: Illegal option!! (47)
+
+cir> cirg 47 -fanin 4
+Error: Gate(47) not found!!
+Error: Illegal option!! (47)
+
+cir> cirg 47 -fanout 4
+Error: Gate(47) not found!!
+Error: Illegal option!! (47)
+
+cir> cirg 47 -fanin 5
+Error: Gate(47) not found!!
+Error: Illegal option!! (47)
+
+cir> cirg 47 -fanout 5
+Error: Gate(47) not found!!
+Error: Illegal option!! (47)
+
+cir> cirg 47 -fanin 6
+Error: Gate(47) not found!!
+Error: Illegal option!! (47)
+
+cir> cirg 47 -fanout 6
+Error: Gate(47) not found!!
+Error: Illegal option!! (47)
+
+cir> cirg 48
+Error: Gate(48) not found!!
+Error: Illegal option!! (48)
+
+cir> cirg 48 -fanin 0
+Error: Gate(48) not found!!
+Error: Illegal option!! (48)
+
+cir> cirg 48 -fanout 0
+Error: Gate(48) not found!!
+Error: Illegal option!! (48)
+
+cir> cirg 48 -fanin 1
+Error: Gate(48) not found!!
+Error: Illegal option!! (48)
+
+cir> cirg 48 -fanout 1
+Error: Gate(48) not found!!
+Error: Illegal option!! (48)
+
+cir> cirg 48 -fanin 2
+Error: Gate(48) not found!!
+Error: Illegal option!! (48)
+
+cir> cirg 48 -fanout 2
+Error: Gate(48) not found!!
+Error: Illegal option!! (48)
+
+cir> cirg 48 -fanin 3
+Error: Gate(48) not found!!
+Error: Illegal option!! (48)
+
+cir> cirg 48 -fanout 3
+Error: Gate(48) not found!!
+Error: Illegal option!! (48)
+
+cir> cirg 48 -fanin 4
+Error: Gate(48) not found!!
+Error: Illegal option!! (48)
+
+cir> cirg 48 -fanout 4
+Error: Gate(48) not found!!
+Error: Illegal option!! (48)
+
+cir> cirg 48 -fanin 5
+Error: Gate(48) not found!!
+Error: Illegal option!! (48)
+
+cir> cirg 48 -fanout 5
+Error: Gate(48) not found!!
+Error: Illegal option!! (48)
+
+cir> cirg 48 -fanin 6
+Error: Gate(48) not found!!
+Error: Illegal option!! (48)
+
+cir> cirg 48 -fanout 6
+Error: Gate(48) not found!!
+Error: Illegal option!! (48)
+
+cir> cirg 49
+Error: Gate(49) not found!!
+Error: Illegal option!! (49)
+
+cir> cirg 49 -fanin 0
+Error: Gate(49) not found!!
+Error: Illegal option!! (49)
+
+cir> cirg 49 -fanout 0
+Error: Gate(49) not found!!
+Error: Illegal option!! (49)
+
+cir> cirg 49 -fanin 1
+Error: Gate(49) not found!!
+Error: Illegal option!! (49)
+
+cir> cirg 49 -fanout 1
+Error: Gate(49) not found!!
+Error: Illegal option!! (49)
+
+cir> cirg 49 -fanin 2
+Error: Gate(49) not found!!
+Error: Illegal option!! (49)
+
+cir> cirg 49 -fanout 2
+Error: Gate(49) not found!!
+Error: Illegal option!! (49)
+
+cir> cirg 49 -fanin 3
+Error: Gate(49) not found!!
+Error: Illegal option!! (49)
+
+cir> cirg 49 -fanout 3
+Error: Gate(49) not found!!
+Error: Illegal option!! (49)
+
+cir> cirg 49 -fanin 4
+Error: Gate(49) not found!!
+Error: Illegal option!! (49)
+
+cir> cirg 49 -fanout 4
+Error: Gate(49) not found!!
+Error: Illegal option!! (49)
+
+cir> cirg 49 -fanin 5
+Error: Gate(49) not found!!
+Error: Illegal option!! (49)
+
+cir> cirg 49 -fanout 5
+Error: Gate(49) not found!!
+Error: Illegal option!! (49)
+
+cir> cirg 49 -fanin 6
+Error: Gate(49) not found!!
+Error: Illegal option!! (49)
+
+cir> cirg 49 -fanout 6
+Error: Gate(49) not found!!
+Error: Illegal option!! (49)
+
+cir> cirg 50
+Error: Gate(50) not found!!
+Error: Illegal option!! (50)
+
+cir> cirg 50 -fanin 0
+Error: Gate(50) not found!!
+Error: Illegal option!! (50)
+
+cir> cirg 50 -fanout 0
+Error: Gate(50) not found!!
+Error: Illegal option!! (50)
+
+cir> cirg 50 -fanin 1
+Error: Gate(50) not found!!
+Error: Illegal option!! (50)
+
+cir> cirg 50 -fanout 1
+Error: Gate(50) not found!!
+Error: Illegal option!! (50)
+
+cir> cirg 50 -fanin 2
+Error: Gate(50) not found!!
+Error: Illegal option!! (50)
+
+cir> cirg 50 -fanout 2
+Error: Gate(50) not found!!
+Error: Illegal option!! (50)
+
+cir> cirg 50 -fanin 3
+Error: Gate(50) not found!!
+Error: Illegal option!! (50)
+
+cir> cirg 50 -fanout 3
+Error: Gate(50) not found!!
+Error: Illegal option!! (50)
+
+cir> cirg 50 -fanin 4
+Error: Gate(50) not found!!
+Error: Illegal option!! (50)
+
+cir> cirg 50 -fanout 4
+Error: Gate(50) not found!!
+Error: Illegal option!! (50)
+
+cir> cirg 50 -fanin 5
+Error: Gate(50) not found!!
+Error: Illegal option!! (50)
+
+cir> cirg 50 -fanout 5
+Error: Gate(50) not found!!
+Error: Illegal option!! (50)
+
+cir> cirg 50 -fanin 6
+Error: Gate(50) not found!!
+Error: Illegal option!! (50)
+
+cir> cirg 50 -fanout 6
+Error: Gate(50) not found!!
+Error: Illegal option!! (50)
+
+cir> cirg 51
+Error: Gate(51) not found!!
+Error: Illegal option!! (51)
+
+cir> cirg 51 -fanin 0
+Error: Gate(51) not found!!
+Error: Illegal option!! (51)
+
+cir> cirg 51 -fanout 0
+Error: Gate(51) not found!!
+Error: Illegal option!! (51)
+
+cir> cirg 51 -fanin 1
+Error: Gate(51) not found!!
+Error: Illegal option!! (51)
+
+cir> cirg 51 -fanout 1
+Error: Gate(51) not found!!
+Error: Illegal option!! (51)
+
+cir> cirg 51 -fanin 2
+Error: Gate(51) not found!!
+Error: Illegal option!! (51)
+
+cir> cirg 51 -fanout 2
+Error: Gate(51) not found!!
+Error: Illegal option!! (51)
+
+cir> cirg 51 -fanin 3
+Error: Gate(51) not found!!
+Error: Illegal option!! (51)
+
+cir> cirg 51 -fanout 3
+Error: Gate(51) not found!!
+Error: Illegal option!! (51)
+
+cir> cirg 51 -fanin 4
+Error: Gate(51) not found!!
+Error: Illegal option!! (51)
+
+cir> cirg 51 -fanout 4
+Error: Gate(51) not found!!
+Error: Illegal option!! (51)
+
+cir> cirg 51 -fanin 5
+Error: Gate(51) not found!!
+Error: Illegal option!! (51)
+
+cir> cirg 51 -fanout 5
+Error: Gate(51) not found!!
+Error: Illegal option!! (51)
+
+cir> cirg 51 -fanin 6
+Error: Gate(51) not found!!
+Error: Illegal option!! (51)
+
+cir> cirg 51 -fanout 6
+Error: Gate(51) not found!!
+Error: Illegal option!! (51)
+
+cir> cirg 52
+Error: Gate(52) not found!!
+Error: Illegal option!! (52)
+
+cir> cirg 52 -fanin 0
+Error: Gate(52) not found!!
+Error: Illegal option!! (52)
+
+cir> cirg 52 -fanout 0
+Error: Gate(52) not found!!
+Error: Illegal option!! (52)
+
+cir> cirg 52 -fanin 1
+Error: Gate(52) not found!!
+Error: Illegal option!! (52)
+
+cir> cirg 52 -fanout 1
+Error: Gate(52) not found!!
+Error: Illegal option!! (52)
+
+cir> cirg 52 -fanin 2
+Error: Gate(52) not found!!
+Error: Illegal option!! (52)
+
+cir> cirg 52 -fanout 2
+Error: Gate(52) not found!!
+Error: Illegal option!! (52)
+
+cir> cirg 52 -fanin 3
+Error: Gate(52) not found!!
+Error: Illegal option!! (52)
+
+cir> cirg 52 -fanout 3
+Error: Gate(52) not found!!
+Error: Illegal option!! (52)
+
+cir> cirg 52 -fanin 4
+Error: Gate(52) not found!!
+Error: Illegal option!! (52)
+
+cir> cirg 52 -fanout 4
+Error: Gate(52) not found!!
+Error: Illegal option!! (52)
+
+cir> cirg 52 -fanin 5
+Error: Gate(52) not found!!
+Error: Illegal option!! (52)
+
+cir> cirg 52 -fanout 5
+Error: Gate(52) not found!!
+Error: Illegal option!! (52)
+
+cir> cirg 52 -fanin 6
+Error: Gate(52) not found!!
+Error: Illegal option!! (52)
+
+cir> cirg 52 -fanout 6
+Error: Gate(52) not found!!
+Error: Illegal option!! (52)
+
+cir> q -f
+
