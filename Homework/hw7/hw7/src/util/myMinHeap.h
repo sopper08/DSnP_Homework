@@ -29,10 +29,51 @@ public:
    size_t size() const { return _data.size(); }
 
    // TODO
-   const Data& min() const { return Data(); }
-   void insert(const Data& d) { }
-   void delMin() { }
-   void delData(size_t i) { }
+   const Data& min() const { return _data[0]; }
+   void insert(const Data& d) 
+   { 
+      size_t s = size() - 1;
+      size_t t = ++s;
+      _data.push_back(d);
+      while (t > 1)
+      {
+         size_t p = (t - 1) / 2;
+         if (_data[p] < d) break;
+         _data[t] = _data[p];
+         t = p;
+      }
+      _data[t] = d;
+   }
+   void delMin()
+   {
+      size_t p = 0, t = 2 * p + 1;
+      size_t s = size() - 1;
+      while (t <= s)
+      {
+         if (t < s) // has right tree
+            if (_data[t+1] < _data[t]) ++t;
+            if (_data[s] < _data[t]) break;
+            _data[p] = _data[t];
+            p = t;
+            t = 2 * p + 1;
+      }
+      _data[p] = _data[s--];
+   }
+   void delData(size_t i)
+   {
+      size_t p = i, t = 2 * p + 1;
+      size_t s = size() - 1;
+      while (t <= s)
+      {
+         if (t < s) // has right tree
+            if (_data[t+1] < _data[t]) ++t;
+            if (_data[s] < _data[t]) break;
+            _data[p] = _data[t];
+            p = t;
+            t = 2 * p + 1;
+      }
+      _data[p] = _data[s--];
+   }
 
 private:
    // DO NOT add or change data members

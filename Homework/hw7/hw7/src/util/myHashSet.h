@@ -68,7 +68,7 @@ public:
             if (!v->empty()) { itr = v->begin(); return (*this); }
          }
 
-         itr = (set->_buckets + set->_numBuckets)->end();
+         itr = v->end();
          return (*this);
       }
       iterator operator ++ (int) { HashSet::iterator tmp = *this; ++this; return tmp; }
@@ -91,7 +91,6 @@ public:
       iterator& operator = (const iterator& i) { itr = i; return (*this); }
       bool operator != (const iterator& i) const { return !((char*)(&(*itr)) == (char*)(&(*i))); }
       bool operator == (const iterator& i) const { return  ((char*)(&(*itr)) == (char*)(&(*i))); }
-
 
    private:
       const HashSet* set;
@@ -127,7 +126,7 @@ public:
    iterator end() const 
    {
       if (empty()) return begin();
-      return iterator((_buckets + _numBuckets)->end(), this);
+      return iterator((_buckets + _numBuckets - 1)->end(), this);
    }
    // return true if no valid data
    bool empty() const 
