@@ -48,17 +48,15 @@ public:
       friend class HashSet<Data>;
 
    public:
-      // iterator(typename vector<Data>::iterator i): itr(i) { }
       iterator() { }
-      iterator(typename vector<Data>::iterator i, const HashSet* s): itr(i) { set = s; }
+      iterator(typename vector<Data>::iterator i, const HashSet* s) { itr = i; set = s; }
       ~iterator() { }
 
       const Data& operator * () const { return *itr; }
       Data& operator * () { return *itr; }
-      // iterator& operator ++ () { return (*this); }
       iterator& operator ++ () 
       {
-         size_t bNum = (*itr)();
+         size_t bNum = set->bucketNum(*itr);
          // check self bucket first
          vector<Data>* v = (set->_buckets + bNum);
          if (next(itr) != v->end()) { itr = next(itr); return (*this); }
@@ -69,9 +67,30 @@ public:
             v = (set->_buckets + bNum);
             if (!v->empty()) { itr = v->begin(); return (*this); }
          }
+
+         itr = (set->_buckets + set->_numBuckets)->end();
+         return (*this);
       }
-      
-      bool operator != (const iterator& i) const { return true; }
+      iterator operator ++ (int) { HashSet::iterator tmp = *this; ++this; return tmp; }
+      iterator& operator -- ()
+      {
+         size_t bNum = set->bucketNum(*itr);
+         // check self bucket first
+         vector<Data>* v = (set->_buckets + bNum);
+         if (itr != v->begin()) { itr = prev(itr); return (*this); }
+
+         // check the foregoing buckets
+         for (bNum-=1; bNum >= 0; --bNum)
+         {
+            v = (set->_buckets + bNum);
+            if (!v->empty()) { itr = prev(v->end()); return (*this); }
+         }
+      }
+      iterator operator -- (int) { HashSet::iterator tmp = *this; --this; return tmp; }
+
+      iterator& operator = (const iterator& i) { itr = i; return (*this); }
+      bool operator != (const iterator& i) const { return !((char*)(&(*itr)) == (char*)(&(*i))); }
+      bool operator == (const iterator& i) const { return  ((char*)(&(*itr)) == (char*)(&(*i))); }
 
 
    private:
@@ -102,15 +121,29 @@ public:
          vector<Data>* v = (_buckets + i);
          if (!v->empty()) return iterator(v->begin(), this);
       }
-
-      // return _buckets;
+      return iterator();
    }
    // Pass the end
-   iterator end() const { return iterator(); }
+   iterator end() const 
+   {
+      if (empty()) return begin();
+      return iterator((_buckets + _numBuckets)->end(), this);
+   }
    // return true if no valid data
-   bool empty() const { return true; }
+   bool empty() const 
+   { 
+      for (size_t i = 0; i < _numBuckets; ++i)
+         if (!((_buckets + i)->empty())) return false;
+      return true; 
+   }
    // number of valid data
-   size_t size() const { size_t s = 0; return s; }
+   size_t size() const 
+   { 
+      size_t s = 0; 
+      for (size_t i = 0; i < _numBuckets; ++i)
+         s += ((_buckets + i)->size());
+      return s;
+   }
 
    // check if d is in the hash...
    // if yes, return true;
