@@ -48,14 +48,35 @@ public:
       friend class HashSet<Data>;
 
    public:
-      const Data& operator * () const { return Data(); }
-      iterator& operator ++ () { return (*this); }
-      bool operator != (const iterator& i) const { return true; }
-      
+      // iterator(typename vector<Data>::iterator i): itr(i) { }
+      iterator() { }
+      iterator(typename vector<Data>::iterator i, const HashSet* s): itr(i) { set = s; }
+      ~iterator() { }
 
+      const Data& operator * () const { return *itr; }
+      Data& operator * () { return *itr; }
+      // iterator& operator ++ () { return (*this); }
+      iterator& operator ++ () 
+      {
+         size_t bNum = (*itr)();
+         // check self bucket first
+         vector<Data>* v = (set->_buckets + bNum);
+         if (next(itr) != v->end()) { itr = next(itr); return (*this); }
+
+         // check self bucket first
+         for (bNum+=1; bNum < set->_numBuckets; ++bNum)
+         {
+            v = (set->_buckets + bNum);
+            if (!v->empty()) { itr = v->begin(); return (*this); }
+         }
+      }
+      
+      bool operator != (const iterator& i) const { return true; }
 
 
    private:
+      const HashSet* set;
+      typename vector<Data>::iterator itr;
    };
 
    void init(size_t b) { _numBuckets = b; _buckets = new vector<Data>[b]; }
@@ -74,7 +95,16 @@ public:
    // TODO: implement these functions
    //
    // Point to the first valid data
-   iterator begin() const { return iterator(); }
+   iterator begin() const
+   { 
+      for (size_t i = 0; i < _numBuckets; ++i)
+      {
+         vector<Data>* v = (_buckets + i);
+         if (!v->empty()) return iterator(v->begin(), this);
+      }
+
+      // return _buckets;
+   }
    // Pass the end
    iterator end() const { return iterator(); }
    // return true if no valid data
@@ -85,25 +115,67 @@ public:
    // check if d is in the hash...
    // if yes, return true;
    // else return false;
-   bool check(const Data& d) const { return false; }
+   bool check(const Data& d) const 
+   {
+      size_t bNum = bucketNum(d);
+      auto v = (_buckets + bNum);
+      auto it = v->begin();
+      for (; it != v->end(); ++it)
+         if ((*it) == d) return true;
+      return false;
+   }
 
    // query if d is in the hash...
    // if yes, replace d with the data in the hash and return true;
    // else return false;
-   bool query(Data& d) const { return false; }
+   bool query(Data& d) const
+   { 
+      size_t bNum = bucketNum(d);
+      auto v = (_buckets + bNum);
+      auto it = v->begin();
+      for (; it != v->end(); ++it)
+         if ((*it) == d) { d = (*it); return true; }
+      return false;
+   }
 
    // update the entry in hash that is equal to d (i.e. == return true)
    // if found, update that entry with d and return true;
    // else insert d into hash as a new entry and return false;
-   bool update(const Data& d) { return false; }
+   bool update(const Data& d) 
+   {
+      size_t bNum = bucketNum(d);
+      auto v = (_buckets + bNum);
+      auto it = v->begin();
+      for (; it != v->end(); ++it)
+         if ((*it) == d) { (*it) = d; return true; }
+      
+      insert(d);
+      return false;
+   }
 
    // return true if inserted successfully (i.e. d is not in the hash)
    // return false is d is already in the hash ==> will not insert
-   bool insert(const Data& d) { return true; }
+   bool insert(const Data& d)
+   { 
+      if (check(d)) return false;
+      
+      size_t bNum = bucketNum(d);
+      (_buckets + bNum)->push_back(d);
+      return true; 
+   }
 
    // return true if removed successfully (i.e. d is in the hash)
-   // return fasle otherwise (i.e. nothing is removed)
-   bool remove(const Data& d) { return false; }
+   // return false otherwise (i.e. nothing is removed)
+   bool remove(const Data& d) 
+   {
+      size_t bNum = bucketNum(d);
+      auto v = (_buckets + bNum);
+      auto it = v->begin();
+      for (; it != v->end(); ++it)
+         if ((*it) == d) { v->erase(it); return true; }
+
+      return false; 
+   }
 
 private:
    // Do not add any extra data member
