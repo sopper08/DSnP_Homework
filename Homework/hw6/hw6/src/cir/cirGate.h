@@ -27,17 +27,20 @@ class CirGate
 public:
    CirGate() {}
    CirGate(unsigned g, int l, string t):
-      _gateID(g), _lineNo(++l), _typeStr(t), _globalRef(false), _active(false), _fanoutGate(this), _fanoutGateInvPhase(false){ }
+      _gateID(g), _lineNo(l), _typeStr(t), _globalRef(false), _active(false) { }
    virtual ~CirGate() {}
 
    // Basic access methods
    string getTypeStr() const { return _typeStr; }
    unsigned getGateID() const { return _gateID; }
    unsigned getLineNo() const { return _lineNo; }
+   string getSymbol() const { return _symbol; }
+   // fanin
    IdList getFaninIdList() const { return _faninID; }
    GateList getFaninGateList() const { return _faninGateList; }
-   CirGate* getFanoutGate() const { return _fanoutGate; }
-   vector<bool> getFaninGateInv() const { return _invPhase; }
+   vector<bool> getFaninGateInv() const { return _faninGateInvPhaseList; }
+   // fanout
+   GateList getFanoutGateList() const { return _fanoutGateList; }
 
    // Printing functions
    virtual void printGate() const = 0;
@@ -47,7 +50,10 @@ public:
 
    // set fanin & fanout
    void setFanin(GateList& gL) { _faninGateList = gL; };
-   void setFanout(CirGate*& g, bool i) { _fanoutGate = g; _fanoutGateInvPhase = i;}
+   void setFanout(CirGate*& g, bool i) { _fanoutGateList.push_back(g); _fanoutGateInvPhaseList.push_back(i); }
+
+   // set symbol
+   void setSymbol(string& s) { _symbol = s; }
 
    // dfs
    void dfsTraversal(GateList&);
@@ -65,29 +71,39 @@ private:
    bool _globalRef;
    bool _active;
 
-   // void _faninTraversal(int, vector<pair<unsigned, CirGate*>>&);
-
 protected:
    GateList _faninGateList;
-   CirGate* _fanoutGate;
+   GateList _fanoutGateList;
    IdList _faninID;
    IdList _fanoutID;
-   vector<bool> _invPhase;
-   bool _fanoutGateInvPhase;
+   vector<bool> _faninGateInvPhaseList;
+   vector<bool> _fanoutGateInvPhaseList;
+   string _symbol;
+
+};
+
+class CirConstGate: public CirGate
+{
+public:
+   CirConstGate(unsigned g = 0, unsigned l = 0): CirGate(g, l, "CONST") { }
+   
+   void printGate() const { cout << left << setw(3) << getTypeStr() << getGateID() << endl; }
+
+private:
 
 };
 
 class CirPiGate: public CirGate
 {
 public:
-   CirPiGate(unsigned g, unsigned l, string s = "PI"): CirGate(g, l, s)
-   {
-      // cout << "Add new gate: " << getTypeStr() << endl;
-      // cout << "_lineNo     : " << getLineNo() << endl;
-      // cout << "_gateID     : " << getGateID() << endl;
-   } 
+   CirPiGate(unsigned g, unsigned l): CirGate(g, ++l, "PI") { }
 
-   void printGate() const {}
+   void printGate() const 
+   { 
+      cout << left << setw(3) << getTypeStr() << " " << getGateID();
+      if (!_symbol.empty()) cout << " (" << _symbol << ")";
+      cout << endl;
+   }
 
 private:
 
@@ -96,18 +112,27 @@ private:
 class CirPoGate: public CirGate
 {
 public:
-   CirPoGate(unsigned g, unsigned l, unsigned inID, bool inv): CirGate(g, l, "PO")
+   CirPoGate(unsigned g, unsigned l, unsigned inID, bool inv): CirGate(g, ++l, "PO")
    {
       _faninID.push_back(inID);
-      _invPhase.push_back(inv);
-      // cout << "Add new gate: " << getTypeStr() << endl;
-      // cout << "_lineNo     : " << getLineNo() << endl;
-      // cout << "_gateID     : " << getGateID() << endl;
-      // cout << "_fanin0ID   : " << inID << endl;
-      // cout << "_invPhase   : " << inv << endl;
+      _faninGateInvPhaseList.push_back(inv);
    }
 
-   void printGate() const {}
+   void printGate() const 
+   { 
+      cout << left << setw(3) << getTypeStr() << " " << getGateID();
+      int invIdx = 0;
+      for (auto it = _faninGateList.begin(); it != _faninGateList.end(); ++it)
+      {
+         cout << " ";
+         if (!(*it)->getTypeStr().compare("UNDEF")) cout << "*";
+         if (_faninGateInvPhaseList.at(invIdx)) cout << "!";
+         cout << (*it)->getGateID();
+         ++invIdx;
+      }
+      if (!_symbol.empty()) cout << " (" << _symbol << ")";
+      cout << endl;
+   }
 
 private:
 
@@ -117,20 +142,26 @@ class CirAigGate: public CirGate
 {
 public:
    CirAigGate(unsigned g, unsigned l, unsigned in0ID, unsigned in1ID, bool inv0, bool inv1):
-      CirGate(g, l, "AIG")
+      CirGate(g, ++l, "AIG")
    {
       _faninID.push_back(in0ID); _faninID.push_back(in1ID);
-      _invPhase.push_back(inv0); _invPhase.push_back(inv1);
-      // cout << "Add new gate: " << getTypeStr() << endl;
-      // cout << "_lineNo     : " << getLineNo() << endl;
-      // cout << "_gateID     : " << getGateID() << endl;
-      // cout << "_fanin0ID   : " << in0ID << endl;
-      // cout << "_fanin1ID   : " << in1ID << endl;
-      // cout << "_inv0Phase  : " << inv0 << endl;
-      // cout << "_inv1Phase  : " << inv1 << endl;
+      _faninGateInvPhaseList.push_back(inv0); _faninGateInvPhaseList.push_back(inv1);
    }
 
-   void printGate() const {}
+   void printGate() const
+   { 
+      cout << left << setw(3) << getTypeStr() << " " << getGateID();
+      int invIdx = 0;
+      for (auto it = _faninGateList.begin(); it != _faninGateList.end(); ++it)
+      {
+         cout << " ";
+         if (!(*it)->getTypeStr().compare("UNDEF")) cout << "*";
+         if (_faninGateInvPhaseList.at(invIdx)) cout << "!";
+         cout << (*it)->getGateID();
+         ++invIdx;
+      }
+      cout << endl;
+   }
 
 private:
 
@@ -142,7 +173,9 @@ public:
    CirUndefGate(unsigned g, unsigned l = 0):
       CirGate(g, l, "UNDEF") { }
 
-   void printGate() const { }
+   void printGate() const { cout << left << setw(3) << getTypeStr() << " " << getGateID(); }
 };
+
+
 
 #endif // CIR_GATE_H

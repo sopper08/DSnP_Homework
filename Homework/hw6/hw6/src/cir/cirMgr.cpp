@@ -7,6 +7,7 @@
 ****************************************************************************/
 
 #include <iostream>
+#include <sstream>
 #include <iomanip>
 #include <cstdio>
 #include <ctype.h>
@@ -154,33 +155,27 @@ CirMgr::readCircuit(const string& fileName)
    ifstream fin(fileName);
    vector<string> lines;
    string         line;
-
+   
    while (getline(fin, line)) lines.push_back(line);
+   if (lines.empty()) return false;
 
-   // cout << "line[" << lineNo << "] read header: ";
    readHeader(lines.at(lineNo));
-   // cout << endl;
-   lineNo++;
+   ++lineNo;
 
    for (int i = 0; i < _header[1]; ++i, ++lineNo)
-   {
-      // cout << "line[" << lineNo << "] read input : ";
       readInput(lines.at(lineNo), lineNo);
-      // cout << endl;
-   }
 
    for (int i = 0; i < _header[3]; ++i, ++lineNo)
-   {
-      // cout << "line[" << lineNo << "] read output: ";
       readOutput(lines.at(lineNo), lineNo);
-      // cout << endl;
-   }
 
    for (int i = 0; i < _header[4]; ++i, ++lineNo)
-   {
-      // cout << "line[" << lineNo << "] read aig   : ";
       readAig(lines.at(lineNo), lineNo);
-      // cout << endl;
+   
+
+   while (lineNo < lines.size())
+   {
+      if (!lines.at(lineNo).compare("c")) break;
+      readSymbol(lines[lineNo++]);
    }
 
    connect();
@@ -228,17 +223,7 @@ CirMgr::printNetlist() const
    for (auto it = _dfsList.begin(); it != _dfsList.end(); ++it)
    {
       cout << "[" << i << "] ";
-      cout << left << setw(3) << (*it)->getTypeStr() << " " << (*it)->getGateID() << " ";
-      GateList faninGateList = (*it)->getFaninGateList();
-      vector<bool> invPhase = (*it)->getFaninGateInv();
-      int invIdx = 0;
-      for (auto itt = faninGateList.begin(); itt != faninGateList.end(); ++itt, ++invIdx)
-      {
-         if (!(*itt)->getTypeStr().compare("UNDEF")) cout << "*";
-         if (invPhase.at(invIdx)) cout << "!";
-         cout << (*itt)->getGateID() << " ";
-      }
-      cout << endl;
+      (*it)->printGate();
       ++i;
    }
 }
@@ -246,18 +231,18 @@ CirMgr::printNetlist() const
 void
 CirMgr::printPIs() const
 {
-   cout << "PIs of the circuit: ";
+   cout << "PIs of the circuit:";
    for (auto it = _piList.begin(); it != _piList.end(); ++it)
-      cout << (*it)->getGateID() << " ";
+      cout << " " << (*it)->getGateID();
    cout << endl;
 }
 
 void
 CirMgr::printPOs() const
 {
-   cout << "POs of the circuit: ";
+   cout << "POs of the circuit:";
    for (auto it = _poList.begin(); it != _poList.end(); ++it)
-      cout << (*it)->getGateID() << " ";
+      cout << " " << (*it)->getGateID();
    cout << endl;
 }
 
@@ -266,16 +251,16 @@ CirMgr::printFloatGates() const
 {
    if (!_floatingGates.empty())
    {
-      cout << "Gates with floating fanin(s): ";
+      cout << "Gates with floating fanin(s):";
       for (auto it = _floatingGates.begin(); it != _floatingGates.end(); ++it)
-         cout << (*it) << " ";
+         cout << " " << (*it);
       cout << endl;
    }
    if (!_notUsedGates.empty())
    {
-      cout << "Gates defined but not used  : ";
+      cout << "Gates defined but not used  :";
       for (auto it = _notUsedGates.begin(); it != _notUsedGates.end(); ++it)
-         cout << (*it) << " ";
+         cout << " " << (*it);
       cout << endl;
    }
 }
@@ -283,10 +268,63 @@ CirMgr::printFloatGates() const
 void
 CirMgr::writeAag(ostream& outfile) const
 {
+   stringstream sPi;
+   stringstream sPo;
+   stringstream sAig;
+   stringstream sSymbol;
+
+   int numOfAig = 0;
+
+   for (auto it = _dfsList.begin(); it != _dfsList.end(); ++it)
+   {
+      if (!(*it)->getTypeStr().compare("PI"))
+      {
+         unsigned gid = (*it)->getGateID();
+         sPi << 2*gid << endl;
+
+         string symbol = (*it)->getSymbol();
+         if (!symbol.empty()) sSymbol << "i" << gid-1 << " " << symbol << endl;
+      }
+      else if (!(*it)->getTypeStr().compare("PO"))
+      {
+         unsigned gid = (*it)->getGateID();
+         GateList fanin = (*it)->getFaninGateList();
+         unsigned faninGateId = fanin.at(0)->getGateID();
+         vector<bool> inv = (*it)->getFaninGateInv();
+         bool faninInv = inv.at(0);
+         sPo << ((2*faninGateId) + int(faninInv)) << endl;
+
+         string symbol = (*it)->getSymbol();
+         if (!symbol.empty()) sSymbol << "o" << gid-_header[0] << " " << symbol << endl;
+      }
+      else if (!(*it)->getTypeStr().compare("AIG"))
+      {
+         unsigned gid = (*it)->getGateID();
+         sAig << 2*gid;
+         GateList fanin = (*it)->getFaninGateList();
+         int invIdx = 0;
+         for (auto itt = fanin.begin(); itt != fanin.end(); ++itt)
+         {
+            unsigned faninGateId = (*itt)->getGateID();
+            bool faninInv = (*it)->getFaninGateInv()[invIdx];
+
+            sAig << " " << ((2*faninGateId) + int(faninInv));
+            ++invIdx;
+         }
+         sAig << endl;
+
+         ++numOfAig;
+      }
+   }
+   outfile << "aag";
+   for (auto it = _header.begin(); it != _header.end()-1; ++it) cout << " " << (*it);
+   outfile << " " << numOfAig << endl;
+   outfile << sPi.str() << sPo.str() << sAig.str() << sSymbol.str();
+   outfile << "c\nAAG output by Sopper Lee" << endl;
 }
 
 bool
-CirMgr::readHeader(string line)
+CirMgr::readHeader(string& line)
 {
    line = line.substr(4);
    lexOptions(line, _header, 5);
@@ -295,7 +333,7 @@ CirMgr::readHeader(string line)
 }
 
 bool
-CirMgr::readInput(string line, int lineNo)
+CirMgr::readInput(string& line, int lineNo)
 {
    int gateId;
    myStr2Int(line, gateId);
@@ -308,7 +346,7 @@ CirMgr::readInput(string line, int lineNo)
 }
 
 bool
-CirMgr::readOutput(string line, int lineNo)
+CirMgr::readOutput(string& line, int lineNo)
 {
    int gateId = _header[0] + _poList.size() + 1;
    int faninId;
@@ -326,7 +364,7 @@ CirMgr::readOutput(string line, int lineNo)
 }
 
 bool
-CirMgr::readAig(string line, int lineNo)
+CirMgr::readAig(string& line, int lineNo)
 {
    vector<int> tokens;
    int gateId;
@@ -347,6 +385,27 @@ CirMgr::readAig(string line, int lineNo)
    _gateList[gateId] = aig;
 
    return true;
+}
+
+bool
+CirMgr::readSymbol(string& line)
+{
+   // cout << line << endl;
+   string gateType, tmp;
+   int order;
+   size_t pos;
+   
+   // get gate type
+   gateType = line.at(0);
+   line = line.substr(1);
+   // get order
+   pos = myStrGetTok(line, tmp);
+   myStr2Int(tmp, order);
+   // get symbol
+   pos = myStrGetTok(line, tmp, pos);
+
+   if (!gateType.compare("i")) _piList[order]->setSymbol(tmp);
+   else if (!gateType.compare("o")) _poList[order]->setSymbol(tmp);
 }
 
 bool
@@ -391,8 +450,11 @@ CirMgr::rconnect()
       {
          GateList faninGateList = it->second->getFaninGateList();
          int invIdx = 0;
-         for (auto itt = faninGateList.begin(); itt != faninGateList.end(); ++itt, ++invIdx)
+         for (auto itt = faninGateList.begin(); itt != faninGateList.end(); ++itt)
+         {
             (*itt)->setFanout(it->second, it->second->getFaninGateInv()[invIdx]);
+            ++invIdx;
+         }
       }
    }
    return true;
@@ -410,18 +472,29 @@ CirMgr::genDFSList()
 bool
 CirMgr::checkFloatingAndNotUsedGates()
 {
-   for (auto it = _gateList.begin(); it != _gateList.end(); ++it)
+   auto it = _gateList.begin();
+   for (++it ; it != _gateList.end(); ++it)
    {
       // not used
       unsigned gateId = it->first;
-      if (it->second->getFanoutGate() == it->second &&
+      if (it->second->getFanoutGateList().empty() &&
           it->second->getTypeStr().compare("PO")) 
          _notUsedGates.push_back(gateId);
+      // floating
       GateList faninGateList = it->second->getFaninGateList();
       for (auto itt = faninGateList.begin(); itt != faninGateList.end(); ++itt)
          if (!(*itt)->getTypeStr().compare("UNDEF")) { _floatingGates.push_back(gateId); continue; }
    }
+   
    return true;
+}
+
+void
+CirMgr::reset()
+{
+   lineNo = 0;
+   for (auto it = _gateList.begin(); it != _gateList.end(); ++it)
+      delete it->second;
 }
 
 bool

@@ -30,7 +30,9 @@ CirGate::reportGate() const
 {
    stringstream ss;
 
-   ss << getTypeStr() << "(" << getGateID() << "), line " << getLineNo();
+   ss << getTypeStr() << "(" << getGateID() << ")";
+   if (!_symbol.empty()) ss << "\"" << _symbol << "\"";
+   ss << ", line " << getLineNo();
 
    cout << "==================================================" << endl;
    cout << left << setw(2) <<  "= ";
@@ -64,7 +66,7 @@ CirGate::reportFanin(int level) const
       else if (nLevel < 0 && intent == level) { faninLevelIdList.clear(); intent = -1; return;}
       faninLevelIdList.push_back(getGateID());
       for (int i = 0; i < (intent - nLevel); ++i) cout << "  ";
-      if (_invPhase.at(invIdx)) cout << "!";
+      if (_faninGateInvPhaseList.at(invIdx)) cout << "!";
       (*it)->reportFanin(nLevel);
    }
    if (intent == level) { faninLevelIdList.clear(); intent = -1; }
@@ -75,37 +77,29 @@ CirGate::reportFanout(int level) const
 {
    assert (level >= 0);
    static int intent = -1;
-   static IdList printedIdList;
+   static IdList fanoutLevelIdList;
 
    if (intent == -1) intent = level;
 
-   // print Type name and Id
    cout << getTypeStr() << " " << getGateID();
 
-   // if printed, print (*)
-   IdList::iterator pos = find(printedIdList.begin(), printedIdList.end(), getGateID());
-   if ((pos != printedIdList.end()) && (level > 0))
+   IdList::iterator pos = find(fanoutLevelIdList.begin(), fanoutLevelIdList.end(), getGateID());
+   if ((pos != fanoutLevelIdList.end()) && (level > 0))
       { cout << " (*)" << endl; return; }
    cout << endl;
 
-   // if 1. the next level don't need to be printed,
-   //    2. the fanout gate is not exist
-   // return.
-
-   if (_fanoutGate != this)
+   int invIdx = 0;
+   for (auto it = _fanoutGateList.begin(); it != _fanoutGateList.end(); ++it, ++invIdx)
    {
       int nLevel = level - 1;
       if (nLevel < 0 && intent != level) return;
-      else if (nLevel < 0 && intent == level) { printedIdList.clear(); intent = -1; return;}
-      // print intent space and inv phase
+      else if (nLevel < 0 && intent == level) { fanoutLevelIdList.clear(); intent = -1; return;}
+      fanoutLevelIdList.push_back(getGateID());
       for (int i = 0; i < (intent - nLevel); ++i) cout << "  ";
-      if (_fanoutGateInvPhase) cout << "!";
-
-      printedIdList.push_back(getGateID());
-      _fanoutGate->reportFanout(nLevel);
+      if (_fanoutGateInvPhaseList.at(invIdx)) cout << "!";
+      (*it)->reportFanout(nLevel);
    }
-   // if return to the last, clear printedIdList
-   if (intent == level) { printedIdList.clear(); intent = -1; }
+   if (intent == level) { fanoutLevelIdList.clear(); intent = -1; }
 }
 
 void

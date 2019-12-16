@@ -28,10 +28,13 @@ class CirMgr
 public:
    CirMgr()
    {
-      const0 = new CirPiGate(0, -1, "CONST");
+      const0 = new CirConstGate();
       _gateList[0] = const0;
    }
-   ~CirMgr() {}
+   ~CirMgr() 
+   {
+      reset();
+   }
 
    // Access functions
    // return '0' if "gid" corresponds to an undefined gate.
@@ -56,14 +59,16 @@ public:
    CirGate* const0;
 
 private:
-   bool readHeader(string);
-   bool readInput(string, int);
-   bool readOutput(string, int);
-   bool readAig(string, int);
+   bool readHeader(string&);
+   bool readInput(string&, int);
+   bool readOutput(string&, int);
+   bool readAig(string&, int);
+   bool readSymbol(string&);
    bool connect();
    bool rconnect();
    bool genDFSList();
    bool checkFloatingAndNotUsedGates();
+   void reset();
 
    bool lexOptions(const string&, vector<int>&, size_t nOpts = 0) const;
 
@@ -76,7 +81,6 @@ private:
    IdList _floatingGates;
    IdList _notUsedGates;
    map<unsigned, CirGate*> _gateList;
-
 
 };
 
