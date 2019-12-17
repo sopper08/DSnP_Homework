@@ -1,3 +1,13 @@
-taskinit 10
-taskn -r 10
-taskq -ha
+taski 100
+tasknew -n abc 123
+tasknew -r 20
+taskquery -he
+taskremove -r 1
+taskquery -he
+taskremove -r 1
+taskquery -he
+taskremove -r 1
+taskquery -he
+taskremove -r 1
+taskquery -he
+q -f

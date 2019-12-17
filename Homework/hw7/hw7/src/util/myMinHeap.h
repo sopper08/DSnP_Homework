@@ -32,10 +32,10 @@ public:
    const Data& min() const { return _data[0]; }
    void insert(const Data& d) 
    { 
-      size_t s = size() - 1;
-      size_t t = ++s;
+      size_t s = size();
+      size_t t = s;
       _data.push_back(d);
-      while (t > 1)
+      while (t > 0)
       {
          size_t p = (t - 1) / 2;
          if (_data[p] < d) break;
@@ -46,33 +46,50 @@ public:
    }
    void delMin()
    {
+      if (size() == 0) return;
+      Data ret = _data[0];
       size_t p = 0, t = 2 * p + 1;
       size_t s = size() - 1;
       while (t <= s)
       {
          if (t < s) // has right tree
             if (_data[t+1] < _data[t]) ++t;
-            if (_data[s] < _data[t]) break;
-            _data[p] = _data[t];
-            p = t;
-            t = 2 * p + 1;
+         if (_data[s] < _data[t]) break;
+         _data[p] = _data[t]; _data[t] = ret; // swap
+         p = t;
+         t = 2 * p + 1;
       }
-      _data[p] = _data[s--];
+      _data[p] = _data[s];
+      // _data[s] = ret;
+      _data.pop_back();
    }
    void delData(size_t i)
    {
-      size_t p = i, t = 2 * p + 1;
+      if (size() == 0) return;
+      size_t t = i, p = (t - 1) / 2, c = 2 * t + 1;
       size_t s = size() - 1;
-      while (t <= s)
+      _data[t] = _data[s];
+      _data.pop_back();
+      s = size() - 1;
+
+      while (t > 0)
       {
-         if (t < s) // has right tree
-            if (_data[t+1] < _data[t]) ++t;
-            if (_data[s] < _data[t]) break;
-            _data[p] = _data[t];
-            p = t;
-            t = 2 * p + 1;
+         if (_data[p] < _data[t]) break;
+         Data tmp = _data[t];
+         _data[t] = _data[p]; _data[p] = tmp;
+         t = p;
+         p = (t - 1) / 2, c = 2 * t + 1;
       }
-      _data[p] = _data[s--];
+      while (c <= s)
+      {
+         if (c < s) // has right tree
+            if (_data[c+1] < _data[c]) ++c;
+         if (_data[t] < _data[c]) break;
+         Data tmp = _data[t];
+         _data[t] = _data[c]; _data[c] = tmp;
+         t = c;
+         p = (t - 1) / 2, c = 2 * t + 1;
+      }
    }
 
 private:
