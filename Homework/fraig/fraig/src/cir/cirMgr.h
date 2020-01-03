@@ -13,24 +13,39 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <iomanip>
 
 using namespace std;
 
 // TODO: Feel free to define your own classes, variables, or functions.
 
 #include "cirDef.h"
+#include "cirGate.h"
 
 extern CirMgr *cirMgr;
 
 class CirMgr
 {
 public:
-   CirMgr() {}
-   ~CirMgr() {} 
+   CirMgr()
+   {
+      const0 = new CirConstGate();
+      _gateList[0] = const0;
+   }
+   ~CirMgr() 
+   {
+      reset();
+   }
+
 
    // Access functions
    // return '0' if "gid" corresponds to an undefined gate.
-   CirGate* getGate(unsigned gid) const { return 0; }
+   CirGate* getGate(unsigned gid) const 
+   {
+      map<unsigned, CirGate*>::const_iterator pos = _gateList.find(gid);
+      if (pos == _gateList.end()) return 0;
+      else return pos->second; 
+   }
 
    // Member functions about circuit construction
    bool readCircuit(const string&);
@@ -58,9 +73,32 @@ public:
    void printFECPairs() const;
    void writeAag(ostream&) const;
    void writeGate(ostream&, CirGate*) const;
+   CirGate* const0;
 
 private:
-   ofstream           *_simLog;
+   bool readHeader(string&);
+   bool readInput(string&, int);
+   bool readOutput(string&, int);
+   bool readAig(string&, int);
+   bool readSymbol(string&);
+   bool connect();
+   bool rconnect();
+   bool genDFSList();
+   bool checkFloatingAndNotUsedGates();
+   void reset();
+
+   bool lexOptions(const string&, vector<int>&, size_t nOpts = 0) const;
+
+   vector<int> _header;
+   GateList    _piList;
+   GateList    _poList;
+   GateList    _aigList;
+   GateList    _dfsList;
+   GateSet     _dfsSet;  // for searching gate in _dfsList
+   IdList      _floatingGates; 
+   IdList      _notUsedGates;
+   GateMap     _gateList;
+   ofstream   *_simLog;
 
 };
 

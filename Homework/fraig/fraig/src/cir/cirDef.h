@@ -10,6 +10,8 @@
 #define CIR_DEF_H
 
 #include <vector>
+#include <map>
+#include <unordered_set>
 #include "myHashMap.h"
 
 using namespace std;
@@ -19,5 +21,22 @@ using namespace std;
 class CirGate;
 class CirMgr;
 class SatSolver;
+
+typedef vector<CirGate*>            GateList;
+typedef vector<unsigned>            IdList;
+typedef map<unsigned, CirGate*>     GateMap;
+typedef HashMap<unsigned, CirGate*> GateHashMap;
+typedef unordered_set<CirGate*>     GateSet;
+
+enum GateType
+{
+   UNDEF_GATE = 0,
+   PI_GATE    = 1,
+   PO_GATE    = 2,
+   AIG_GATE   = 3,
+   CONST_GATE = 4,
+
+   TOT_GATE
+};
 
 #endif // CIR_DEF_H

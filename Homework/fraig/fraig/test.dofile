@@ -1,0 +1,8 @@
+cirr ./tests.fraig/opt07.aag
+cirp
+cirp -n
+cirp -fl
+cirsw
+cirp
+cirp -fl
+q -f
