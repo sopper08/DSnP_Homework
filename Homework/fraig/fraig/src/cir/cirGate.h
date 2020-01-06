@@ -36,16 +36,59 @@ public:
    string getTypeStr() const { return _typeStr; }
    unsigned getGateID() const { return _gateID; }
    unsigned getLineNo() const { return _lineNo; }
-   virtual bool isAig() const { return false; }
+   bool isAig() const { return !(this->getTypeStr().compare("AIG")); }
+
+   bool isSameFanin(size_t& gIdx, CirGate*& const0, bool& existConst0) const 
+   { 
+      if (_faninGateList.size() != 2) return false;
+      existConst0 = false;
+      if (_faninGateList[0]==_faninGateList[1]) { gIdx = 0; return true; }
+      else
+      {
+         for (size_t i = 0; i < 2; ++i)
+         {
+            if (_faninGateList[i]==const0)
+            {
+               existConst0 = true;
+               gIdx = 1 - i;
+               break;
+            }
+         }
+         return false;
+      }
+   }
+
+   bool isSameFaninInvPhase(bool& i) const 
+   { 
+      if (_faninGateList.size() != 2) return false;
+      i = _faninGateInvPhaseList[0]; 
+      return !(_faninGateInvPhaseList[0]^_faninGateInvPhaseList[1]); 
+   }
+
    string getSymbol() const { return _symbol; }
    // fanin
    IdList getFaninIdList() const { return _faninID; }
    GateList getFaninGateList() const { return _faninGateList; }
    vector<bool> getFaninGateInv() const { return _faninGateInvPhaseList; }
+   bool getFaninGateInv(CirGate* g) const
+   {
+      for (size_t i = 0; i < _faninGateList.size(); ++i)
+      {
+         if (_faninGateList[i] == g) return _faninGateInvPhaseList[i];
+      }
+   }
+
    // fanout
    IdList getFanoutIdList() const { return _fanoutID; }
    GateList getFanoutGateList() const { return _fanoutGateList; }
    vector<bool> getFanoutGateInv() const { return _fanoutGateInvPhaseList; }
+   bool getFanoutGateInv(CirGate* g) const
+   {
+      for (size_t i = 0; i < _fanoutGateList.size(); ++i)
+      {
+         if (_fanoutGateList[i] == g) return _fanoutGateInvPhaseList[i];
+      }
+   }
 
    // Printing functions
    virtual void printGate() const = 0;
@@ -54,6 +97,7 @@ public:
    void reportFanout(int level) const;
 
    // set fanin & fanout
+   void setFanin(CirGate*& g, bool i) { _faninGateList.push_back(g); _faninGateInvPhaseList.push_back(i); }
    void setFanin(GateList& gL) { _faninGateList = gL; };
    void setFaninId(IdList& iL) { _faninID = iL; }
    void setFaninGateInvPhaseList(vector<bool>& vB) { _faninGateInvPhaseList = vB; }
@@ -61,6 +105,13 @@ public:
    {
       _faninGateList.erase(_faninGateList.begin() + i);
       _faninGateInvPhaseList.erase(_faninGateInvPhaseList.begin() + i);
+   }
+   void removeFanin(CirGate* g)
+   {
+      for (size_t i = 0; i < _faninGateList.size(); ++i)
+      {
+         if (_faninGateList[i]==g) { removeFanin(i); return; }
+      }
    }
    
    void setFanout(CirGate*& g, bool i) { _fanoutGateList.push_back(g); _fanoutGateInvPhaseList.push_back(i); }
@@ -80,10 +131,11 @@ public:
    void dfsTraversal(GateList&);
    bool isGlobalRef() const { return _globalRef; }
    void setToGlobalRef() { _globalRef = true; }
+   void unsetToGlobalRef() { _globalRef = false; }
    bool isActive() const { return _active; }
    void setActive() { _active = true; }
    void unsetActive() { _active = false; }
-   
+
 private:
    unsigned _gateID;
    unsigned _lineNo;
@@ -183,6 +235,7 @@ public:
       }
       cout << endl;
    }
+
 
 private:
 

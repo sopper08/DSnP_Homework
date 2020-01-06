@@ -83,9 +83,16 @@ private:
    bool readSymbol(string&);
    bool connect();
    bool rconnect();
+   // dfs
    bool genDFSList();
+   bool resetGlobalRef();
+   // check floating and not used
    bool checkFloatingAndNotUsedGates();
+   
    void reset();
+
+   void optimize(CirGate*);
+   void swapFanoutGateList(CirGate*, bool, CirGate*);
 
    bool lexOptions(const string&, vector<int>&, size_t nOpts = 0) const;
 

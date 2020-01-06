@@ -105,7 +105,7 @@ CirGate::reportFanout(int level) const
 void
 CirGate::dfsTraversal(GateList& dfsList)
 {
-   for (auto it = _faninGateList.begin(); it != _faninGateList.end(); it ++)
+   for (auto it = _faninGateList.begin(); it != _faninGateList.end(); ++it)
    {
       if (!(*it)->getTypeStr().compare("UNDEF")) continue;
       if (!(*it)->isGlobalRef())

@@ -482,7 +482,15 @@ CirMgr::genDFSList()
    for (auto it = _dfsList.begin(); it != _dfsList.end(); ++it)
       _dfsSet.insert(*it);
 
+   resetGlobalRef();
    return true;
+}
+
+bool
+CirMgr::resetGlobalRef()
+{
+   for (auto it = _gateList.begin(); it != _gateList.end(); ++it)
+      (*it).second->unsetToGlobalRef();
 }
 
 bool
