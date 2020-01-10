@@ -1,0 +1,10 @@
+cirr tests.fraig/sim05.aag
+CIRPrint -Summary
+CIRPrint -Netlist
+CIRPrint -PI
+CIRPrint -PO
+CIRPrint -FLoating
+CIRGate 1 -FANOut 7
+CIRGate 11 -FANIn 5
+CIRGate 1
+q -f
