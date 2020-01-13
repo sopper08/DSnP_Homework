@@ -9,11 +9,13 @@ tasknew -n abc 123
 tasknew -n abc 356
 tasknew -r 20
 taskremove -r 10
-taskquery -he
 taskquery -ha
+taskquert -min
 taskremove -r 50
 taskremove -r 0
 tasknew -n ccc
+taskquery -ha
+taskquert -min
 teskassign 100 -r 0
 teskassign 0 -r 100
 taskinit 100
@@ -22,19 +24,29 @@ tasknew -n abc 356
 tasknew -r 20
 taskremove -r 10
 taskremove -r 50
+taskquery -ha
+taskquert -min
 taskremove -r 0
 tasknew -n ccc
+taskquery -ha
+taskquert -min
 teskassign 100 -r 0
 teskassign 0 -r 100
 tasknew -r 1000
 teskassign 1000 -r 100
+taskquery -ha
+taskquert -min
 taskremove -r 50
 tasknew -r 1000
 teskassign 1000 -r 100
 taskremove -r 50
+taskquery -ha
+taskquert -min
 tasknew -r 1000
 teskassign 1000 -r 130
 taskremove -r 50
+taskquery -ha
+taskquert -min
 tasknew -r 1000
 teskassign 10324 -r 132
 taskremove -r 50

@@ -1,0 +1,11 @@
+taskinit 100
+TASKNew -N dabreq 14006
+TASKNew -N wgojtn 13354
+TASKNew -N vprzyi 17486
+TASKNew -N xtmhyd 17313
+TASKNew -N pgvbcy 3392
+TASKQuery -ha
+TASKRemove -N wgojtn
+TASKQuery -ha
+q -f
+

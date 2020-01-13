@@ -204,9 +204,9 @@ public:
       auto v = (_buckets + bNum);
       auto it = v->begin();
       for (; it != v->end(); ++it)
-         if ((*it) == d) { v->erase(it); return true; }
+         if ((*it) == d) { *it = v->back(); v->pop_back(); return true; }
 
-      return false; 
+      return false;
    }
 
 private:
