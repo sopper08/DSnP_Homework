@@ -22,6 +22,8 @@ class CirGate;
 class CirMgr;
 class SatSolver;
 class Fan;
+class Fans;
+class StrashFunction;
 
 class Header
 {
@@ -33,11 +35,11 @@ public:
    unsigned _M, _I, _L, _O, _A;
 };
 
-typedef vector<CirGate*>                  GateList;
-typedef vector<Fan*>                      FanList;
-typedef vector<unsigned>                  IdList;
-typedef map<unsigned, CirGate*>           GateMap;
-typedef pair<CirGate*, bool>              Pair_CirGateAndInv;
-
+typedef vector<CirGate*>                               GateList;
+typedef vector<Fan*>                                   FanList;
+typedef vector<unsigned>                               IdList;
+typedef map<unsigned, CirGate*>                        GateMap;
+typedef pair<CirGate*, bool>                           Pair_CirGateAndInv;
+typedef unordered_map<Fans, CirGate*, StrashFunction>  Strash;
 
 #endif // CIR_DEF_H

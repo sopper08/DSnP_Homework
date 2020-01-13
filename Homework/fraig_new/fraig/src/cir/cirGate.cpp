@@ -108,3 +108,9 @@ CirGate::reportFanout(int level) const
    if (intent == level) { reportedGateIdList.clear(); intent = -1; }
 }
 
+unsigned
+Fan::getGateId() const
+{
+   return _gate->getGateId();
+}
+

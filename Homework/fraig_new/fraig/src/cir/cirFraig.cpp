@@ -34,6 +34,32 @@ using namespace std;
 void
 CirMgr::strash()
 {
+   Strash strash;
+   IdList removedGateId;
+
+   for (auto it = _dfsList.begin(); it != _dfsList.end(); ++it)
+   {
+     if (!(*it)->isAig()) continue;
+     auto pos = strash.find((*it)->fanList);
+     if (pos != strash.end())
+     {
+        cout << "Strashing: ";
+        cout << (*pos).second->getGateId();
+        cout << " merging ";
+        cout << (*it)->getGateId();
+        cout << "..." << endl;
+
+        removedGateId.push_back((*it)->getGateId());
+        (*pos).second->merge((*it));
+        _aigList.erase(remove(_aigList.begin(), _aigList.end(), *it), _aigList.end());
+     }
+     else { strash.insert({(*it)->fanList, (*it)}); }
+   }
+   for (size_t i = 0; i < removedGateId.size(); ++i)
+      _gateList.erase(removedGateId[i]);
+   
+   resetDFSList();
+   resetFloatingGates();
 }
 
 void

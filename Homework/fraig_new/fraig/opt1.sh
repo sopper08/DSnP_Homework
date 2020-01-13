@@ -15,5 +15,5 @@ q -f" >> opt1.test.dofile
 
 ./fraig -f opt1.test.dofile > my.log 2>&1
 ./ref/fraig -f opt1.test.dofile > ref.log 2>&1
-vimdiff my.log ref.log
+diff my.log ref.log
 

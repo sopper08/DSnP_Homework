@@ -29,8 +29,17 @@ public:
    Fan(CirGate* g, bool i): _gate(g), _inv(i) { }
    ~Fan() {}
 
+   bool operator == (const Fan& f) const
+   {
+      if (_inv != f.getInv()) return false;
+      if (_gate != f.getGate()) return false;
+      return true;
+   }
+
+
    CirGate* getGate() const { return _gate; }
    bool     getInv()  const { return _inv;  }
+   unsigned getGateId() const;
 
 private:
    CirGate* _gate;
@@ -42,8 +51,6 @@ class Fans
 public:
    Fans() { }
    ~Fans() { }
-
-   // bool isEmptyFanin() const { return fanin.empty(); }
 
    FanList  getFaninList() const { return fanin; }
    FanList  getFanoutList() const { return fanout; }
@@ -105,7 +112,15 @@ public:
       else { it = fanin.end(); return false; }
    }
 
-   FanList::iterator findFaninGate(CirGate*& g, bool returnAnother = false)
+   FanList::iterator findFaninGate(CirGate*& g)
+   {
+      for (size_t i = 0; i < fanin.size(); ++i)
+         if ((fanin[i]->getGate())==g) { return fanin.begin()+i; }
+
+      return fanin.end();
+   }
+
+   FanList::iterator findFaninGate(CirGate*& g, bool returnAnother)
    {
       assert(fanin.size()==2);
 
@@ -120,6 +135,19 @@ public:
       return fanin.end();
    }
 
+
+   FanList::iterator findFanoutGate(CirGate*& g)
+   {
+      for (size_t i = 0; i < fanout.size(); ++i)
+      {
+         if ((fanout[i]->getGate())==g)
+         {
+            return fanout.begin()+i;
+         }
+      }
+      return fanout.end();
+   }
+
    bool isSameFaninInv() const
    {
       assert(fanin.size()==2);
@@ -128,17 +156,69 @@ public:
 
    bool replaceFanin(CirGate*& g, Fan*& f)
    {
-      if (!removeFaninGate(g)) return false;
-      addFanin(f); return true;
+      FanList::iterator it = findFaninGate(g);
+      if (it == this->faninEnd()) return false;
+      (*it) = f; return true;
    }
 
    bool replaceFanout(CirGate*& g, Fan*& f)
    {
-      if (!removeFanoutGate(g)) return false;
-      addFanout(f); return true;
+      FanList::iterator it = findFanoutGate(g);
+      if (it == this->fanoutEnd()) return false;
+      (*it) = f; return true;
+   }
+
+   bool replaceFanin(CirGate*& g, CirGate* ng)
+   {
+      FanList::iterator it = findFaninGate(g);
+      if (it == this->faninEnd()) return false;
+      Fan *f = new Fan(ng, (*it)->getInv());
+      (*it) = f; return true;
+   }
+
+   bool replaceFanout(CirGate*& g, CirGate* ng)
+   {
+      FanList::iterator it = findFanoutGate(g);
+      if (it == this->fanoutEnd()) return false;
+      Fan *f = new Fan(ng, (*it)->getInv());
+      (*it) = f; return true;
    }
 
    FanList::const_iterator faninEnd() const { return fanin.end(); }
+
+   FanList::const_iterator fanoutEnd() const { return fanout.end(); }
+
+   bool operator== (const Fans& fs) const
+   {
+      FanList fsFanin = fs.getFaninList();
+      if (fanin.size() != fsFanin.size()) return false;
+      if (fanin.size() == 0) return false;
+      if (fanin.size() == 1)
+      {
+         if (fanin[0]->getInv() != fsFanin[0]->getInv()) return false;
+         if (fanin[0]->getGateId() != fsFanin[0]->getGateId()) return false;
+      }
+      if (fanin.size() == 2)
+      {
+         if (fanin[0]->getGateId() == fsFanin[0]->getGateId())
+         {
+            if (fanin[0]->getInv()    != fsFanin[0]->getInv())    return false;
+            if (fanin[1]->getGateId() != fsFanin[1]->getGateId()) return false;
+            if (fanin[1]->getInv()    != fsFanin[1]->getInv()   ) return false;
+         }
+         else if (fanin[0]->getGateId() == fsFanin[1]->getGateId())
+         {
+            if (fanin[0]->getInv()    != fsFanin[1]->getInv())    return false;
+            if (fanin[1]->getGateId() != fsFanin[0]->getGateId()) return false;
+            if (fanin[1]->getInv()    != fsFanin[0]->getInv()   ) return false;
+         }
+         else { return false; }
+      }
+      
+      return true;
+   }
+
+
 
 private:
    FanList fanout;
@@ -156,6 +236,7 @@ public:
 
    virtual ~CirGate() {}
 
+   size_t operator () () const { return _gateId; }
    bool operator== (const CirGate* g) { return (this->getGateId()==g->getGateId()); }
 
    // Basic access methods
@@ -200,6 +281,42 @@ public:
    bool isActive() const    { return _active;     }
    void setActive()         { _active = true;     }
    void unsetActive()       { _active = false;    }
+
+   /**************************
+    *         strash         *
+    **************************/
+   // mg -> this
+   // need be changed: 
+   //   1. fanout of this (add fanout of mg)
+   //   2. fanin of fanout of mg (replace into this)
+   //   3. fanout of fanin of mg (replace tnto this)
+   void merge(CirGate* mg)
+   {
+      FanList mgFanout = mg->fanList.getFanoutList();
+      FanList mgFanin  = mg->fanList.getFaninList();
+      
+      for (auto it = mgFanout.begin(); it != mgFanout.end(); ++it)
+      {  
+         // it is fanout of mg
+         FanList itFanin = (*it)->getGate()->fanList.getFaninList();
+         this->fanList.addFanout((*it));
+         for (auto itt = itFanin.begin(); itt != itFanin.end(); ++itt)
+         {
+            // itt is fanin of fanout of mg
+            (*it)->getGate()->fanList.replaceFanin(mg, this);
+         }
+      }
+      for (auto it = mgFanin.begin(); it != mgFanin.end(); ++it)
+      {
+         // it is fanin of mg
+         FanList itFanout = (*it)->getGate()->fanList.getFanoutList();
+         for (auto itt = itFanout.begin(); itt != itFanout.end(); ++itt)
+         {
+            // itt is fanout of fanin of mg
+            (*it)->getGate()->fanList.replaceFanout(mg, this);
+         }
+      }
+   }
 
    /**************************
     *          Fan           *
@@ -311,6 +428,23 @@ public:
    ~CirUndefGate() { }
 
    void printGate() const { cout << left << setw(3) << this->getTypeStr() << " " << this->getGateId(); }
+};
+
+class StrashFunction
+{
+public:
+   static bool compareFan(Fan *f1, Fan *f2) { return (f1->getGateId() < f2->getGateId()); }
+   size_t operator() (const Fans& fs) const
+   {
+      FanList fanin = fs.getFaninList();
+      sort(fanin.begin(), fanin.end(), compareFan);
+      
+      size_t r = 0;
+      for (size_t i = 0; i < fanin.size(); ++i)
+         r += (fanin[i]->getGateId() << (6*i));
+
+      return r;
+   }
 };
 
 
