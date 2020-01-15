@@ -12,6 +12,7 @@
 #include <stdarg.h>
 #include <cassert>
 #include <algorithm>
+#include <bitset>
 
 #include "cirGate.h"
 #include "cirMgr.h"
@@ -114,47 +115,60 @@ Fan::getGateId() const
    return _gate->getGateId();
 }
 
-size_t 
-CirPiGate::simulate(vector<size_t>& signals)
+bool 
+CirPiGate::simulate()
 {
-   unsigned idx = this->getGateId() - 1;
-   return signals[idx];
+   if (_firstSim) { _firstSim = false; return true; }
+   return false;
 }
 
-size_t 
-CirPoGate::simulate(vector<size_t>& signals)
+bool 
+CirPoGate::simulate()
 {
    assert(fanList.getFaninSize()==1);
 
    FanList fanin = fanList.getFaninList();
-   size_t r = fanin[0]->getGate()->simulate(signals);
-   if (fanin[0]->getInv()) return ~r;
+   // fanin[0]->getGate()->simulate();
+   size_t r = fanin[0]->getGate()->getSignal();
+   r = (fanin[0]->getInv())?~r:r;
+
+   // cout << bitset<64>(r) << endl;
+   if(setSignal(r)) return true;
    
-   return r;
+   return false;
 }
 
-size_t 
-CirAigGate::simulate(vector<size_t>& signals)
+bool
+CirAigGate::simulate()
 {
    assert(fanList.getFaninSize()==2);
 
    FanList fanin = fanList.getFaninList();
-   size_t r0 = fanin[0]->getGate()->simulate(signals);
-   size_t r1 = fanin[1]->getGate()->simulate(signals);
+   // if ((!fanin[0]->getGate()->simulate()) &&
+   //     (!fanin[1]->getGate()->simulate()) &&
+   //     (!_firstSim)) { return false; }
+   // fanin[0]->getGate()->simulate();
+   // fanin[1]->getGate()->simulate();
+   size_t r0 = fanin[0]->getGate()->getSignal();
+   size_t r1 = fanin[1]->getGate()->getSignal();
+
    r0 = (fanin[0]->getInv())?~r0:r0;
    r1 = (fanin[1]->getInv())?~r1:r1;
 
-   return r0 & r1;
+   // _firstSim = false;
+   if (setSignal(r0&r1)) {  return true; }
+
+   return false;
 }
 
-size_t 
-CirConstGate::simulate(vector<size_t>& signals)
+bool 
+CirConstGate::simulate()
 {
-   return 0;
+   return false;
 }
 
-size_t 
-CirUndefGate::simulate(vector<size_t>& signals)
+bool 
+CirUndefGate::simulate()
 {
-   return 0;
+   return false;
 }

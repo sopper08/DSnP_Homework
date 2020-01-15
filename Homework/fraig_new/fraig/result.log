@@ -1,0 +1,26 @@
+
+run my
+======
+
+
+run ref
+=======
+
+
+diff log
+=======
+
+934,935c934,935
+< fraig> cirsim -f tests.fraig/pattern.15 -o my.pattern.log
+< 3456 patterns simulated.
+---
+> fraig> cirsim -f tests.fraig/pattern.15 -o ref.pattern.log
+> Total #FEC Group = 92Total #FEC Group = 102Total #FEC Group = 109Total #FEC Group = 105Total #FEC Group = 95Total #FEC Group = 96Total #FEC Group = 95Total #FEC Group = 93Total #FEC Group = 91Total #FEC Group = 89Total #FEC Group = 83Total #FEC Group = 76Total #FEC Group = 74Total #FEC Group = 73Total #FEC Group = 66Total #FEC Group = 64Total #FEC Group = 61Total #FEC Group = 57Total #FEC Group = 54Total #FEC Group = 52Total #FEC Group = 49Total #FEC Group = 46Total #FEC Group = 45Total #FEC Group = 44Total #FEC Group = 43Total #FEC Group = 40Total #FEC Group = 38Total #FEC Group = 36Total #FEC Group = 31Total #FEC Group = 31Total #FEC Group = 31Total #FEC Group = 31Total #FEC Group = 31Total #FEC Group = 31Total #FEC Group = 31Total #FEC Group = 31Total #FEC Group = 31Total #FEC Group = 31Total #FEC Group = 31Total #FEC Group = 31Total #FEC Group = 31Total #FEC Group = 31Total #FEC Group = 30Total #FEC Group = 30Total #FEC Group = 30Total #FEC Group = 30Total #FEC Group = 30Total #FEC Group = 30Total #FEC Group = 30Total #FEC Group = 30Total #FEC Group = 30Total #FEC Group = 30Total #FEC Group = 30Total #FEC Group = 303456 patterns simulated.
+940c940
+< Total memory used: 1.746 M Bytes
+---
+> Total memory used: 1.199 M Bytes
+
+diff opt
+=======
+

@@ -48,7 +48,17 @@ CirMgr::fileSim(ifstream& patternFile)
     *       read file        *
     **************************/
    while (getline(patternFile, line)) lines.push_back(line);
-   if (lines.empty()) return; // if no content in this file
+   if (lines.empty()) // if no content in this file
+   {
+      cerr << "Cannot open design!!" << endl;
+      return;
+   }
+   if (!checkPatternFormat(lines)) 
+   {
+      cout << endl;
+      cout << "0 patterns simulated." << endl;
+      return;
+   }
 
    /**************************
     *  convert to P pattern  *
@@ -72,7 +82,7 @@ CirMgr::fileSim(ifstream& patternFile)
          *_simLog << sR[j][i];
       *_simLog << endl;
    }
-   cout << lines.size() << " patterns simulated.";
+   cout << lines.size() << " patterns simulated." << endl;
 
    return;
 }
@@ -88,9 +98,17 @@ CirMgr::simulate(ParallelPattern& pPattern, SimulateResult& sR)
 
    for (size_t i = 0; i < pPattern.size(); ++i)
    {
+      for (size_t j = 0; j < _piList.size(); ++j)
+         _piList[j]->setSignal(pPattern[i][j]);
+      
+      for (auto it = _dfsList.begin(); it != _dfsList.end(); ++it)
+      {
+         (*it)->simulate();
+      }
+
       vector<size_t> tmp;
       for (auto it = _poList.begin(); it != _poList.end(); ++it)
-          tmp.push_back((*it)->simulate(pPattern[i]));
+         tmp.push_back((*it)->getSignal());
 
       psR.push_back(tmp);
    }
@@ -142,5 +160,68 @@ bool
 CirMgr::char2bool(char s, bool& n)
 {
    n = (s == '1');
+   return true;
+}
+
+bool
+CirMgr::checkPatternFormat(vector<string>& lines)
+{
+   vector<string> r;
+
+   for (size_t i = 0; i < lines.size(); ++i)
+   {
+      // remove newline
+      if (lines[i] == "") continue;
+      // split space
+
+      // vector<string> lTmp;
+      string         tmp;
+      for (size_t j = 0; j < lines[i].size(); ++j)
+      {
+         if (lines[i][j] == ' ') 
+         { 
+            if (!tmp.empty())
+            {
+               if(!checkPatternSize(tmp)) return false;
+               r.push_back(tmp); 
+               tmp.clear(); 
+            }
+         }
+         else if ((lines[i][j] == '0') || lines[i][j] == '1') tmp.push_back(lines[i][j]);
+         else
+         {
+            cerr << "Error: Pattern(";
+            cerr << lines[i];
+            cerr << ") contains a non-0/1 character('";
+            cerr << lines[i][j];
+            cerr << "')." << endl;
+            return false;
+         }
+      }
+
+      if(!checkPatternSize(tmp)) return false;
+      r.push_back(tmp);
+   }
+
+   lines = r;
+   return true;
+}
+
+bool 
+CirMgr::checkPatternSize(string& s)
+{
+   if (s.size() != _piList.size())
+   {
+      cout << endl;
+      cerr << "Error: Pattern(";
+      cerr << s;
+      cerr << ") length(";
+      cerr << s.size();
+      cerr << ") does not match the number of inputs(";
+      cerr << _piList.size();
+      cerr << ") in a circuit!!" << endl;
+      return false;
+   }
+
    return true;
 }

@@ -116,6 +116,8 @@ private:
    void simulate(ParallelPattern&, SimulateResult&);
    bool cvt2ParallelPattern(vector<string>&, ParallelPattern&, unsigned);
    bool char2bool(char, bool&);
+   bool checkPatternFormat(vector<string>&);
+   bool checkPatternSize(string& s);
 
    Header             *_header;
    ofstream           *_simLog;

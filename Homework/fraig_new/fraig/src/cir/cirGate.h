@@ -230,7 +230,8 @@ class CirGate
 {
 public:
    CirGate(unsigned gId, unsigned lNo, string typeN):
-      _gateId(gId), _lineNo(lNo), _typeStr(typeN) { }
+      _gateId(gId), _lineNo(lNo), _typeStr(typeN), _signal(0), _firstSim(true),
+      _globalRef(false), _active(false) { }
 
    virtual ~CirGate() {}
 
@@ -319,9 +320,13 @@ public:
    /**************************
     *         simulate       *
     **************************/
-   virtual size_t simulate(vector<size_t>& signals) = 0;
+   virtual bool simulate() = 0;
    size_t getSignal() const { return _signal; }
-   size_t setSignal(size_t s) { _signal = s; }
+   bool setSignal(size_t s) 
+   { 
+      if(_signal != s) { _signal = s; return true; } 
+      return false;
+   }
 
    /**************************
     *          Fan           *
@@ -334,6 +339,7 @@ private:
     **************************/
    bool _globalRef, _active;
 
+
 protected:
    /**************************
     *    Gate Information    *
@@ -343,6 +349,8 @@ protected:
    string   _typeStr;
    string   _symbol;
    size_t   _signal;
+   
+   bool _firstSim;
 
 };
 
@@ -359,7 +367,7 @@ public:
       cout << endl;
    }
 
-   size_t simulate(vector<size_t>&);
+   bool simulate();
 
 private:
 
@@ -387,7 +395,7 @@ public:
       cout << endl;
    }
 
-   size_t simulate(vector<size_t>&);
+   bool simulate();
    
    unsigned oriFanin;
 };
@@ -413,7 +421,7 @@ public:
       cout << endl;
    }
 
-   size_t simulate(vector<size_t>&);
+   bool simulate();
    
    bool isAig() { return true; }
    
@@ -423,11 +431,12 @@ public:
 class CirConstGate: public CirGate
 {
 public:
-   CirConstGate(unsigned gId = 0, unsigned lNo = 0): CirGate(gId, lNo, "CONST") { }
+   CirConstGate(unsigned gId = 0, unsigned lNo = 0): \
+      CirGate(gId, lNo, "CONST") { }
    ~CirConstGate() { }
    
    void printGate() const { cout << left << setw(3) << this->getTypeStr() << this->getGateId() << endl; }
-   size_t simulate(vector<size_t>&);
+   bool simulate();
 
 private:
 
@@ -441,7 +450,9 @@ public:
    ~CirUndefGate() { }
 
    void printGate() const { cout << left << setw(3) << this->getTypeStr() << " " << this->getGateId(); }
-   size_t simulate(vector<size_t>&);
+   bool simulate();
+
+private:
 
 };
 

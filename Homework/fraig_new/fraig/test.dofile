@@ -1,0 +1,4 @@
+cirr tests.fraig/sim16.aag
+cirp -fl
+cirp -n
+q -f

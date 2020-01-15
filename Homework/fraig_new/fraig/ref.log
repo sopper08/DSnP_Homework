@@ -1,8 +1,16 @@
-fraig> cirr sim15.aag
-Cannot open design "sim15.aag"!!
+fraig> cirr tests.fraig/sim19.aag
+Cannot open design "tests.fraig/sim19.aag"!!
 
-fraig> cirsim -f tests.fraig/pattern.15 -o ref.pattern.log
+fraig> cirp -n
 Error: circuit is not yet constructed!!
+
+fraig> cirsim -f tests.fraig/pattern.19 -o ref.pattern.log
+Error: circuit is not yet constructed!!
+
+fraig> usage
+Period time used : 0 seconds
+Total time used  : 0 seconds
+Total memory used: 0 M Bytes
 
 fraig> q -f
 

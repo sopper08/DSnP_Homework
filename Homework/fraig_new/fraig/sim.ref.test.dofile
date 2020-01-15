@@ -1,3 +1,5 @@
-cirr tests.fraig/sim15.aag
-cirsim -f tests.fraig/pattern.15 -o ref.pattern.log
+cirr tests.fraig/sim19.aag
+cirp -n
+cirsim -f tests.fraig/pattern.19 -o ref.pattern.log
+usage
 q -f
