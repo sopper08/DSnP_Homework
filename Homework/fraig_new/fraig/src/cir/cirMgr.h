@@ -110,6 +110,13 @@ private:
    void optimize(CirGate*);
    void swapFanoutList(CirGate*& g, Fan* newFan);
 
+   /**************************
+    *       simulation       *
+    **************************/
+   void simulate(ParallelPattern&, SimulateResult&);
+   bool cvt2ParallelPattern(vector<string>&, ParallelPattern&, unsigned);
+   bool char2bool(char, bool&);
+
    Header             *_header;
    ofstream           *_simLog;
 

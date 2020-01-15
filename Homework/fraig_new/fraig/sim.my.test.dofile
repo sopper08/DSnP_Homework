@@ -1,0 +1,3 @@
+cirr tests.fraig/sim15.aag
+cirsim -f tests.fraig/pattern.15 -o my.pattern.log
+q -f

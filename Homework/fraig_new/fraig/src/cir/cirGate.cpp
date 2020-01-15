@@ -114,3 +114,47 @@ Fan::getGateId() const
    return _gate->getGateId();
 }
 
+size_t 
+CirPiGate::simulate(vector<size_t>& signals)
+{
+   unsigned idx = this->getGateId() - 1;
+   return signals[idx];
+}
+
+size_t 
+CirPoGate::simulate(vector<size_t>& signals)
+{
+   assert(fanList.getFaninSize()==1);
+
+   FanList fanin = fanList.getFaninList();
+   size_t r = fanin[0]->getGate()->simulate(signals);
+   if (fanin[0]->getInv()) return ~r;
+   
+   return r;
+}
+
+size_t 
+CirAigGate::simulate(vector<size_t>& signals)
+{
+   assert(fanList.getFaninSize()==2);
+
+   FanList fanin = fanList.getFaninList();
+   size_t r0 = fanin[0]->getGate()->simulate(signals);
+   size_t r1 = fanin[1]->getGate()->simulate(signals);
+   r0 = (fanin[0]->getInv())?~r0:r0;
+   r1 = (fanin[1]->getInv())?~r1:r1;
+
+   return r0 & r1;
+}
+
+size_t 
+CirConstGate::simulate(vector<size_t>& signals)
+{
+   return 0;
+}
+
+size_t 
+CirUndefGate::simulate(vector<size_t>& signals)
+{
+   return 0;
+}

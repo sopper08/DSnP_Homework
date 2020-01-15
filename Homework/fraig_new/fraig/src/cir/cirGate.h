@@ -218,8 +218,6 @@ public:
       return true;
    }
 
-
-
 private:
    FanList fanout;
    FanList fanin;
@@ -227,7 +225,7 @@ private:
 
 //------------------------------------------------------------------------
 //   Define classes
-//------------------------------------------------------------------------
+//-----------------------------------------------------------------------
 class CirGate
 {
 public:
@@ -319,6 +317,13 @@ public:
    }
 
    /**************************
+    *         simulate       *
+    **************************/
+   virtual size_t simulate(vector<size_t>& signals) = 0;
+   size_t getSignal() const { return _signal; }
+   size_t setSignal(size_t s) { _signal = s; }
+
+   /**************************
     *          Fan           *
     **************************/
    Fans  fanList;
@@ -337,6 +342,7 @@ protected:
    unsigned _lineNo;
    string   _typeStr;
    string   _symbol;
+   size_t   _signal;
 
 };
 
@@ -352,6 +358,8 @@ public:
       if (!_symbol.empty()) cout << " (" << _symbol << ")";
       cout << endl;
    }
+
+   size_t simulate(vector<size_t>&);
 
 private:
 
@@ -378,6 +386,8 @@ public:
       if (!_symbol.empty()) cout << " (" << _symbol << ")";
       cout << endl;
    }
+
+   size_t simulate(vector<size_t>&);
    
    unsigned oriFanin;
 };
@@ -402,6 +412,8 @@ public:
       }
       cout << endl;
    }
+
+   size_t simulate(vector<size_t>&);
    
    bool isAig() { return true; }
    
@@ -415,6 +427,7 @@ public:
    ~CirConstGate() { }
    
    void printGate() const { cout << left << setw(3) << this->getTypeStr() << this->getGateId() << endl; }
+   size_t simulate(vector<size_t>&);
 
 private:
 
@@ -428,6 +441,8 @@ public:
    ~CirUndefGate() { }
 
    void printGate() const { cout << left << setw(3) << this->getTypeStr() << " " << this->getGateId(); }
+   size_t simulate(vector<size_t>&);
+
 };
 
 class StrashFunction

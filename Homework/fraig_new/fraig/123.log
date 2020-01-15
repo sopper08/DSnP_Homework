@@ -1,0 +1,7 @@
+fraig> cirr tests.fraig/sim15.aag
+
+fraig> cirsim -f tests.fraig/pattern.16 -o my.pattern.16.log
+1 192
+
+fraig> q -f
+

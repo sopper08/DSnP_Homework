@@ -1,58 +1,8 @@
-fraig> cirr tests.fraig/strash10.aag
+fraig> cirr sim15.aag
+Cannot open design "sim15.aag"!!
 
-fraig> cirp -s
-
-Circuit Statistics
-==================
-  PI           2
-  PO           1
-  AIG          1
-------------------
-  Total        4
-
-fraig> cirp -n
-
-[0] PI  1
-[1] CONST0
-[2] AIG 3 1 0
-[3] PO  4 3
-
-fraig> cirp -pi
-PIs of the circuit: 1 2
-
-fraig> cirp -po
-POs of the circuit: 4
-
-fraig> cirp -fl
-Gates defined but not used  : 2
-
-fraig> cirstrash
-
-fraig> cirp -s
-
-Circuit Statistics
-==================
-  PI           2
-  PO           1
-  AIG          1
-------------------
-  Total        4
-
-fraig> cirp -n
-
-[0] PI  1
-[1] CONST0
-[2] AIG 3 1 0
-[3] PO  4 3
-
-fraig> cirp -pi
-PIs of the circuit: 1 2
-
-fraig> cirp -po
-POs of the circuit: 4
-
-fraig> cirp -fl
-Gates defined but not used  : 2
+fraig> cirsim -f tests.fraig/pattern.15 -o ref.pattern.log
+Error: circuit is not yet constructed!!
 
 fraig> q -f
 
