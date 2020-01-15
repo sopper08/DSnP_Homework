@@ -39,9 +39,11 @@ typedef vector<CirGate*>                               GateList;
 typedef vector<Fan*>                                   FanList;
 typedef vector<unsigned>                               IdList;
 typedef map<unsigned, CirGate*>                        GateMap;
+typedef map<unsigned, FanList>                         FanListMap;
 typedef pair<CirGate*, bool>                           Pair_CirGateAndInv;
 typedef unordered_map<Fans, CirGate*, StrashFunction>  Strash;
 typedef vector<vector<size_t>>                         ParallelPattern;
 typedef vector<vector<bool>>                           SimulateResult;
+
 
 #endif // CIR_DEF_H

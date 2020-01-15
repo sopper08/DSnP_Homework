@@ -119,6 +119,19 @@ private:
    bool checkPatternFormat(vector<string>&);
    bool checkPatternSize(string& s);
 
+   void initFecGrps() {
+      FanList fecgrp;
+
+      fecgrp.push_back(new Fan(const0, false));
+      for (auto it = _aigList.begin(); it != _aigList.end(); ++it)
+         fecgrp.push_back(new Fan((*it), false));
+
+      _fecGrps.push_back(fecgrp);
+   }
+
+   void divideFecGrps();
+   void sortFecGrps();
+
    Header             *_header;
    ofstream           *_simLog;
 
@@ -130,6 +143,8 @@ private:
    IdList             _defButNotUsedIdList;
 
    GateList           _dfsList;
+
+   vector<FanList>   _fecGrps;
 
 
 };

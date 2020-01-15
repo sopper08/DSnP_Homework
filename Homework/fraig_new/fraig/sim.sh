@@ -2,6 +2,7 @@
 echo "cirr tests.fraig/sim$1.aag
 cirp -n
 cirsim -f tests.fraig/pattern.$1 -o my.pattern.log
+cirp -fec
 usage
 q -f" >> sim.my.test.dofile
 
@@ -9,6 +10,7 @@ q -f" >> sim.my.test.dofile
 echo "cirr tests.fraig/sim$1.aag
 cirp -n
 cirsim -f tests.fraig/pattern.$1 -o ref.pattern.log
+cirp -fec
 usage
 q -f" >> sim.ref.test.dofile
 

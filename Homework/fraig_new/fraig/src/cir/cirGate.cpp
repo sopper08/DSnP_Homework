@@ -41,7 +41,16 @@ CirGate::reportGate() const
    cout << "================================================================================" << endl;
    cout << left << setw(2) <<  "= ";
    cout << left << ss.str() << endl;
-   cout << "= FECs:" << endl;
+   cout << "= FECs:";
+   for (size_t i = 0; i < fecGrp.size(); ++i)
+   {
+      cout << " ";
+      if (fecGrp[i]->getInv()) cout << "!";
+      cout << fecGrp[i]->getGateId();
+   }
+   cout << endl;
+
+
    cout << "= Value: 00000000_00000000_00000000_00000000_00000000_00000000_00000000_00000000" << endl;
    cout << "================================================================================" << endl;
 }

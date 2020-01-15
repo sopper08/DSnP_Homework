@@ -41,6 +41,8 @@ public:
    bool     getInv()  const { return _inv;  }
    unsigned getGateId() const;
 
+   void rInv() { _inv = !_inv; }
+
 private:
    CirGate* _gate;
    bool     _inv;
@@ -233,6 +235,8 @@ public:
       _gateId(gId), _lineNo(lNo), _typeStr(typeN), _signal(0), _firstSim(true),
       _globalRef(false), _active(false) { }
 
+   static bool compareFec(Fan* f0, Fan* f1) { return (f0->getGateId()) < (f1->getGateId()); }
+
    virtual ~CirGate() {}
 
    size_t operator () () const { return _gateId; }
@@ -327,11 +331,28 @@ public:
       if(_signal != s) { _signal = s; return true; } 
       return false;
    }
+   void setFecGrp(FanList fL, bool inv) 
+   { 
+      for (size_t i = 0; i < fL.size(); ++i)
+      {
+         bool newInv = fL[i]->getInv();
+         if (inv)
+         {
+            newInv = !newInv;
+         }
+         Fan *f = new Fan(fL[i]->getGate(), newInv);
+         fecGrp.push_back(f);
+      }
+
+      sort(fecGrp.begin(), fecGrp.end(), compareFec);
+   }
+
 
    /**************************
     *          Fan           *
     **************************/
    Fans  fanList;
+
    
 private:
    /**************************
@@ -339,6 +360,7 @@ private:
     **************************/
    bool _globalRef, _active;
 
+   FanList fecGrp;
 
 protected:
    /**************************

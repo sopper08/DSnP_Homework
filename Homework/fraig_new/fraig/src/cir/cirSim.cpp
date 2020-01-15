@@ -29,6 +29,11 @@ using namespace std;
 /**************************************/
 /*   Static varaibles and functions   */
 /**************************************/
+static bool
+compareFecPair(FanList& fl0, FanList& fl1)
+{
+   return (fl0[0]->getGateId()) < (fl1[0]->getGateId());
+}
 
 /************************************************/
 /*   Public member functions about Simulation   */
@@ -83,6 +88,8 @@ CirMgr::fileSim(ifstream& patternFile)
       *_simLog << endl;
    }
    cout << lines.size() << " patterns simulated." << endl;
+   
+   sortFecGrps();
 
    return;
 }
@@ -94,6 +101,7 @@ CirMgr::fileSim(ifstream& patternFile)
 void 
 CirMgr::simulate(ParallelPattern& pPattern, SimulateResult& sR)
 {
+   initFecGrps();
    ParallelPattern psR;
 
    for (size_t i = 0; i < pPattern.size(); ++i)
@@ -106,11 +114,14 @@ CirMgr::simulate(ParallelPattern& pPattern, SimulateResult& sR)
          (*it)->simulate();
       }
 
+
       vector<size_t> tmp;
       for (auto it = _poList.begin(); it != _poList.end(); ++it)
          tmp.push_back((*it)->getSignal());
 
       psR.push_back(tmp);
+
+      divideFecGrps();
    }
 
    for (size_t i = 0; i < _poList.size(); ++i)
@@ -224,4 +235,63 @@ CirMgr::checkPatternSize(string& s)
    }
 
    return true;
+}
+
+void 
+CirMgr::divideFecGrps()
+{
+   vector<FanList> _newFecGrps;
+   for (size_t i = 0; i < _fecGrps.size(); ++i)
+   {
+      FanListMap fm;
+
+      for (auto it = _fecGrps[i].begin(); it != _fecGrps[i].end(); ++it)
+      {
+         unsigned signal = (*it)->getGate()->getSignal();
+         bool inv = (*it)->getInv();
+         if (inv) signal = ~signal;
+         
+         if (signal < (1<<31))
+         {
+            Fan* f = new Fan((*it)->getGate(), false^inv);
+            fm[signal].push_back(f);
+         }
+         else
+         {
+            Fan* f = new Fan((*it)->getGate(), true^inv);
+            fm[~signal].push_back(f);
+         }
+      }
+
+      for (auto it = fm.begin(); it != fm.end(); ++it)
+      {
+         if (it->second.size() < 2) continue;
+         _newFecGrps.push_back((*it).second);
+      }
+   }
+
+   _fecGrps = _newFecGrps;
+}
+
+void
+CirMgr::sortFecGrps()
+{
+   sort(_fecGrps.begin(), _fecGrps.end(), compareFecPair);
+   for (size_t i = 0; i < _fecGrps.size(); ++i)
+   {
+      
+      if (_fecGrps[i][0]->getInv())
+      {
+         for (size_t j = 0; j < _fecGrps[i].size(); ++j)
+            _fecGrps[i][j]->rInv();
+      }
+   }
+
+   for (size_t i = 0; i < _fecGrps.size(); ++i)
+   {
+      for (size_t j = 0; j < _fecGrps[i].size(); ++j)
+      {
+         _fecGrps[i][j]->getGate()->setFecGrp(_fecGrps[i], _fecGrps[i][j]->getInv());
+      }
+   }
 }
