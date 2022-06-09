@@ -1,0 +1,6 @@
+test1.json
+ADD R1 30
+PRINT
+ADD R2 40
+PRINT
+EXIT

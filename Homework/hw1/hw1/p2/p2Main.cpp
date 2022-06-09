@@ -30,18 +30,10 @@ int main()
    cout << "Enter command: ";
    while (true) {
       string command;
-
       getline(cin, command);
-
-      if(!command.compare("PRINT")) json.print();
-      else if(!command.compare(0, 3, "ADD")) json.add(command);
-      else if(!command.compare("SUM")) json.sum();
-      else if(!command.compare("AVE")) json.avg();
-      else if(!command.compare("MAX")) json.max();
-      else if(!command.compare("MIN")) json.min();
-      else if(!command.compare("EXIT")) break;
-      else continue;
-
+      if (command == "") continue;
+      if (command.find("EXIT")!=string::npos) break;
+      json.execute(command);
       cout << "Enter command: ";
    }
 }

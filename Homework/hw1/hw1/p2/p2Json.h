@@ -8,9 +8,11 @@
 #ifndef P2_JSON_H
 #define P2_JSON_H
 
+
 #include <vector>
 #include <string>
 #include <unordered_set>
+
 
 using namespace std;
 
@@ -20,6 +22,8 @@ public:
    // TODO: define constructor & member functions on your own
    JsonElem() {}
    JsonElem(const string& k, int v): _key(k), _value(v) {}
+   string getKey() const { return _key; }
+   int getValue() const { return _value; }
 
    friend ostream& operator << (ostream&, const JsonElem&);
 
@@ -32,29 +36,28 @@ class Json
 {
 public:
    // TODO: define constructor & member functions on your own
-   Json()
-      :_size(0), _sum(0){}
+   Json(): _sum_value(0) {}
    bool read(const string&);
-   bool add(const string&);
-   bool sum();
-   bool avg();
-   bool max();
-   bool min();
-   bool print();
+   void execute(const string&);
 
 private:
    vector<JsonElem>       _obj;  // DO NOT change this definition.
                                  // Use it to store JSON elements.
-   vector<JsonElem> _preProcessJsonFile(char*);
-   JsonElem _stringToJsonElem(const string&);
-   void _renewStatisticalData(int);
-   int _size;
-   int _sum;
-   float _avg;
-   int _max;
-   int _min;
-   int _max_idx;
-   int _min_idx;
+   unordered_set<string>  _keySet;
+   int _sum_value;
+   size_t _min_pos;
+   size_t _max_pos;
+
+   bool _parseCmd(const string&, string&, vector<string>&);
+   bool _checkArgsLength(const vector<string>&, const size_t&);
+   string _trimString(const string&);
+   void _add(JsonElem&);
+   void _add(const string&, const string&);
+   void _sum();
+   void _ave();
+   void _max();
+   void _min();
+   void _print();
 };
 
 #endif // P2_TABLE_H

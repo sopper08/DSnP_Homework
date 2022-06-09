@@ -1,0 +1,3 @@
+dofile/unit/read/colon_w_space.json
+PRINT
+EXIT

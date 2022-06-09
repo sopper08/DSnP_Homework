@@ -12,6 +12,8 @@
 #include <algorithm>
 #include <iomanip>
 #include "p2Json.h"
+#include <math.h>
+
 
 using namespace std;
 
@@ -19,205 +21,250 @@ using namespace std;
 bool
 Json::read(const string& jsonFile)
 {
-   char *buffer;
-   int length;
+   // TODO: implement this function.
+   stringstream ss;
+   string s;
+   size_t left_curly_braces_pos, right_curly_braces_pos, colon_pos, comma_pos;
+   ifstream ifs(jsonFile);
+
+   if (!ifs) return false;
+   ss << ifs.rdbuf();
+   s = ss.str();
    
-   ifstream fin(jsonFile);
-   if(!fin) return false;
-
-   /* Get length of file. */
-   fin.seekg(1, fin.end);
-   length = fin.tellg();
-   fin.seekg(0, fin.beg);
-   buffer = new char[length];
+   left_curly_braces_pos = s.find_first_of('{');
+   right_curly_braces_pos = s.find_last_of('}');
+   if (left_curly_braces_pos == string::npos || right_curly_braces_pos == string::npos) return false;
+   s = s.substr(left_curly_braces_pos + 1, right_curly_braces_pos - left_curly_braces_pos - 1);
    
-   fin.read(buffer, length);
-   _obj = _preProcessJsonFile(buffer);
+   comma_pos = left_curly_braces_pos+1;
+   colon_pos = s.find_first_of(':', comma_pos);
+   while (colon_pos != string::npos) {
+      size_t left_double_quote, right_double_quote;
+      string key;
+      int value;
 
-   return true; // TODO
+      left_double_quote = s.find_first_of('"', comma_pos);
+      right_double_quote = s.find_first_of('"', left_double_quote + 1);
+      key = _trimString(s.substr(left_double_quote + 1, right_double_quote-left_double_quote-1));
+      
+      comma_pos = s.find_first_of(',', comma_pos + 1);
+      if (comma_pos == string::npos) comma_pos = right_curly_braces_pos;
+      
+      value = stoi(s.substr(colon_pos + 1, comma_pos - colon_pos - 1));
+      
+      JsonElem elem(key, value);
+      _add(elem);
+
+      colon_pos = s.find_first_of(':', comma_pos);
+   }
+   ifs.close();
+   return true;
+}
+
+void 
+Json::execute(const string& line)
+{
+   string action;
+   vector<string> args;
+
+   if (!_parseCmd(line, action, args)) return;
+
+   if (action == "SUM") {
+      if (!_checkArgsLength(args, 0)) return;
+      _sum();
+   }
+   else if (action == "AVE") {
+      if (!_checkArgsLength(args, 0)) return;
+      _ave();
+   }
+   else if (action == "MAX") {
+      if (!_checkArgsLength(args, 0)) return;
+      _max();
+   }
+   else if (action == "MIN") {
+      if (!_checkArgsLength(args, 0)) return;
+      _min();
+   }
+   else if (action == "PRINT") {
+      if (!_checkArgsLength(args, 0)) return;
+      _print();
+   }
+   else if (action == "ADD") {
+      if (!_checkArgsLength(args, 2)) return;
+      _add(args[0], args[1]);
+   }
+   else {
+      cout << "Error: unknown command: " << "\"" << action << "\"" << endl;
+   }
 }
 
 bool
-Json::add(const string& command)
+Json::_parseCmd(const string& line, string& action, vector<string>& args)
 {
-   // cout << command << endl;
-   int secondSpaceIndex, commandLength;
-   string key, value;
+   size_t pos;
+   string _line;
+
+   _line = _trimString(line);
+   if (_line.empty()) return false;
+
    
-   commandLength = command.size();
-   secondSpaceIndex = command.find_last_of(" ");
-   key = command.substr(4, secondSpaceIndex-4);
-   value = command.substr(secondSpaceIndex+1, commandLength-1);
-
-   string keyAndValue("\"\":");
-   keyAndValue.insert(3, value);
-   keyAndValue.insert(1, key);
-
-   _obj.push_back(_stringToJsonElem(keyAndValue));
-
-   return true;
-}
-
-bool
-Json::sum()
-{
-   if(_obj.size()==0)
-   {
-      cerr << "Error: No element found!!" << endl;
+   pos = _line.find_first_of(' ');
+   if (pos == string::npos) {
+      action = line;
       return true;
+   } else {
+      action = _line.substr(0, pos);
+      _line = _line.substr(pos + 1);
    }
-   cout << "The summation of the values is: " << _sum << "." << endl;
-   return true;
-}
 
-
-bool
-Json::avg()
-{
-   if(_obj.size()==0)
-   {
-      cerr << "Error: No element found!!" << endl;
-      return true;
+   pos = _line.find_first_not_of(' ');
+   while (pos != string::npos) {
+      size_t end = _line.find_first_of(' ', pos);
+      if (end == string::npos) end = _line.size();
+      args.push_back(_line.substr(pos, end - pos));
+      pos = _line.find_first_not_of(' ', end);
    }
-   cout << "The average of the values is: " 
-        << fixed << setprecision(1) << _avg << "." << endl;
-   return true;
-}
 
-bool
-Json::max()
-{
-   if(_obj.size()==0)
-   {
-      cerr << "Error: No element found!!" << endl;
-      return true;
-   }
-   cout << "The maximum element is: { " << _obj[_max_idx] << " }." << endl;
    return true;
 }
 
 bool
-Json::min()
+Json::_checkArgsLength(const vector<string>& args, const size_t& length)
 {
-   if(_obj.size()==0)
-   {
-      cerr << "Error: No element found!!" << endl;
-      return true;
-   }
-   cout << "The minimum element is: { " << _obj[_min_idx] << " }." << endl;
-   return true;
-}
-
-bool
-Json::print()
-{
-   cout << "{" << endl;
-   for(vector<JsonElem>::iterator it = _obj.begin();
-       it != _obj.end();
-       ++it)
-   {
-      cout << "  " << *it;
-
-      vector<JsonElem>::iterator next_it = it + 1;
-      if(next_it==_obj.end())
-      {
-         cout << endl;
-         break;
+   if (args.size() > length) {
+      cerr << "Error: Extra argument \"";
+      for (size_t i = length; i < args.size(); ++i) {
+         cerr << args[i];
+         if (i != args.size() - 1) cerr << " ";
       }
-      cout << "," << endl;
+      cerr << "\"!!" << endl;
+      return false;
    }
-   cout << "}" << endl;
-
+   else if (args.size() < length) {
+      cerr << "Error: Missing argument";
+      if (args.size()>0) {
+         cerr << " after \"" << args[args.size()-1] << "\"";
+      }
+      cerr << "!!" << endl;
+      return false;
+   }
    return true;
-}
-
-vector<JsonElem>
-Json::_preProcessJsonFile(char *buffer)
-{
-   string data(buffer);
-   string keyAndValue;
-   vector<string> keyAndValue_array;
-   int begIndex, length;
-   size_t foundComma, prefoundComma;
-   vector <JsonElem> result;
-   
-   /* Remove space & "\t" & "\n" charactor. */
-   data.erase(remove(data.begin(), data.end(), ' '), data.end());
-   data.erase(remove(data.begin(), data.end(), '\t'), data.end());
-   data.erase(remove(data.begin(), data.end(), '\n'), data.end());
-   
-   /* Remove "{" & "}" charactor */
-   begIndex = data.find_first_of("{");
-   length = data.find_first_of("}") - begIndex - 1;
-   keyAndValue = data.substr(begIndex+1, length);
-   keyAndValue.insert(0, ",");
-
-   /* Create vector of JsonElem */
-   foundComma = keyAndValue.find(",", 1);
-
-   if(foundComma==string::npos) return result;
-
-   prefoundComma = 0;
-   while(prefoundComma!=string::npos){
-      int beg, end;
-
-      beg = prefoundComma + 1;
-      if(foundComma!=string::npos) end = foundComma - 1;
-      else end = length;
-
-      JsonElem elem = _stringToJsonElem(keyAndValue.substr(beg, end-beg+1));
-      result.push_back(elem);
-      prefoundComma = foundComma;
-      foundComma = keyAndValue.find(",", foundComma+1);
-   }
-   
-   return result;
-}
-
-JsonElem
-Json::_stringToJsonElem(const string& keyAndValue)
-{
-   size_t foundColon;
-   int value;
-
-   foundColon = keyAndValue.find(":");
-   istringstream iss(keyAndValue.substr(foundColon+1, sizeof(keyAndValue)-foundColon));
-   iss >> value;
-   _renewStatisticalData(value);
-
-   JsonElem result(keyAndValue.substr(1, foundColon-2), value);
-
-   return result;
-
 }
 
 void
-Json::_renewStatisticalData(int value)
+Json::_add(JsonElem& je)
 {
-   _size ++;
-   _sum += value;
-   _avg = (float)_sum/(float)_size;
-   if(_size!=1)
-   {
-      if(value > _max)
-      {
-         _max = value;
-         _max_idx = _size-1;
-      }
-      if(value < _min)
-      {
-         _min = value;
-         _min_idx = _size-1;
-      } 
-   }
-   else
-   {
-      _max = value;
-      _min = value;
-      _max_idx = 0;
-      _min_idx = 0;
+   if (_keySet.find(je.getKey())!=_keySet.end()) {
+      cerr << "Error: Key " << "\"" << je.getKey() << "\" is repeated!!" << endl;
+      return;
    }
 
+   if (_obj.empty()){
+      _max_pos = 0;
+      _min_pos = 0;
+   } else {
+      if (je.getValue() > _obj[_max_pos].getValue()) {
+         _max_pos = _obj.size();
+      } 
+      if (je.getValue() < _obj[_min_pos].getValue()) {
+         _min_pos = _obj.size();
+      }
+   }
+   _obj.push_back(je);
+   _keySet.insert(je.getKey());
+   _sum_value += je.getValue();
+}
+
+void
+Json::_add(const string& key, const string& value)
+{
+   int _value;
+
+   if (!isdigit(value[0]) && (value[0]!='-')) {
+      cerr << "Error: Illegal argument \"";
+      cerr << value << "\"!!" << endl;
+      return;
+   }
+   for (size_t i = 1; i < value.size(); ++i){
+      if (!isdigit(value[i])) {
+         cerr << "Error: Illegal argument \"";
+         cerr << value << "\"!!" << endl;
+         return;
+      }
+   }
+   _value = stoi(value);
+   JsonElem je(key, _value);
+   _add(je);
+}
+
+void
+Json::_sum()
+{
+   if(_obj.size()==0)
+   {
+      cerr << "Error: No element found!!" << endl;
+      return;
+   }
+   cout << "The summation of the values is: " << _sum_value << "." << endl;
+}
+
+
+void
+Json::_ave()
+{
+   if(_obj.size()==0)
+   {
+      cerr << "Error: No element found!!" << endl;
+      return;
+   }
+   bool is_neg = (_sum_value < 0);
+   float ave = float(int(round(float(abs(_sum_value))/float(_obj.size())*10.0)))/10.0;
+   if (is_neg) ave = -ave;
+   cout << "The average of the values is: " 
+        << fixed << setprecision(1) << ave << "." << endl;
+}
+
+void
+Json::_max()
+{
+   if(_obj.size()==0)
+   {
+      cerr << "Error: No element found!!" << endl;
+      return;
+   }
+   cout << "The maximum element is: { " << _obj[_max_pos] << " }." << endl;
+}
+
+void
+Json::_min()
+{
+   if(_obj.size()==0)
+   {
+      cerr << "Error: No element found!!" << endl;
+      return;
+   }
+   cout << "The minimum element is: { " << _obj[_min_pos] << " }." << endl;
+}
+
+void
+Json::_print()
+{
+   cout << "{" << endl;
+   for (size_t i = 0; i < _obj.size(); ++i) {
+      cout << "  " << _obj[i];
+      if (i!=_obj.size()-1) cout << ",";
+      cout << endl;
+   }
+   cout << "}" << endl;
+}
+
+
+string
+Json::_trimString(const string& str)
+{
+   size_t first = str.find_first_not_of(' ');
+   size_t last = str.find_last_not_of(' ');
+   return str.substr(first, (last - first + 1));
 }
 
 ostream&
@@ -225,4 +272,3 @@ operator << (ostream& os, const JsonElem& j)
 {
    return (os << "\"" << j._key << "\" : " << j._value);
 }
-
