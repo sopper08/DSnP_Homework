@@ -1,8 +1,11 @@
 # README  
 ## p1  
+### Problem  
 Check about g++ and OS.
 
 ## p2  
+### Problem  
+*more detail, please see [Homework_1.pdf](./Homework_1.pdf).*
 * Implement a simple JSON reader.
 * Implement the following sub-problems:
   * Read .json file.
