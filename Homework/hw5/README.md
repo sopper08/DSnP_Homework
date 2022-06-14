@@ -144,44 +144,44 @@
     * `ADTAdd -Random (size_t repeats)`
       * Generate strings in all lower-case letters and with length equal to `AdtTestObj::_strLen`.
 
-* `ADTDelete <-All|-String (stirng str)|<<-Front|-Back|-Random (size_t repeats)>>`
+  * `ADTDelete <-All|-String (stirng str)|<<-Front|-Back|-Random (size_t repeats)>>`
 
-  * `ADTDelete <-All|-String (stirng str)>`
-    * `-All`: delete the entire ADT
-    * `-String (stirng str)`: a specific string
+    * `ADTDelete <-All|-String (stirng str)>`
+      * `-All`: delete the entire ADT
+      * `-String (stirng str)`: a specific string
+        * If not found
+          * `Error: "[str]" is not found!`
+        * If there are multiple elements
+          * delete the first encounter and leave the other(s) alone.
+    * `ADTDelete <-Front|-Back|-Random (size_t repeats)>`
+      * `-Front`: the first
+      * `-Back`: the last
+      * `-Random`
+
+  * `ADTQuery <(stirng str)>`
+
+    * If The length of `str>AdtTestObj::_strLen`
+      * `Error: "[str]" exceeds string length limit!!`
+    * Else
       * If not found
-        * `Error: "[str]" is not found!`
-      * If there are multiple elements
-        * delete the first encounter and leave the other(s) alone.
-  * `ADTDelete <-Front|-Back|-Random (size_t repeats)>`
-    * `-Front`: the first
-    * `-Back`: the last
-    * `-Random`
+        * `"[str]" is not found!!`
+      * Else
+        * `"[str]" is found.`
 
-* `ADTQuery <(stirng str)>`
+  * `ADTSort`
 
-  * If The length of `str>AdtTestObj::_strLen`
-    * `Error: "[str]" exceeds string length limit!!`
-  * Else
-    * If not found
-      * `"[str]" is not found!!`
+    * Sort the objects in ascending order.
+    * For BSTree, this is a dummy command.
+
+  * `ADTPrint [-Reversed | (int n)]`
+
+    * If no n
+      * Print out the entire ADT in forward(if no `-Reversed`) order, or backward(if `-Rerversed`) order.
     * Else
-      * `"[str]" is found.`
-
-* `ADTSort`
-
-  * Sort the objects in ascending order.
-  * For BSTree, this is a dummy command.
-
-* `ADTPrint [-Reversed | (int n)]`
-
-  * If no n
-    * Print out the entire ADT in forward(if no `-Reversed`) order, or backward(if `-Rerversed`) order.
-  * Else
-    * If `n<0||n>size`
-      * `Error: "[n]" is not a legal index!!`
-    * Else
-      * for linked list and array
-        * it is the n th element in line (indexing starts from ‘0’)
-      * for binary search tree
-        * it is the n th smallest element in the ADT (n\=0 is the smallest).
+      * If `n<0||n>size`
+        * `Error: "[n]" is not a legal index!!`
+      * Else
+        * for linked list and array
+          * it is the n th element in line (indexing starts from ‘0’)
+        * for binary search tree
+          * it is the n th smallest element in the ADT (n\=0 is the smallest).
